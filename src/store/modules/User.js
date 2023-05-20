@@ -17,9 +17,6 @@ const UserStore = {
 
     },
     mutations: {
-        CREATE_USER(state, newUser) {
-            state.users.push(newUser);
-        },
         SET_LOGIN_USER(state, user) {
             state.user = user;
         },
@@ -50,7 +47,7 @@ const UserStore = {
                 method: "post",
                 data: newUser,
             }).then(() => {
-                commit("CREATE_USER", newUser);
+                commit;
                 router.push({name : "register-check"});
             }).catch((error) => {
                 if(error.response.data.status == "400")
@@ -114,6 +111,19 @@ const UserStore = {
                 router.push({ name: "home" });
             }).catch(() => {
                 alert("잘못된 비밀번호 입니다");
+            });
+        },
+        logout({ commit }) {
+            const API_URI = `${REST_API}/user/logout`;
+            axios({
+                url: API_URI,
+                method: "post",
+            }).then(() => {
+                commit("LOGOUT");
+                alert("로그아웃 완료");
+                router.push({ name: "home" }).catch(() => {});
+            }).catch(() => {
+                alert("로그아웃 실패");
             });
         },
     },
