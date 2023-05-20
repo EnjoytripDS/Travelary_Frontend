@@ -47,11 +47,17 @@ export default {
     methods: {
         ...mapActions(UserStore, ["deleteUser"]),
         dropOutUser() {
-            let dropUserInfo = {
-                id: this.user.id,
-                password: this.password,
-            };
-            this.deleteUser(dropUserInfo);
+            if(confirm(`지금까지 함께한 추억...
+정말로 탈퇴하실 건가요?`) == true)
+            {
+                let dropUserInfo = {
+                    id: this.user.id,
+                    password: this.password,
+                };
+                this.deleteUser(dropUserInfo);
+            }
+            else
+                return;
         }
     }
 }
