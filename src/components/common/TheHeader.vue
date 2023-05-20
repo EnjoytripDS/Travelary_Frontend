@@ -74,6 +74,9 @@ export default {
     toRegist() {
       this.$router.push({ name: "register" }).catch(() => {}); // 회원 가입 경로로 이동
     },
+    toMyPage() {
+      this.$router.push("users/mypage").catch(() => {});
+    },
     logout() {
       this.$store.commit("UserStore/LOGOUT");
     },

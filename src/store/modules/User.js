@@ -20,10 +20,10 @@ const UserStore = {
         CREATE_USER(state, newUser) {
             state.users.push(newUser);
         },
-        // SET_USER: function (state, user) {
-        //     state.user = user;
-        // },
         SET_LOGIN_USER(state, user) {
+            state.user = user;
+        },
+        GET_USER(state, user) {
             state.user = user;
         },
         LOGOUT(state) {
@@ -33,6 +33,10 @@ const UserStore = {
         SET_SESSION_ID(state, sessionId) {
             state.sessionId = sessionId;
         },
+        UPDATE_USER(state, moduser) {
+            state.user.nickname = moduser.nickname;
+            state.user.email =  moduser.email;
+        }
     },
     actions: {
         async createUser({ commit }, newUser) {
@@ -60,7 +64,6 @@ const UserStore = {
                 method: "post",
                 data: user,
             }).then((response) => {
-                console.log(response);
                 const sessionId = response.data.sessionId;
                 commit("SET_SESSION_ID", sessionId);
                 router.push({name : "home"});
@@ -69,16 +72,32 @@ const UserStore = {
                 router.push({name : "login"}).catch(() => {});
             });
         },
-        // updateUser: function ({ state }, user) {
-        //     for (let i = 0; i < state.users.length; i++) {
-        //         if (state.users[i].id === user.id) {
-        //             Vue.set(state.users, i, user);
-        //             alert("수정 완료");
-        //             break;
-        //         }
-        //     }
-        //     router.push("/user");
-        // },
+        getUser({ commit }, id) {
+            const API_URI = `${REST_API}/user/${id}`;
+            axios({
+                url: API_URI,
+                method: "get",
+            }).then((res) => {
+                commit("GET_USER", res.data);
+            });
+          },
+        updateUser({ commit }, modUser) {
+            const API_URI = `${REST_API}/user/${modUser.id}`;
+            let upUser = {
+                email: modUser.email,
+                nickname: modUser.nickname,
+            };
+            axios({
+                url: API_URI,
+                method: "put",
+                data: upUser,
+            }).then(() => {
+                commit("UPDATE_USER", upUser);
+                alert("수정 완료되었습니다!");
+            }).catch(() => {
+                alert("이미 있는 닉네임입니다");
+            });
+        },
         // deleteUser: function ({ state }, id) {
         //     for (let i = 0; i < state.users.length; i++) {
         //         if (state.users[i].id === id) {
@@ -88,15 +107,6 @@ const UserStore = {
         //         }
         //     }
         //     router.push("/user");
-        // },
-        // setUser: function ({ commit, state }, id) {
-        //     for (let i = 0; i < state.users.length; i++) {
-        //         if (state.users[i].id === id) {
-        //             // 상세보기할 사용자 정보 정하는 mutation
-        //             commit("SET_USER", state.users[i]);
-        //             break;
-        //         }
-        //     }
         // },
     },
     modules: {

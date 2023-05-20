@@ -76,7 +76,25 @@ const routes = [
         path: "register-check",
         name: "register-check",
         component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserRegisterCheck"),
-      }
+      },
+      {
+        path: "mypage/:id",
+        name: "user-mypage",
+        component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/UserMyPage"),
+        redirect: "/users/mypage/:id/info",
+        children: [
+          {
+            path: "info",
+            name: "mypage-info",
+            component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageInfo")
+          },
+          {
+            path: "change-pwd",
+            name: "mypage-change-pwd",
+            component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageChangePwd")
+          },
+        ],
+      },
     ],
   },
 ];
