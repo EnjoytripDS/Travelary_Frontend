@@ -1,59 +1,47 @@
 <template>
     <v-container>
-        <v-row class="mypageinfo-start-row">
+        <v-row class="mypagepwd-start-row">
             <v-col cols="1"/>
-            <v-col class="mypageinfo-title">
+            <v-col class="mypagepwd-title">
                 <div
-                :class="[`text-h3`, active && `mb-0`]"
+                :class="[`text-h4`, active && `mb-0`]"
                 >
-                    회원 정보
+                    비밀번호 변경
                 </div>
             </v-col>
         </v-row>
         <v-row>
-            <v-divider class="mypage-custom-divider"></v-divider>
+            <v-divider class="mypagepwd-custom-divider"></v-divider>
         </v-row>
-        <v-row>
-            <v-col cols="5">
-                <v-container>
-                    <v-row class="mypageinfo-content-row">
-                        <v-img src="@/assets/tripImage.jpg" class="profile-img"/>
-                    </v-row>
-                    <v-row class="mypageinfo-content-row">
-                        <v-file-input
-                            class="profile-input"
-                            v-model="file"
-                            accept="image/*"
-                            label="프로필 사진 업로드"
-                            @change="handleFileUpload"
-                        ></v-file-input>
-                    </v-row>
-                </v-container>
+        <v-row class="mypagepwd-content-row">
+            <v-col cols="3"/>
+            <v-col cols="2" class="mypagepwd-item">현재 비밀번호</v-col>
+            <v-col cols="3" class="mypagepwd-input-col">
+                <v-text-field :counter="10" name="curpwd" type="password" required outlined dense></v-text-field>
             </v-col>
-            <v-col>
-                <v-container>
-                    <v-row class="mypageinfo-content-row"> 
-                        <v-col cols="1"/>
-                        <v-col cols="2" class="mypageinfo-item">이메일</v-col>
-                        <v-col cols="4">
-                            <v-text-field :counter="30" name="email" required v-model="user.email" readonly></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row class="mypageinfo-content-row">
-                        <v-col cols="1"/>
-                        <v-col cols="2" class="mypageinfo-item">닉네임</v-col>
-                        <v-col cols="4" class="mypageinfo-btn-left">
-                            <v-text-field :counter="20" name="nickname" required v-model="user.nickname"></v-text-field>
-                        </v-col>
-                        <v-btn color="gray" small>중복 확인</v-btn>
-                    </v-row>
-                    <v-row class="mypageinfo-btn-row">
-                        <v-col cols="4"/>
-                        <v-col cols="4">
-                            <v-btn color="blue" @click="userModify" class="modbutton" block> 수정 </v-btn>
-                        </v-col>
-                    </v-row>
-                </v-container>
+        </v-row>
+        <v-row class="mypagepwd-note-row">
+            <v-col cols="3"/>
+            비밀번호는 영문 소문자 + 숫자의 조합을 6 ~ 10글자로 입력해 주세요!
+        </v-row>
+        <v-row class="mypagepwd-content-row">
+            <v-col cols="3"/>
+            <v-col cols="2" class="mypagepwd-item">새 비밀번호</v-col>
+            <v-col cols="3" class="mypagepwd-input-col">
+                <v-text-field :counter="10" name="newpwd" type="password" required outlined dense></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row class="mypagepwd-content-row">
+            <v-col cols="3"/>
+            <v-col cols="2" class="mypagepwd-item">비밀번호 재입력</v-col>
+            <v-col cols="3" class="mypagepwd-input-col">
+                <v-text-field :counter="10" name="newpwdchk" type="password" required outlined dense></v-text-field>
+            </v-col>
+        </v-row> 
+        <v-row class="mypagepwd-btn-row">
+            <v-col cols="4"/>
+            <v-col cols="4">
+                <v-btn color="blue" class="pwdchbutton" block> 비밀번호 변경 </v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -66,52 +54,49 @@ export default {
 </script>
 
 <style>
-.mypageinfo-start-row {
+.mypagepwd-start-row {
 margin-top: 30px;
 }
 
-.mypageinfo-title {
+.mypagepwd-title {
 margin-left: 40px;
 }
 
-.mypage-custom-divider{
+.mypagepwd-custom-divider{
 margin-left: 160px;
 margin-right: 15px;
-margin-bottom: 20px;
+margin-bottom: 55px;
 border-top: 3px solid #333;
 }
 
-.mypageinfo-content-row {
+.mypagepwd-content-row {
 align-items: center;
 margin-left: 55px;
-margin-top: 95px;
 margin-bottom: 5px;
 }
 
-.profile-img {
-margin-left: 100px;
+.mypagepwd-input-col {
+    margin-top: 20px;
 }
 
-.profile-input {
-margin-left: 100px;
-}
-
-.mypageinfo-btn-row {
+.mypagepwd-btn-row {
 margin-right: 35px;
 }
 
-.mypageinfo-btn-left {
-margin-right: 50px;
-}
-
-.mypageinfo-item {
+.mypagepwd-item {
 color: rgb(13, 24, 184); /* Set font color to black */
 font-weight: bold; /* Set font weight to bold */
 font-size: 24px; /* Increase font size */
 }
 
-.modbutton {
-margin-top: 70px;
+.mypagepwd-note-row {
+  font-size: 15px;
+  margin-left: 75px;
+  color: red;
+}
+
+.pwdchbutton {
+margin-top: 30px;
 color: white !important;
 font-weight: bold;
 }
