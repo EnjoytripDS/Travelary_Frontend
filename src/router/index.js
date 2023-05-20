@@ -93,6 +93,11 @@ const routes = [
             name: "mypage-change-pwd",
             component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageChangePwd")
           },
+          {
+            path: "dropout",
+            name: "mypage-dropout",
+            component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageDropOut")
+          },
         ],
       },
     ],

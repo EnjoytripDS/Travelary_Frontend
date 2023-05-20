@@ -36,7 +36,11 @@ const UserStore = {
         UPDATE_USER(state, moduser) {
             state.user.nickname = moduser.nickname;
             state.user.email =  moduser.email;
-        }
+        },
+        DELETE_USER(state) {
+            state.user = null;
+            state.sessionId = null;
+        },
     },
     actions: {
         async createUser({ commit }, newUser) {
@@ -98,16 +102,20 @@ const UserStore = {
                 alert("이미 있는 닉네임입니다");
             });
         },
-        // deleteUser: function ({ state }, id) {
-        //     for (let i = 0; i < state.users.length; i++) {
-        //         if (state.users[i].id === id) {
-        //             state.users.splice(i, 1);
-        //             alert("삭제 완료");
-        //             break;
-        //         }
-        //     }
-        //     router.push("/user");
-        // },
+        deleteUser({ commit }, dropUserInfo) {
+            const API_URI = `${REST_API}/user/${dropUserInfo.id}`;
+            axios({
+                url: API_URI,
+                method: "delete",
+                data: dropUserInfo.password,
+            }).then(() => {
+                commit("DELETE_USER");
+                alert("회원 탈퇴가 완료되었습니다");
+                router.push({ name: "home" });
+            }).catch(() => {
+                alert("잘못된 비밀번호 입니다");
+            });
+        },
     },
     modules: {
 
