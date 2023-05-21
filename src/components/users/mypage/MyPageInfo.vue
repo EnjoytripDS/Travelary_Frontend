@@ -75,13 +75,8 @@ export default {
     computed: {
         ...mapState(UserStore, ["user"]),
     },
-    created() {
-        const pathname = new URL(document.location).pathname.split("/");
-        this.id = pathname[pathname.length - 2];
-        this.getUser(this.id);
-    },
     methods: {
-        ...mapActions(UserStore, ["getUser", "updateUser"]),
+        ...mapActions(UserStore, ["updateUser"]),
         userModify() {
             if(this.user.nickname == "")
                 alert("빈 칸이 있습니다!");

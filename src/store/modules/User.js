@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import router from "@/router";
+import jwtDecode from "jwt-decode";
 
 Vue.use(Vuex);
 
@@ -10,25 +11,32 @@ const UserStore = {
     namespaced: true,
     state: {
         users: [],
-        user: {},
-        sessionId: null,
+        user: null,
+        isLogin: false,
+        isLoginError: false,
+        isValidToken: false,
     },
     getters: {
-
+        checkUserInfo(state) {
+          return state.user;
+        },
+        checkToken(state) {
+          return state.isValidToken;
+        },
     },
     mutations: {
-        SET_LOGIN_USER(state, user) {
-            state.user = user;
+        SET_IS_LOGIN(state, isLogin) {
+            state.isLogin = isLogin;
         },
-        GET_USER(state, user) {
-            state.user = user;
+        SET_IS_LOGIN_ERROR(state, isLoginError) {
+            state.isLoginError = isLoginError;
         },
-        LOGOUT(state) {
-            state.user = null;
-            state.sessionId = null;
+        SET_IS_VALID_TOKEN(state, isValidToken) {
+            state.isValidToken = isValidToken;
         },
-        SET_SESSION_ID(state, sessionId) {
-            state.sessionId = sessionId;
+        SET_USER(state, userInfo) {
+            state.isLogin = true;
+            state.user = userInfo;
         },
         UPDATE_USER(state, moduser) {
             state.user.nickname = moduser.nickname;
@@ -65,23 +73,80 @@ const UserStore = {
                 method: "post",
                 data: user,
             }).then((response) => {
-                const sessionId = response.data.sessionId;
-                commit("SET_SESSION_ID", sessionId);
-                router.push({name : "home"});
+                if (response.data.message === "success") {
+                    let accessToken = response.data["access-token"];
+                    let refreshToken = response.data["refresh-token"];
+                    commit("SET_IS_LOGIN", true);
+                    commit("SET_IS_LOGIN_ERROR", false);
+                    commit("SET_IS_VALID_TOKEN", true);
+                    sessionStorage.setItem("access-token", accessToken);
+                    sessionStorage.setItem("refresh-token", refreshToken);
+                } else {
+                    commit("SET_IS_LOGIN", false);
+                    commit("SET_IS_LOGIN_ERROR", true);
+                    commit("SET_IS_VALID_TOKEN", false);
+                    alert("로그인 실패");
+                }
             }).catch(() => {
                 alert("아이디 혹은 비밀번호를 확인해 주세요");
                 router.push({name : "login"}).catch(() => {});
             });
         },
-        getUser({ commit }, id) {
-            const API_URI = `${REST_API}/user/${id}`;
+        async tokenRegeneration({ commit, state }) {
+            const API_URI = `${REST_API}/user/refresh`;
+            axios.defaults.headers["refresh-token"] = sessionStorage.getItem("refresh-token");
+            await axios({
+                url: API_URI,
+                method: "post",
+                data: state.user,
+            }).then((response) => {
+                if (response.data.message === "success") {
+                    let accessToken = response.data["access-token"];
+                    sessionStorage.setItem("access-token", accessToken);
+                    commit("SET_IS_VALID_TOKEN", true);
+                }
+            }).catch((error) => {
+                if (error.response.data.status === 401) {
+                    const API_URI_E = `${REST_API}/user/logout/${state.user.id}`;
+                    axios({
+                        url: API_URI_E,
+                        method: "get",
+                    }).then((response) => {
+                        if (response.data.message === "success") {
+                            commit("SET_IS_LOGIN", false);
+                            commit("SET_USER", null);
+                            commit("SET_IS_VALID_TOKEN", false);
+                            alert("만료되었습니다. 다시 로그인 해 주세요");
+                        } else {
+                            alert("잘못된 요청");
+                        }
+                        router.push({ name: "home" }).catch(() => {});
+                    }).catch(() => {
+                        alert("로그아웃 실패");
+                        commit("SET_IS_LOGIN", false);
+                        commit("SET_USER", null);
+                    });
+                }
+            });
+        },
+        getUser({ commit, dispatch }, token) {
+            let decodeToken = jwtDecode(token);
+            axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+            const API_URI = `${REST_API}/user/${decodeToken.userid}`;
             axios({
                 url: API_URI,
                 method: "get",
             }).then((res) => {
-                commit("GET_USER", res.data);
+                if (res.data.message === "success") {
+                    commit("SET_USER", res.data.userInfo);
+                } else {
+                    alert("유저 정보 없음");
+                }
+            }).catch(() => {
+                commit("SET_IS_VALID_TOKEN", false);
+                dispatch("tokenRegeneration");
             });
-          },
+        },
         updateUser({ commit }, modUser) {
             const API_URI = `${REST_API}/user/${modUser.id}`;
             let upUser = {
@@ -113,14 +178,20 @@ const UserStore = {
                 alert("잘못된 비밀번호 입니다");
             });
         },
-        logout({ commit }) {
-            const API_URI = `${REST_API}/user/logout`;
-            axios({
+        async logout({ commit }, userid) {
+            const API_URI = `${REST_API}/user/logout/${userid}`;
+            await axios({
                 url: API_URI,
-                method: "post",
-            }).then(() => {
-                commit("LOGOUT");
-                alert("로그아웃 완료");
+                method: "get",
+            }).then((response) => {
+                if (response.data.message === "success") {
+                    commit("SET_IS_LOGIN", false);
+                    commit("SET_USER", null);
+                    commit("SET_IS_VALID_TOKEN", false);
+                    alert("로그아웃 완료");
+                } else {
+                    alert("잘못된 요청");
+                }
                 router.push({ name: "home" }).catch(() => {});
             }).catch(() => {
                 alert("로그아웃 실패");
