@@ -65,7 +65,7 @@ const UserStore = {
                 method: "post",
                 data: user,
             }).then((response) => {
-                const sessionId = response.data.sessionId;
+                const sessionId = response.data;
                 commit("SET_SESSION_ID", sessionId);
                 router.push({name : "home"});
             }).catch(() => {
