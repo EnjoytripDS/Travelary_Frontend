@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 const UserStore = "UserStore";
 
@@ -79,26 +79,18 @@ export default {
       userpwd: null,
     };
   },
-  props: [
+    props: [
     'active'
   ],
-  computed: {
-    ...mapState(UserStore, ["isLogin", "isLoginError", "user"]),
-  },
   methods: {
-    ...mapActions(UserStore, ["setLoginUser", "getUser"]),
-    async login() {
+    ...mapActions(UserStore, ["setLoginUser"]),
+    login() {
       let user = {
         email: this.useremail,
         password: this.userpwd,
       };
-      await this.setLoginUser(user);
-      let token = sessionStorage.getItem("access-token");
-      if (this.isLogin) {
 
-        await this.getUser(token);
-        this.$router.push({ name: "home" });
-      }
+      this.setLoginUser(user);
     },
     goToRegist() {
       this.$router.push({ name: "register" });

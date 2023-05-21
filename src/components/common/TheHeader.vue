@@ -14,7 +14,7 @@
           <router-link :to="{ name: 'qnaboard' }" class="link" :class="{ active: isActiveRoute('qnaboard') }"> Q&A </router-link>
         </li>
         <li class="menu-buttons">
-          <template v-if="user">
+          <template v-if="isAuthenticated">
             <v-menu offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" class="profilebutton" color="blue" rounded>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const UserStore = "UserStore";
 
@@ -58,10 +58,6 @@ export default {
     return {
 
     };
-  },
-  computed: {
-    ...mapState(UserStore, ["isLogin", "user"]),
-    ...mapGetters(["checkUserInfo"]),
   },
   props: [
     'active'
@@ -80,14 +76,18 @@ export default {
       this.$router.push({ name: "register" }).catch(() => {}); // 회원 가입 경로로 이동
     },
     toMyPage() {
-      this.$router.push({name: "user-mypage", params: {id: this.user.id}}).catch(() => {});
+      this.$router.push(`users/mypage/${this.user.id}`).catch(() => {});
     },
     toLogout() {
-      this.logout(this.user.id);
-      sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
-      sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+      this.logout();
     },
   },
+  computed: {
+    ...mapState(UserStore, ["sessionId", "user"]),
+    isAuthenticated() {
+      return this.sessionId !== null;
+    },
+  }
 };
 </script>
 
