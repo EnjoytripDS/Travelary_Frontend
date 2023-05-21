@@ -144,6 +144,7 @@ const UserStore = {
                 }
             }).catch(() => {
                 commit("SET_IS_VALID_TOKEN", false);
+                console.log("33");
                 dispatch("tokenRegeneration");
             });
         },
