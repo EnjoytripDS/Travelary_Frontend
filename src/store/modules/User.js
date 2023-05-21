@@ -81,7 +81,7 @@ const UserStore = {
             }).then((res) => {
                 commit("GET_USER", res.data);
             });
-          },
+        },
         updateUser({ commit }, modUser) {
             const API_URI = `${REST_API}/user/${modUser.id}`;
             let upUser = {
