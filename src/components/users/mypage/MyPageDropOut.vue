@@ -42,7 +42,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(UserStore, ["user"]),
+        ...mapState(UserStore, ["userId"]),
     },
     methods: {
         ...mapActions(UserStore, ["deleteUser"]),
@@ -51,7 +51,7 @@ export default {
 정말로 탈퇴하실 건가요?`) == true)
             {
                 let dropUserInfo = {
-                    id: this.user.id,
+                    id: this.userId,
                     password: this.password,
                 };
                 this.deleteUser(dropUserInfo);

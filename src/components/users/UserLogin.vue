@@ -26,7 +26,7 @@
                       <v-icon left size="45">mdi-account</v-icon>
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="useremail" label="이메일을 입력하세요" hide-details="auto" required outlined></v-text-field>
+                      <v-text-field v-model="useremail" label="이메일을 입력하세요" hide-details="auto" @keyup.enter="login" required outlined></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -41,7 +41,7 @@
                       <v-icon left size="45">mdi-key</v-icon>
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="userpwd" type="password" label="비밀번호를 입력하세요" hide-details="auto" required outlined></v-text-field>
+                      <v-text-field v-model="userpwd" type="password" label="비밀번호를 입력하세요" hide-details="auto" @keyup.enter="login" required outlined></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>

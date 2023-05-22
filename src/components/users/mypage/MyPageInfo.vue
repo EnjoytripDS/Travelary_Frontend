@@ -45,7 +45,7 @@
                         <v-col cols="4" class="mypageinfo-btn-left">
                             <v-text-field :counter="20" v-model="user.nickname" hide-details="auto" required outlined dense></v-text-field>
                         </v-col>
-                        <v-btn color="gray" small>중복 확인</v-btn>
+                        <v-btn color="gray" small @click="dupCheckNickname">중복 확인</v-btn>
                     </v-row>
                     <v-row class="mypageinfo-btn-row">
                         <v-col cols="4"/>
@@ -72,24 +72,30 @@ export default {
         }
     },
     computed: {
-        ...mapState(UserStore, ["user", "userId"]),
+        ...mapState(UserStore, ["userId", "user"]),
     },
     created() {
         this.getUser(this.userId);
     },
     methods: {
-        ...mapActions(UserStore, ["getUser", "updateUser"]),
+        ...mapActions(UserStore, ["getUser", "updateUser", "dupNicknameCheck"]),
         userModify() {
             if(this.user.nickname == "")
                 alert("빈 칸이 있습니다!");
-            else{
+            else {
                 let modUser = {
-                    id: this.id, 
+                    id: this.userId, 
                     email: this.user.email,
                     nickname: this.user.nickname,
                 };
                 this.updateUser(modUser);
             }
+        },
+        dupCheckNickname() {
+            if(this.user.nickname == "")
+                alert("닉네임을 작성해주세요!");
+            else
+                this.dupNicknameCheck(this.user.nickname);
         },
     },
 }

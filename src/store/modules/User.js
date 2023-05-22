@@ -11,26 +11,21 @@ const UserStore = {
     state: {
         users: [],
         user: {},
-        sessionId: null,
         userId: null,
     },
     getters: {
 
     },
     mutations: {
-        SET_LOGIN_USER(state, userId) {
-            state.userId = userId
+        SET_USER_ID(state, userId) {
+            state.userId = userId;
         },
-        SET_SESSION_ID(state, sessionId) {
-            state.sessionId = sessionId;
-        },
-        GET_USER(state, user) {
+        SET_USER(state, user) {
             state.user = user;
         },
         LOGOUT(state) {
             state.user = null;
             state.userId = null;
-            state.sessionId = null;
         },
         UPDATE_USER(state, moduser) {
             state.user.nickname = moduser.nickname;
@@ -38,7 +33,7 @@ const UserStore = {
         },
         DELETE_USER(state) {
             state.user = null;
-            state.sessionId = null;
+            state.userId = null;
         },
     },
     actions: {
@@ -48,16 +43,19 @@ const UserStore = {
                 url: API_URI,
                 method: "post",
                 data: newUser,
-            }).then(() => {
-                commit;
-                router.push({name : "register-check"});
-            }).catch((error) => {
-                if(error.response.data.status == "400")
-                    alert("빈 칸을 모두 채워주세요");
-                else if(error.response.data.status == "801")
-                    alert("중복된 이메일입니다");
-                else if(error.response.data.status == "802")
-                    alert("중복된 닉네임입니다");
+            }).then((response) => {
+                if (response.data.success == true) {
+                    commit;
+                    router.push({name : "register-check"});
+                }
+                else {
+                    if (response.data.error.code == "DUPLICATED_EMAIL")
+                        alert("중복된 이메일입니다. 다른 이메일로 작성해 주세요");
+                    else if (response.data.error.code == "DUPLICATED_NICKNAME")
+                        alert("중복된 닉네임입니다. 다른 닉네임으로 정해 주세요");
+                }
+            }).catch(() => {
+                    alert("형식을 확인해주세요");
             });
         },
         async setLoginUser({ commit }, user) {
@@ -69,10 +67,8 @@ const UserStore = {
             }).then((response) => {
                 if (response.data.success == true)
                 {
-                    const sessionId = response.data.data.jsessionId;
                     const userId = response.data.data.userId;
-                    commit("SET_SESSION_ID", sessionId);
-                    commit("SET_LOGIN_USER", userId);
+                    commit("SET_USER_ID", userId);
                     router.push({ name: "home" }).catch(() => { });
                 }
                 else {
@@ -91,7 +87,10 @@ const UserStore = {
                 url: API_URI,
                 method: "get",
             }).then((res) => {
-                commit("GET_USER", res.data);
+                if (res.data.success == true)
+                    commit("SET_USER", res.data.data);
+                else
+                    alert("잘못된 요청입니다.");
             });
         },
         updateUser({ commit }, modUser) {
@@ -104,11 +103,16 @@ const UserStore = {
                 url: API_URI,
                 method: "put",
                 data: upUser,
-            }).then(() => {
-                commit("UPDATE_USER", upUser);
-                alert("수정 완료되었습니다!");
+            }).then((response) => {
+                if (response.data.success == true)
+                {
+                    commit("UPDATE_USER", upUser);
+                    alert("수정 완료되었습니다!");
+                }
+                else
+                    alert("이미 존재하는 닉네임입니다");
             }).catch(() => {
-                alert("이미 있는 닉네임입니다");
+                alert("잘못된 요청입니다");
             });
         },
         deleteUser({ commit }, dropUserInfo) {
@@ -117,12 +121,17 @@ const UserStore = {
                 url: API_URI,
                 method: "delete",
                 data: dropUserInfo.password,
-            }).then(() => {
-                commit("DELETE_USER");
-                alert("회원 탈퇴가 완료되었습니다");
-                router.push({ name: "home" });
+            }).then((response) => {
+                if (response.data.success == true) {
+                    commit("DELETE_USER");
+                    alert("회원 탈퇴가 완료되었습니다");
+                    router.push({ name: "home" }).catch(() => { });
+                }
+                else {
+                    alert("잘못된 비밀번호 입니다");
+                }
             }).catch(() => {
-                alert("잘못된 비밀번호 입니다");
+                alert("잘못된 요청입니다");
             });
         },
         logout({ commit }) {
@@ -138,6 +147,48 @@ const UserStore = {
                 alert("로그아웃 실패");
             });
         },
+        dupEmailCheck({ commit }, reqemail) {
+            const API_URI = `${REST_API}/user/check/email`;
+            const reqEmail = {
+                email: reqemail,
+            }
+            axios({
+                url: API_URI,
+                method: "post",
+                data: reqEmail,
+            }).then((response) => {
+                if (response.data.success == true) {
+                    commit;
+                    alert("사용 가능한 이메일입니다!");
+                }
+                else {
+                    alert("이미 사용 중인 이메일입니다!")
+                }
+            }).catch(() => {
+                alert("잘못된 형식입니다");
+            });
+        },
+        dupNicknameCheck({ commit }, reqnickname) {
+            const API_URI = `${REST_API}/user/check/nickname`;
+            const reqNickname = {
+                nickname: reqnickname,
+            }
+            axios({
+                url: API_URI,
+                method: "post",
+                data: reqNickname,
+            }).then((response) => {
+                if (response.data.success == true) {
+                    commit;
+                    alert("사용 가능한 닉네임입니다!");
+                }
+                else {
+                    alert("이미 사용 중인 닉네임입니다!")
+                }
+            }).catch(() => {
+                alert("잘못된 형식입니다");
+            });
+        }
     },
     modules: {
 

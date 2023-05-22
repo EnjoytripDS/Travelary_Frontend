@@ -25,7 +25,7 @@
                 <v-text-field :counter="30" v-model="useremail" label="이메일을 입력하세요" hide-details="auto" required outlined></v-text-field>
               </v-col>
               <v-col cols="1" class="reg-dup-check">
-                <v-btn color="gray" small>중복 확인</v-btn>
+                <v-btn color="gray" small @click="dupCheckEmail">중복 확인</v-btn>
               </v-col>
             </v-row>
             <v-row class="user-reg-inpt-row">
@@ -34,7 +34,7 @@
                 <v-text-field :counter="20" v-model="nickname" label="닉네임을 입력하세요" hide-details="auto" required outlined></v-text-field>
               </v-col>
               <v-col cols="1" class="reg-dup-check">
-                <v-btn color="gray" small>중복 확인</v-btn>
+                <v-btn color="gray" small @click="dupCheckNickname">중복 확인</v-btn>
               </v-col>
             </v-row>
             <v-row class="user-reg-note-row">
@@ -84,10 +84,12 @@ export default {
     'active'
   ],
   methods: {
-    ...mapActions(UserStore, ["createUser"]),
+    ...mapActions(UserStore, ["createUser", "dupEmailCheck", "dupNicknameCheck"]),
     userRegist() {
       if(this.userpwd !== this.pwdcheck)
         alert("비밀번호를 다시 확인해주세요!");
+      else if(this.useremail == "" || this.nickname == "" || this.userpwd == "")
+        alert("모든 칸을 작성해주세요");
       else {
         let newUser = {
             email: this.useremail,
@@ -96,7 +98,19 @@ export default {
         };
         this.createUser(newUser);
       }
-    }
+    },
+    dupCheckEmail() {
+      if(this.useremail == "")
+        alert("이메일을 작성해주세요!");
+      else 
+        this.dupEmailCheck(this.useremail);
+    },
+    dupCheckNickname() {
+      if(this.nickname == "")
+        alert("닉네임을 작성해주세요!");
+      else
+        this.dupNicknameCheck(this.nickname);
+    },
   }
 };
 </script>
