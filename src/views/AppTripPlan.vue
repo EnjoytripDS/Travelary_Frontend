@@ -3,13 +3,13 @@
     <v-stepper v-model="e1">
       <v-stepper-header>
         <v-stepper-step :complete="e1 > 1" step="1" editable>
-          관광지 검색
+          여행 정보 입력
         </v-stepper-step>
 
         <v-divider></v-divider>
 
         <v-stepper-step :complete="e1 > 2" step="2" editable>
-          여행 추가 정보
+          관광지 검색
         </v-stepper-step>
 
         <v-divider></v-divider>
@@ -19,18 +19,19 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
+          <TheContentHeaderVue />
+          <v-btn color="primary" @click="e1 = 2"> 다음 단계 </v-btn>
+          <!-- <v-btn text> Cancel </v-btn> -->
+        </v-stepper-content>
+
+        <v-stepper-content step="2">
           <v-col cols="4">
             <search-attraction margin="0"></search-attraction>
           </v-col>
           <v-col cols="8">
             <the-kakao-map :attractions="attractions"></the-kakao-map>
           </v-col>
-          <v-btn color="primary" @click="e1 = 2"> 다음 단계 </v-btn>
-          <!-- <v-btn text> Cancel </v-btn> -->
-        </v-stepper-content>
 
-        <v-stepper-content step="2">
-          <TheContentHeaderVue />
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
