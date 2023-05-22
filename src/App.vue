@@ -17,9 +17,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @font-face {
-  font-family: 'line-seed';
-  src: url('@/assets/fonts/LINESeedKR-Rg.ttf');
+  font-family: "line-seed";
+  src: url("@/assets/fonts/LINESeedKR-Rg.ttf");
 }
 </style>
