@@ -20,8 +20,8 @@ const routes = [
       {
         path: "search",
         name: "search",
-        component: () => import(/* webpackChunkName: "trip-plan" */ "@/components/tripplan/searchItem/SearchAttraction"),
-      }
+        component: () => import(/* webpackChunkName: "trip-plan" */ "@/components/tripplan/SearchAttraction"),
+      },
     ],
   },
   {
@@ -76,7 +76,7 @@ const routes = [
         path: "register-check",
         name: "register-check",
         component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserRegisterCheck"),
-      }
+      },
     ],
   },
 ];
