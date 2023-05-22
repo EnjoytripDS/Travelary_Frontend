@@ -15,14 +15,6 @@ const routes = [
     path: "/trip-plan",
     name: "trip-plan",
     component: () => import(/* webpackChunkName: "trip-plan" */ "@/views/AppTripPlan"),
-    redirect: "/trip-plan/search",
-    children: [
-      {
-        path: "search",
-        name: "search",
-        component: () => import(/* webpackChunkName: "trip-plan" */ "@/components/tripplan/searchItem/SearchAttraction"),
-      }
-    ],
   },
   {
     path: "/trips",
@@ -76,7 +68,7 @@ const routes = [
         path: "register-check",
         name: "register-check",
         component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserRegisterCheck"),
-      }
+      },
     ],
   },
 ];
