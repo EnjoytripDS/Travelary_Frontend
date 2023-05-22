@@ -2,9 +2,8 @@
   <!-- <v-container> -->
   <!-- 관광지 추가 / 삭제 가능한 임시 여행 계획 리스트 -->
   <v-row>
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
+    <!-- <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
       <v-list-item class="px-2">
-        <!-- 임시 사진 -> 여행 관련 아이콘으로 변경 예정 -->
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
@@ -28,11 +27,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     <v-col>
       <v-row>
         <v-col cols="6">
-          <v-select :items="selectSido" label="시/도" prepend-icon="mdi-map" solo></v-select>
+          <v-select
+            :items="selectSido"
+            label="시/도"
+            prepend-icon="mdi-map"
+            solo
+          ></v-select>
         </v-col>
         <v-col cols="6">
           <v-select :items="selectGugun" label="구/군" solo></v-select>
@@ -40,12 +44,24 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-select v-model="value" :items="items" chips label="관광지 유형" multiple solo></v-select>
+          <v-select
+            v-model="value"
+            :items="items"
+            chips
+            label="관광지 유형"
+            multiple
+            solo
+          ></v-select>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="10">
-          <v-text-field label="검색어를 입력해주세요" placeholder="검색어" solo v-model="keyword"></v-text-field>
+          <v-text-field
+            label="검색어를 입력해주세요"
+            placeholder="검색어"
+            solo
+            v-model="keyword"
+          ></v-text-field>
         </v-col>
         <v-col cols="2">
           <v-btn icon @click="$refs.search.focus()" style="color: darkblue">
@@ -53,12 +69,17 @@
           </v-btn>
         </v-col>
       </v-row>
+
       <!-- 관광지 검색 결과 리스트-->
       <v-row>
         <v-col padding="0">
           <v-virtual-scroll :items="items" :item-height="380" height="800">
             <v-card class="mx-auto" max-height="350" max-width="500">
-              <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="160px" cover></v-img>
+              <v-img
+                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                height="160px"
+                cover
+              ></v-img>
 
               <v-card-title> Top western road trips </v-card-title>
 
