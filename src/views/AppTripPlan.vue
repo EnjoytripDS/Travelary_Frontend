@@ -25,22 +25,56 @@
           <v-col cols="8">
             <the-kakao-map :attractions="attractions"></the-kakao-map>
           </v-col>
-
           <v-btn color="primary" @click="e1 = 2"> 다음 단계 </v-btn>
-
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
         <v-stepper-content step="2">
           <TheContentHeaderVue />
-
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
-
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
+          <v-row>
+            <v-col cols="3"> <attraction-list></attraction-list></v-col>
+            <v-col cols="9">
+              <v-card>
+                <v-tabs
+                  v-model="tab"
+                  background-color="deep-purple accent-4"
+                  centered
+                  dark
+                  icons-and-text
+                >
+                  <v-tabs-slider></v-tabs-slider>
+
+                  <v-tab href="#tab-1">
+                    Recents
+                    <v-icon>mdi-phone</v-icon>
+                  </v-tab>
+
+                  <v-tab href="#tab-2">
+                    Favorites
+                    <v-icon>mdi-heart</v-icon>
+                  </v-tab>
+
+                  <v-tab href="#tab-3">
+                    Nearby
+                    <v-icon>mdi-account-box</v-icon>
+                  </v-tab>
+                </v-tabs>
+
+                <v-tabs-items v-model="tab">
+                  <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
+                    <v-card>
+                      <v-card><TripTimeline /></v-card>
+                    </v-card>
+                  </v-tab-item>
+                </v-tabs-items>
+              </v-card>
+            </v-col>
+          </v-row>
 
           <v-btn color="primary" @click="e1 = 1"> 여행 만들기! </v-btn>
         </v-stepper-content>
@@ -62,12 +96,16 @@
 import TheKakaoMap from "@/components/TheKakaoMap.vue";
 import SearchAttraction from "@/components/tripplan/SearchAttraction.vue";
 import TheContentHeaderVue from "@/components/common/TheContentHeader.vue";
+import TripTimeline from "@/components/tripplan/TripTimeline.vue";
+import AttractionList from "@/components/tripplan/AttractionList.vue";
 export default {
   name: "AppTripPlan",
   components: {
     TheKakaoMap,
     SearchAttraction,
     TheContentHeaderVue,
+    TripTimeline,
+    AttractionList,
   },
   data() {
     return {

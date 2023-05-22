@@ -21,7 +21,7 @@
     </v-row>
     <v-row>
       <v-col cols="6">
-        <v-date-picker v-model="dates" range></v-date-picker>
+        <v-date-picker v-model="dates" range full-width></v-date-picker>
       </v-col>
       <v-col cols="6">
         <v-text-field
