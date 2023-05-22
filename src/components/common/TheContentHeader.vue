@@ -1,79 +1,82 @@
 <template>
-  <v-row>
-    <v-img height="200" src="https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg">
-      <v-row>
+  <v-container>
+    <v-row>
+      <v-img height="200" src="@/assets/image/tripimage.jpg">
         <v-col class="text-right" cols="12">
           <v-menu bottom left transition="slide-y-transition"> </v-menu>
         </v-col>
-        <v-row class="pa-4" align="center" justify="center">
+        <v-row class="pa-4" justify="center">
           <v-col class="text-center">
-            <h3 class="text-h5">
+            <h1 class="text-h3">
               {{ name }}
-            </h3>
-            <span class="grey--text text--lighten-1">{{ title }}</span>
+            </h1>
           </v-col>
         </v-row>
-      </v-row>
-    </v-img>
-    <v-form>
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field v-model="name" filled color="blue-grey lighten-2" label="Name"></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field v-model="title" filled color="blue-grey lighten-2" label="Title"></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-autocomplete
-              v-model="friends"
-              :items="people"
-              filled
-              chips
-              color="blue-grey lighten-2"
-              label="Select"
-              item-text="name"
-              item-value="name"
-              multiple
-            >
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-date-picker v-model="dates" range></v-date-picker>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field v-model="dateRangeText" label="Date range" prepend-icon="mdi-calendar" readonly></v-text-field>
-                  model: {{ dates }}
-                </v-col>
-              </v-row>
-
-              <template v-slot:selection="data">
-                <v-chip v-bind="data.attrs" :input-value="data.selected" close @click="data.select" @click:close="remove(data.item)">
-                  <v-avatar left>
-                    <v-img :src="data.item.avatar"></v-img>
-                  </v-avatar>
-                  {{ data.item.name }}
-                </v-chip>
-              </template>
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item"></v-list-item-content>
-                </template>
-                <template v-else>
-                  <v-list-item-avatar>
-                    <img :src="data.item.avatar" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                    <v-list-item-subtitle v-html="data.item.group"></v-list-item-subtitle>
-                  </v-list-item-content>
-                </template>
-              </template>
-            </v-autocomplete>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </v-row>
+      </v-img>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-text-field v-model="name" filled label="Name"></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6">
+        <v-date-picker v-model="dates" range></v-date-picker>
+      </v-col>
+      <v-col cols="6">
+        <v-text-field
+          v-model="dateRangeText"
+          label="여행 기간"
+          prepend-icon="mdi-calendar"
+          readonly
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-col>
+      <v-autocomplete
+        v-model="friends"
+        :items="people"
+        filled
+        chips
+        color="blue-grey lighten-2"
+        label="Select"
+        item-text="name"
+        item-value="name"
+        multiple
+      >
+        <template v-slot:selection="data">
+          <v-chip
+            v-bind="data.attrs"
+            :input-value="data.selected"
+            close
+            @click="data.select"
+            @click:close="remove(data.item)"
+          >
+            <v-avatar left>
+              <v-img :src="data.item.avatar"></v-img>
+            </v-avatar>
+            {{ data.item.name }}
+          </v-chip>
+        </template>
+        <template v-slot:item="data">
+          <template v-if="typeof data.item !== 'object'">
+            <v-list-item-content v-text="data.item"></v-list-item-content>
+          </template>
+          <template v-else>
+            <v-list-item-avatar>
+              <img :src="data.item.avatar" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-html="data.item.name"></v-list-item-title>
+              <v-list-item-subtitle
+                v-html="data.item.group"
+              ></v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+        </template>
+      </v-autocomplete>
+    </v-col>
+  </v-container>
 </template>
 <script>
 export default {
@@ -89,7 +92,7 @@ export default {
     return {
       autoUpdate: true,
       friends: ["Sandra Adams", "Britta Holt"],
-      name: "여행 계획 짜기",
+      name: "여행 제목을 작성해주세요!",
       people: [
         { header: "Group 1" },
         { name: "Sandra Adams", group: "Group 1", avatar: srcs[1] },
@@ -97,8 +100,7 @@ export default {
         { name: "Trevor Hansen", group: "Group 1", avatar: srcs[3] },
         { name: "Tucker Smith", group: "Group 1", avatar: srcs[2] },
       ],
-      title: "관광지를 검색하고, 내 여행 계획에 추가해보세요!",
-      dates: ["2019-09-10", "2019-09-20"],
+      dates: ["2023-05-26", "2023-05-31"],
     };
   },
 
