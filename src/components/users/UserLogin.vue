@@ -26,7 +26,7 @@
                       <v-icon left size="45">mdi-account</v-icon>
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="useremail" label="이메일을 입력하세요" hide-details="auto" required outlined></v-text-field>
+                      <v-text-field v-model="useremail" label="이메일을 입력하세요" hide-details="auto" @keyup.enter="login" required outlined></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -41,7 +41,7 @@
                       <v-icon left size="45">mdi-key</v-icon>
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="userpwd" type="password" label="비밀번호를 입력하세요" hide-details="auto" required outlined></v-text-field>
+                      <v-text-field v-model="userpwd" type="password" label="비밀번호를 입력하세요" hide-details="auto" @keyup.enter="login" required outlined></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -85,11 +85,16 @@ export default {
   methods: {
     ...mapActions(UserStore, ["setLoginUser"]),
     login() {
-      let user = {
-        email: this.useremail,
-        password: this.userpwd,
-      };
-      this.setLoginUser(user);
+      if(this.useremail == "" || this.userpwd == "" || this.useremail == null || this.userpwd == null)
+        alert("모든 항목을 작성해 주세요");
+      else
+      {      
+        let user = {
+          email: this.useremail,
+          password: this.userpwd,
+        };
+        this.setLoginUser(user);
+      }
     },
     goToRegist() {
       this.$router.push({ name: "register" });

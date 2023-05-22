@@ -28,7 +28,7 @@
                     </v-list-item-icon>
                     <v-list-item-title>마이 페이지</v-list-item-title>
                   </v-list-item>
-                  <v-list-item @click="logout">
+                  <v-list-item @click="toLogout">
                     <v-list-item-icon>
                       <v-icon>mdi-logout</v-icon>
                     </v-list-item-icon>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const UserStore = "UserStore";
 
@@ -63,6 +63,7 @@ export default {
     'active'
   ],
   methods: {
+    ...mapActions(UserStore, ["logout"]),
     isActiveRoute(routeName) {
       if(routeName === "home" && (this.$route.name === "users" || this.$route.matched.some((route) => route.name === "users")))
         return true;
@@ -74,14 +75,17 @@ export default {
     toRegist() {
       this.$router.push({ name: "register" }).catch(() => {}); // 회원 가입 경로로 이동
     },
-    logout() {
-      this.$store.commit("UserStore/LOGOUT");
+    toMyPage() {
+      this.$router.push({name: "user-mypage", params: {id: this.userId}}).catch(() => {});
+    },
+    toLogout() {
+      this.logout();
     },
   },
   computed: {
-    ...mapState(UserStore, ["sessionId"]),
+    ...mapState(UserStore, ["userId"]),
     isAuthenticated() {
-      return this.sessionId !== null;
+      return this.userId !== null;
     },
   }
 };
