@@ -115,6 +115,26 @@ const UserStore = {
                 alert("잘못된 요청입니다");
             });
         },
+        updatePwd({ state }, userPwd) {
+            const API_URI = `${REST_API}/user/password}`;
+            let upPwd = {
+                userId: state.userId,
+                curPwd: userPwd.curPwd,
+                newPwd: userPwd.newPwd,
+            };
+            axios({
+                url: API_URI,
+                method: "put",
+                data: upPwd,
+            }).then((response) => {
+                if (response.data.success == true)
+                    alert("수정 완료되었습니다!");
+                else
+                    alert("현재 비밀번호가 틀렸습니다");
+            }).catch(() => {
+                alert("비밀번호 형식을 확인해주세요");
+            });
+        },
         deleteUser({ commit }, dropUserInfo) {
             const API_URI = `${REST_API}/user/${dropUserInfo.id}`;
             axios({
