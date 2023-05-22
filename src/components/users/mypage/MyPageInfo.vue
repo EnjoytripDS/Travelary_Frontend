@@ -69,16 +69,13 @@ export default {
     data() {
         return{
             file: null,
-            id: null,
         }
     },
     computed: {
-        ...mapState(UserStore, ["user"]),
+        ...mapState(UserStore, ["user", "userId"]),
     },
     created() {
-        const pathname = new URL(document.location).pathname.split("/");
-        this.id = pathname[pathname.length - 2];
-        this.getUser(this.id);
+        this.getUser(this.userId);
     },
     methods: {
         ...mapActions(UserStore, ["getUser", "updateUser"]),

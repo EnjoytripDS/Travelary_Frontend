@@ -76,14 +76,14 @@ export default {
       this.$router.push({ name: "register" }).catch(() => {}); // 회원 가입 경로로 이동
     },
     toMyPage() {
-      this.$router.push(`users/mypage/${this.user.id}`).catch(() => {});
+      this.$router.push(`users/mypage/${this.userId}`).catch(() => {});
     },
     toLogout() {
       this.logout();
     },
   },
   computed: {
-    ...mapState(UserStore, ["sessionId", "user"]),
+    ...mapState(UserStore, ["sessionId", "userId"]),
     isAuthenticated() {
       return this.sessionId !== null;
     },

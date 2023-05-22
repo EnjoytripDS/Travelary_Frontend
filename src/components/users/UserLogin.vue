@@ -85,12 +85,16 @@ export default {
   methods: {
     ...mapActions(UserStore, ["setLoginUser"]),
     login() {
-      let user = {
-        email: this.useremail,
-        password: this.userpwd,
-      };
-
-      this.setLoginUser(user);
+      if(this.useremail == "" || this.userpwd == "" || this.useremail == null || this.userpwd == null)
+        alert("모든 항목을 작성해 주세요");
+      else
+      {      
+        let user = {
+          email: this.useremail,
+          password: this.userpwd,
+        };
+        this.setLoginUser(user);
+      }
     },
     goToRegist() {
       this.$router.push({ name: "register" });

@@ -12,23 +12,25 @@ const UserStore = {
         users: [],
         user: {},
         sessionId: null,
+        userId: null,
     },
     getters: {
 
     },
     mutations: {
-        SET_LOGIN_USER(state, user) {
-            state.user = user;
+        SET_LOGIN_USER(state, userId) {
+            state.userId = userId
+        },
+        SET_SESSION_ID(state, sessionId) {
+            state.sessionId = sessionId;
         },
         GET_USER(state, user) {
             state.user = user;
         },
         LOGOUT(state) {
             state.user = null;
+            state.userId = null;
             state.sessionId = null;
-        },
-        SET_SESSION_ID(state, sessionId) {
-            state.sessionId = sessionId;
         },
         UPDATE_USER(state, moduser) {
             state.user.nickname = moduser.nickname;
@@ -65,12 +67,22 @@ const UserStore = {
                 method: "post",
                 data: user,
             }).then((response) => {
-                const sessionId = response.data;
-                commit("SET_SESSION_ID", sessionId);
-                router.push({name : "home"});
+                if (response.data.success == true)
+                {
+                    const sessionId = response.data.data.jsessionId;
+                    const userId = response.data.data.userId;
+                    commit("SET_SESSION_ID", sessionId);
+                    commit("SET_LOGIN_USER", userId);
+                    router.push({ name: "home" }).catch(() => { });
+                }
+                else {
+                    if (response.data.error.code == "USER_NOT_FOUND")
+                        alert("가입되지 않은 계정입니다.");
+                    else if (response.data.error.code == "PASSWORD_NOT_MATCHED")
+                        alert("잘못된 비밀번호입니다.");
+                }
             }).catch(() => {
-                alert("아이디 혹은 비밀번호를 확인해 주세요");
-                router.push({name : "login"}).catch(() => {});
+                alert("잘못된 입력 형식입니다.");
             });
         },
         getUser({ commit }, id) {
@@ -121,7 +133,7 @@ const UserStore = {
             }).then(() => {
                 commit("LOGOUT");
                 alert("로그아웃 완료");
-                router.push({ name: "home" }).catch(() => {});
+                router.push({ name: "home" }).catch(() => { });
             }).catch(() => {
                 alert("로그아웃 실패");
             });
