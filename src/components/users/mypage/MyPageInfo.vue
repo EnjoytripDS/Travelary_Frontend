@@ -16,13 +16,7 @@
             <v-img src="@/assets/image/tripimage.jpg" class="profile-img" />
           </v-row>
           <v-row class="mypageinfo-content-row">
-            <v-file-input
-              class="profile-input"
-              v-model="file"
-              accept="image/*"
-              label="프로필 사진 업로드"
-              @change="handleFileUpload"
-            ></v-file-input>
+            <v-file-input class="profile-input" v-model="file" accept="image/*" label="프로필 사진 업로드" @change="handleFileUpload"></v-file-input>
           </v-row>
         </v-container>
       </v-col>
@@ -32,38 +26,21 @@
             <v-col cols="1" />
             <v-col cols="2" class="mypageinfo-item">이메일</v-col>
             <v-col cols="4">
-              <v-text-field
-                :counter="30"
-                name="email"
-                required
-                v-model="user.email"
-                readonly
-              ></v-text-field>
+              <v-text-field :counter="30" name="email" required v-model="user.email" readonly></v-text-field>
             </v-col>
           </v-row>
           <v-row class="mypageinfo-content-row">
             <v-col cols="1" />
             <v-col cols="2" class="mypageinfo-item">닉네임</v-col>
             <v-col cols="4" class="mypageinfo-btn-left">
-              <v-text-field
-                :counter="20"
-                v-model="user.nickname"
-                hide-details="auto"
-                required
-                outlined
-                dense
-              ></v-text-field>
+              <v-text-field :counter="20" v-model="user.nickname" hide-details="auto" required outlined dense></v-text-field>
             </v-col>
-            <v-btn color="gray" small @click="dupCheckNickname"
-              >중복 확인</v-btn
-            >
+            <v-btn color="gray" small @click="dupCheckNickname">중복 확인</v-btn>
           </v-row>
           <v-row class="mypageinfo-btn-row">
             <v-col cols="4" />
             <v-col cols="4">
-              <v-btn color="blue" @click="userModify" class="modbutton" block>
-                수정
-              </v-btn>
+              <v-btn color="blue" @click="userModify" class="modbutton" block> 수정 </v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -85,49 +62,27 @@ export default {
     };
   },
   computed: {
-    ...mapState(UserStore, ["userId", "user"]),
-  },
-  created() {
-    this.getUser(this.userId);
+    ...mapState(UserStore, ["user"]),
   },
   methods: {
-    ...mapActions(UserStore, ["getUser", "updateUser", "dupNicknameCheck"]),
+    ...mapActions(UserStore, ["updateUser", "dupNicknameCheck"]),
     userModify() {
       if (this.user.nickname == "") alert("빈 칸이 있습니다!");
       else {
         let modUser = {
-          id: this.userId,
+          id: this.user.id,
           email: this.user.email,
           nickname: this.user.nickname,
         };
         this.updateUser(modUser);
       }
     },
-    computed: {
-        ...mapState(UserStore, ["user"]),
+    dupCheckNickname() {
+      if (this.user.nickname == "") alert("닉네임을 작성해주세요!");
+      else this.dupNicknameCheck(this.user.nickname);
     },
-    methods: {
-        ...mapActions(UserStore, ["updateUser", "dupNicknameCheck"]),
-        userModify() {
-            if(this.user.nickname == "")
-                alert("빈 칸이 있습니다!");
-            else {
-                let modUser = {
-                    id: this.user.id, 
-                    email: this.user.email,
-                    nickname: this.user.nickname,
-                };
-                this.updateUser(modUser);
-            }
-        },
-        dupCheckNickname() {
-            if(this.user.nickname == "")
-                alert("닉네임을 작성해주세요!");
-            else
-                this.dupNicknameCheck(this.user.nickname);
-        },
-    },
-}
+  },
+};
 </script>
 
 <style>
