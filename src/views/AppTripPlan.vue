@@ -2,9 +2,13 @@
   <v-container>
     <v-stepper v-model="e1">
       <v-stepper-header>
-        <v-stepper-step :complete="e1 > 1" step="1" editable> 여행 정보 입력 </v-stepper-step>
+        <v-stepper-step :complete="e1 > 1" step="1" editable>
+          여행 정보 입력
+        </v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step :complete="e1 > 2" step="2" editable> 관광지 검색 </v-stepper-step>
+        <v-stepper-step :complete="e1 > 2" step="2" editable>
+          관광지 검색
+        </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step step="3" editable> 일자별 세부 계획 </v-stepper-step>
       </v-stepper-header>
@@ -16,7 +20,11 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field v-model="trip.tripName" filled label="여행 제목"></v-text-field>
+              <v-text-field
+                v-model="trip.tripName"
+                filled
+                label="여행 제목"
+              ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
@@ -48,7 +56,13 @@
             <v-col cols="4"> <attraction-list></attraction-list></v-col>
             <v-col cols="8">
               <v-card>
-                <v-tabs v-model="tab" background-color="deep-purple accent-4" centered dark icons-and-text>
+                <v-tabs
+                  v-model="tab"
+                  background-color="deep-purple accent-4"
+                  centered
+                  dark
+                  icons-and-text
+                >
                   <v-tabs-slider></v-tabs-slider>
                   <v-tab href="#tab-1">
                     1일차
@@ -82,14 +96,7 @@
       </v-stepper-items>
     </v-stepper>
 
-    <v-row>
-      <!-- <v-col cols="4">
-        <search-attraction margin="0"></search-attraction>
-      </v-col>
-      <v-col cols="8">
-        <the-kakao-map :attractions="attractions"></the-kakao-map>
-      </v-col> -->
-    </v-row>
+    <v-row> </v-row>
   </v-container>
 </template>
 

@@ -50,19 +50,26 @@
       </v-row>
 
       <!-- 관광지 검색 결과 리스트-->
+      <!-- <v-row>
+        <tr v-for="result in searchResults" :key="result.title">
+          <td>{{ result.title }}</td>
+        </tr>
+      </v-row> -->
       <v-row>
         <v-col padding="0">
           <v-virtual-scroll :items="items" :item-height="380" height="800">
-            <v-card class="mx-auto" max-height="350" max-width="500">
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                height="160px"
-                cover
-              ></v-img>
+            <v-card
+              v-for="(result, index) in searchResults"
+              :key="index"
+              class="mx-auto"
+              max-height="350"
+              max-width="500"
+            >
+              <v-img :src="result.first_image" height="160px" cover></v-img>
 
-              <v-card-title> Top western road trips </v-card-title>
+              <v-card-title> {{ result.title }}</v-card-title>
 
-              <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
+              <v-card-subtitle>{{ result.addr1 }}</v-card-subtitle>
 
               <v-card-actions>
                 <v-btn color="orange-lighten-2" variant="text"> DETAILS </v-btn>
@@ -84,17 +91,18 @@
 
 <script>
 import TripPlanStore from "@/store/modules/TripPlan";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   components: {},
   data: () => ({
-    drawer: true,
-    mini: true,
-    active: true,
+    // drawer: true,
+    // mini: true,
+    // active: true,
     sidoCode: "",
     gugunCode: "",
     contentTypeList: [],
     keyword: "",
+    searchTest: [],
 
     sidoItems: [
       { text: "전체 ", value: "0" },
@@ -150,40 +158,50 @@ export default {
         value: "39",
       },
     ],
-    loading: false,
+    // loading: false,
     // search: "",
-    selected: [],
+    // selected: [],
   }),
 
   computed: {
+    ...mapState(TripPlanStore, ["guguns", "searchResults"]),
     gugunItems() {
       return this.$store.state.TripPlanStore.guguns;
     },
+    searchResults() {
+      return this.$store.state.TripPlanStore.searchResults;
+    },
+    items() {
+      return Array.from({ length: this.length }, (k, v) => v + 1);
+    },
+    length() {
+      return this.searchResults.length; // 50개 보여주기..
+    },
 
     //
-    allSelected() {
-      return this.selected.length === this.items.length;
-    },
-    categories() {
-      const search = this.search.toLowerCase();
+    // allSelected() {
+    //   return this.selected.length === this.items.length;
+    // },
+    // categories() {
+    //   const search = this.keyword.toLowerCase();
 
-      if (!search) return this.items;
+    //   if (!search) return this.searchResults;
 
-      return this.items.filter((item) => {
-        const text = item.text.toLowerCase();
+    //   return this.searchResults.filter((result) => {
+    //     const text = result.title.toLowerCase();
 
-        return text.indexOf(search) > -1;
-      });
-    },
-    selections() {
-      const selections = [];
+    //     return text.indexOf(search) > -1;
+    //   });
+    // },
+    // selections() {
+    //   const selections = [];
 
-      for (const selection of this.selected) {
-        selections.push(selection);
-      }
+    //   for (const selection of this.selected) {
+    //     selections.push(selection);
+    //   }
 
-      return selections;
-    },
+    //   return selections;
+    // },
   },
 
   watch: {
