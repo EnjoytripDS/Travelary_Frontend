@@ -3,11 +3,12 @@
   <v-row>
     <v-col>
       <v-row>
+        <select-sido></select-sido>
+        <!-- <v-col cols="6">
+          <v-select :items="sidoItems" label="시/도" prepend-icon="mdi-map" solo @change="changeSido"></v-select>
+        </v-col> -->
         <v-col cols="6">
-          <v-select :items="selectSido" label="시/도" prepend-icon="mdi-map" solo></v-select>
-        </v-col>
-        <v-col cols="6">
-          <v-select :items="selectGugun" label="구/군" solo></v-select>
+          <v-select :items="getGugun()" label="구/군" solo></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -56,20 +57,35 @@
 </template>
 
 <script>
+import SelectSido from "./item/SelectSido.vue";
 export default {
-  components: {},
+  components: {
+    SelectSido,
+  },
   data: () => ({
     drawer: true,
     mini: true,
     active: true,
-    selectSido: { state: "전체 시/도", code: "0" },
-    sidoItems: [
-      { text: "서울 ", code: "FL" },
-      { state: "인천", code: "GA" },
-      { state: "Nebraska", code: "NE" },
-      { state: "California", code: "CA" },
-      { state: "New York", code: "NY" },
-    ],
+    // sidoItems: [
+    //   { text: "전체 ", value: "0" },
+    //   { text: "서울", value: "1" },
+    //   { text: "인천", value: "2" },
+    //   { text: "대전", value: "3" },
+    //   { text: "대구", value: "4" },
+    //   { text: "광주", value: "5" },
+    //   { text: "부산", value: "6" },
+    //   { text: "울산", value: "7" },
+    //   { text: "세종특별자치시", value: "8" },
+    //   { text: "경기도", value: "31" },
+    //   { text: "강원도", value: "32" },
+    //   { text: "충청북도", value: "33" },
+    //   { text: "충청남도", value: "34" },
+    //   { text: "경상북도", value: "35" },
+    //   { text: "경상남도", value: "36" },
+    //   { text: "전라북도", value: "37" },
+    //   { text: "전라남도", value: "38" },
+    //   { text: "제주도", value: "39" },
+    // ],
     items: [
       {
         text: "관광지",
@@ -134,6 +150,7 @@ export default {
   },
 
   methods: {
+    //
     next() {
       this.loading = true;
 
