@@ -59,13 +59,13 @@
         <v-col padding="0">
           <v-virtual-scroll :items="items" :item-height="380" height="800">
             <v-card
-              v-for="(result, index) in searchResults"
+              v-for="(result, index) in items"
               :key="index"
               class="mx-auto"
               max-height="350"
               max-width="500"
             >
-              <v-img :src="result.first_image" height="160px" cover></v-img>
+              <v-img :src="result.firstImage" height="160px" cover></v-img>
 
               <v-card-title> {{ result.title }}</v-card-title>
 
@@ -172,7 +172,7 @@ export default {
       return this.$store.state.TripPlanStore.searchResults;
     },
     items() {
-      return Array.from({ length: this.length }, (k, v) => v + 1);
+      return this.searchResults;
     },
     length() {
       return this.searchResults.length; // 50개 보여주기..
