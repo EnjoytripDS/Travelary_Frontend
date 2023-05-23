@@ -19,17 +19,19 @@ const QnaBoardStore = {
     CREATE_QNA_BOARD(state, qnaBoard) {
       state.qnaBoards.push(qnaBoard);
     },
-    GET_QNA_BOARDS(state, qnaBoards) {
+    SET_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
-    GET_QNA_BOARD_DETAIL(state, qnaBoard) {
+    SET_QNA_BOARD_DETAIL(state, qnaBoard) {
       state.qnaBoard = qnaBoard;
     },
     UPDATE_QNA_BOARD(state, qnaBoard) {
       state.qnaBoard = qnaBoard;
     },
-    DELETE_QNA_BOARD() { },
-    GET_SEARCHED_QNA_BOARDS(state, qnaBoards) {
+    DELETE_QNA_BOARD(state) {
+      state.qnaBoard = {};
+    },
+    SET_SEARCHED_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
   },
@@ -41,11 +43,15 @@ const QnaBoardStore = {
         url: API_URI,
         method: "post",
         data: qnaBoard,
-      }).then(() => {
-        commit("CREATE_QNA_BOARD", qnaBoard);
+      }).then((res) => {
+        if (res.data.success == true)
+          commit("CREATE_QNA_BOARD", qnaBoard);
+        else
+          alert("작성 실패");
         router.push("/qna-board");
       }).catch(() => {
-        alert("모든 항목을 작성해주세요");
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
       });
     },
     async getQnaBoards({ commit }) {
@@ -56,7 +62,7 @@ const QnaBoardStore = {
         method: "get",
       }).then((res) => {
         if (res.data.success == true)
-          commit("GET_QNA_BOARDS", res.data.data);
+          commit("SET_QNA_BOARDS", res.data.data);
         else
           alert("리스트를 불러올 수 없습니다");
       }).catch(() => {
@@ -75,16 +81,23 @@ const QnaBoardStore = {
         },
         method: "get",
       }).then((res) => {
-        commit("GET_SEARCHED_QNA_BOARDS", res.data);
+        commit("SET_SEARCHED_QNA_BOARDS", res.data);
       });
     },
     getQnaBoardDetail({ commit }, id) {
       const API_URI = `${REST_API}/qna-board/${id}`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       axios({
         url: API_URI,
         method: "get",
       }).then((res) => {
-        commit("GET_QNA_BOARD_DETAIL", res.data);
+        if (res.data.success == true)
+          commit("SET_QNA_BOARD_DETAIL", res.data.data);
+        else
+          alert("게시글을 불러올 수 없습니다");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
       });
     },
     updateQnaBoard({ commit }, qnaBoard) {
@@ -102,12 +115,19 @@ const QnaBoardStore = {
     },
     deleteQnaBoard({ commit }, id) {
       const API_URI = `${REST_API}/qna-board/${id}`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       axios({
         url: API_URI,
         method: "delete",
-      }).then(() => {
-        commit;
+      }).then((res) => {
+        if (res.data.success == true)
+          commit("DELETE_QNA_BOARD");
+        else
+          alert("게시글을 삭제할 수 없습니다");
         router.push({ name: "qnaboard-list" });
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
       });
     },
   },

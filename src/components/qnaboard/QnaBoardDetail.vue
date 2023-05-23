@@ -52,10 +52,16 @@
                         </v-col>
                     </v-row>
                     <v-row>
-                        <v-col cols="6"/>
-                        <v-btn color="red" @click="qnaRemove" class="removebutton"> 삭제 </v-btn>
-                        <v-btn color="blue" @click="goToUpdate" class="updatebutton"> 수정 </v-btn>
-                        <v-btn color="gray" @click="goToQnaList" class="backbutton"> 돌아가기 </v-btn>
+                        <template v-if="checkWriter">
+                            <v-col cols="6"/>
+                            <v-btn color="red" @click="qnaRemove" class="removebutton"> 삭제 </v-btn>
+                            <v-btn color="blue" @click="goToUpdate" class="updatebutton"> 수정 </v-btn>
+                            <v-btn color="gray" @click="goToQnaList" class="backbutton"> 돌아가기 </v-btn>
+                        </template>
+                        <template v-else>
+                            <v-col cols="7"/>
+                            <v-btn color="gray" @click="goToQnaList" class="backbutton"> 돌아가기 </v-btn>
+                        </template>
                     </v-row>
                 </v-container>
             </v-form>
@@ -68,6 +74,7 @@
 import { mapState, mapActions } from "vuex";
 
 const QnaBoardStore = "QnaBoardStore";
+const UserStore = "UserStore";
 
 export default {
     name: "QnaBoardDetail",
@@ -81,6 +88,10 @@ export default {
     ],
     computed: {
         ...mapState(QnaBoardStore, ["qnaBoard"]),
+        ...mapState(UserStore, ["user"]),
+        checkWriter() {
+            return this.user.nickname == this.qnaBoard.nickname;
+        }
     },
     created() {
         const pathname = new URL(document.location).pathname.split("/");
@@ -93,10 +104,10 @@ export default {
             this.deleteQnaBoard(this.qnaBoard.id);
         },
         goToUpdate() {
-            this.$router.push({ name: "qnaboard-update" })
+            this.$router.push({ name: "qnaboard-update" });
         },
         goToQnaList() {
-            this.$router.push({ name: "qnaboard-list" })
+            this.$router.push({ name: "qnaboard-list" });
         },
     },
 };
