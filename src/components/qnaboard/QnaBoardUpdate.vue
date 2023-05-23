@@ -21,7 +21,7 @@
               <v-col cols="3"/>
               <v-col cols="1">작성자 </v-col>
               <v-col cols="3">
-                <v-text-field :counter="50" label="작성자" name="nickname" required v-model="qnaBoard.nickname" maxlength="50" readonly></v-text-field>
+                <v-text-field :counter="20" label="작성자" name="nickname" required v-model="qnaBoard.nickname" maxlength="20" readonly></v-text-field>
               </v-col>
             </v-row>
             <v-row class="qna-board-update-infor-row">
@@ -74,6 +74,10 @@ export default {
   methods: {
     ...mapActions(QnaBoardStore, ["updateQnaBoard"]),
     updateQna() {
+      if(this.qnaBoard.title == "" || this.qnaBoard.content == "") {
+        alert("모든 항목을 채워야 합니다.");
+        return;
+      }
       let updateQna = {
         id: this.qnaBoard.id,
         title: this.qnaBoard.title,

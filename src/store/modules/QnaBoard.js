@@ -72,6 +72,7 @@ const QnaBoardStore = {
     },
     searchQnaBoards({ commit }, payload) {
       const API_URI = `${REST_API}/qna-board/search`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       const { mode, keyword } = payload;
       axios({
         url: API_URI,
@@ -81,7 +82,13 @@ const QnaBoardStore = {
         },
         method: "get",
       }).then((res) => {
-        commit("SET_SEARCHED_QNA_BOARDS", res.data);
+        if (res.data.success == true)
+          commit("SET_SEARCHED_QNA_BOARDS", res.data.data);
+        else
+          alert("리스트를 불러올 수 없습니다");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
       });
     },
     getQnaBoardDetail({ commit }, id) {
@@ -102,15 +109,20 @@ const QnaBoardStore = {
     },
     updateQnaBoard({ commit }, qnaBoard) {
       const API_URI = `${REST_API}/qna-board/${qnaBoard.id}`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       axios({
         url: API_URI,
         method: "put",
         data: qnaBoard,
-      }).then(() => {
-        commit("UPDATE_QNA_BOARD", qnaBoard);
+      }).then((res) => {
+        if (res.data.success == true)
+          commit("UPDATE_QNA_BOARD", qnaBoard);
+        else
+          alert("게시글을 수정할 수 없습니다");
         router.push({ name: "qnaboard-detail", params: { no: qnaBoard.id } });
       }).catch(() => {
-        alert("모든 항목을 작성해주세요");
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration")
       });
     },
     deleteQnaBoard({ commit }, id) {
@@ -120,8 +132,10 @@ const QnaBoardStore = {
         url: API_URI,
         method: "delete",
       }).then((res) => {
-        if (res.data.success == true)
+        if (res.data.success == true) {
           commit("DELETE_QNA_BOARD");
+          alert("게시글이 삭제되었습니다");
+        }
         else
           alert("게시글을 삭제할 수 없습니다");
         router.push({ name: "qnaboard-list" });

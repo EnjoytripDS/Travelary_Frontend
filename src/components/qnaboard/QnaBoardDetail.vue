@@ -101,7 +101,8 @@ export default {
     methods: {
         ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard"]),
         qnaRemove() {
-            this.deleteQnaBoard(this.qnaBoard.id);
+            if(confirm(`정말 삭제하실 건가요?`) == true)
+                this.deleteQnaBoard(this.qnaBoard.id);
         },
         goToUpdate() {
             this.$router.push({ name: "qnaboard-update" });

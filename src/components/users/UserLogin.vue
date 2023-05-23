@@ -94,8 +94,8 @@ export default {
           password: this.userpwd,
         };
         await this.setLoginUser(user);
-        let token = sessionStorage.getItem("access-token");
         if (this.isLogin) {
+          let token = sessionStorage.getItem("access-token");
           await this.getUser(token);
           this.$router.push({ name: "home" });
         }

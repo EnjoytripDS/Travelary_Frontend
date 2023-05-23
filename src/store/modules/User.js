@@ -91,9 +91,11 @@ const UserStore = {
                         alert("가입되지 않은 계정입니다.");
                     else if (response.data.error.code == "PASSWORD_NOT_MATCHED")
                         alert("잘못된 비밀번호입니다.");
+                    else
+                        alert("로그인에 실패했습니다.");
                 }
             }).catch(() => {
-                alert("로그인");
+                alert("로그인에 실패했습니다.");
             });
         },
         async tokenRegeneration({ commit, state }) {
