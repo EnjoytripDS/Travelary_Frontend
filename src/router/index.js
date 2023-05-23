@@ -18,7 +18,7 @@ const onlyAuthUser = async (to, from, next) => {
   }
   if (!checkToken || checkUserInfo === null) {
     alert("로그인이 필요한 페이지입니다");
-    router.push({ name: "login" });
+    router.push({ name: "login" }).catch(() => { });
   } else {
     next();
   }
@@ -33,22 +33,26 @@ const routes = [
   {
     path: "/trip-plan",
     name: "trip-plan",
+    beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "trip-plan" */ "@/views/AppTripPlan"),
   },
   {
     path: "/trips",
     name: "trips",
+    beforeEnter: onlyAuthUser,
     component: AppTripList,
   },
   {
     path: "/qna-board",
     name: "qnaboard",
+    beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "qnaboard" */ "@/views/AppQnaBoard"),
     redirect: "/qna-board/list",
     children: [
       {
         path: "list",
         name: "qnaboard-list",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "qnaboard" */ "@/components/qnaboard/QnaBoardList"),
       },
       {
@@ -66,6 +70,7 @@ const routes = [
       {
         path: "detail/:no",
         name: "qnaboard-detail",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "qnaboard" */ "@/components/qnaboard/QnaBoardDetail"),
       },
     ],
@@ -94,6 +99,7 @@ const routes = [
       {
         path: "mypage/:id",
         name: "user-mypage",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/UserMyPage"),
         redirect: "/users/mypage/:id/info",
         children: [

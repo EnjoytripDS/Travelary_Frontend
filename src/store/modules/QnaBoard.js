@@ -52,9 +52,6 @@ const QnaBoardStore = {
         method: "get",
       }).then((res) => {
         commit("GET_QNA_BOARDS", res.data);
-      }).catch(() => {
-        alert("로그인이 필요한 서비스입니다!");
-        router.push({ name: "login" })
       });
     },
     searchQnaBoards({ commit }, payload) {
