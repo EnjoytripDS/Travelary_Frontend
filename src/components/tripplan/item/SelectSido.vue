@@ -1,6 +1,13 @@
 <template>
   <v-col cols="6">
-    <v-select :items="sidoItems" label="시/도" prepend-icon="mdi-map" solo @change="changeSido"></v-select>
+    <v-select
+      :items="sidoItems"
+      v-model="sidoCode"
+      label="시/도"
+      prepend-icon="mdi-map"
+      solo
+      @change="changeSido"
+    ></v-select>
   </v-col>
 </template>
 
@@ -8,6 +15,7 @@
 export default {
   data() {
     return {
+      sidoCode: "",
       items: [
         "전체",
         "서울",
@@ -28,7 +36,26 @@ export default {
         "전라남도",
         "제주도",
       ],
-      value: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "31", "32", "33", "34", "35", "36", "37", "38", "39"],
+      value: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+      ],
     };
   },
   methods: {
