@@ -71,7 +71,6 @@ const UserStore = {
         },
         async setLoginUser({ commit }, user) {
             const API_URI = `${REST_API}/user/login`;
-            console.log(1)
             await axios({
                 url: API_URI,
                 method: "post",
@@ -92,9 +91,11 @@ const UserStore = {
                         alert("가입되지 않은 계정입니다.");
                     else if (response.data.error.code == "PASSWORD_NOT_MATCHED")
                         alert("잘못된 비밀번호입니다.");
+                    else
+                        alert("로그인에 실패했습니다.");
                 }
             }).catch(() => {
-                alert("로그인");
+                alert("로그인에 실패했습니다.");
             });
         },
         async tokenRegeneration({ commit, state }) {
@@ -110,8 +111,8 @@ const UserStore = {
                     sessionStorage.setItem("access-token", accessToken);
                     commit("SET_IS_VALID_TOKEN", true);
                 }
-            }).catch((error) => {
-                if (error.response.data.status === 401) {
+            }).catch(() => {
+                // if (error.data.error === "UN_AUTHENTICATED") {
                     const API_URI_E = `${REST_API}/user/logout/${state.user.id}`;
                     axios({
                         url: API_URI_E,
@@ -131,12 +132,11 @@ const UserStore = {
                         commit("SET_IS_LOGIN", false);
                         commit("SET_USER", null);
                     });
-                }
+                // }
             });
         },
         async getUser({ commit, dispatch }, token) {
             let decodeToken = jwtDecode(token);
-            console.log(4);
             axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
             const API_URI = `${REST_API}/user/${decodeToken.userid}`;
             await axios({
