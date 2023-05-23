@@ -103,12 +103,31 @@ export default {
         this.updateUser(modUser);
       }
     },
-    dupCheckNickname() {
-      if (this.user.nickname == "") alert("닉네임을 작성해주세요!");
-      else this.dupNicknameCheck(this.user.nickname);
+    computed: {
+        ...mapState(UserStore, ["user"]),
     },
-  },
-};
+    methods: {
+        ...mapActions(UserStore, ["updateUser", "dupNicknameCheck"]),
+        userModify() {
+            if(this.user.nickname == "")
+                alert("빈 칸이 있습니다!");
+            else {
+                let modUser = {
+                    id: this.user.id, 
+                    email: this.user.email,
+                    nickname: this.user.nickname,
+                };
+                this.updateUser(modUser);
+            }
+        },
+        dupCheckNickname() {
+            if(this.user.nickname == "")
+                alert("닉네임을 작성해주세요!");
+            else
+                this.dupNicknameCheck(this.user.nickname);
+        },
+    },
+}
 </script>
 
 <style>

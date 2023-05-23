@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const UserStore = "UserStore";
 
@@ -83,8 +83,8 @@ export default {
     'active'
   ],
   methods: {
-    ...mapActions(UserStore, ["setLoginUser"]),
-    login() {
+    ...mapActions(UserStore, ["setLoginUser", "getUser"]),
+    async login() {
       if(this.useremail == "" || this.userpwd == "" || this.useremail == null || this.userpwd == null)
         alert("모든 항목을 작성해 주세요");
       else
@@ -93,12 +93,22 @@ export default {
           email: this.useremail,
           password: this.userpwd,
         };
-        this.setLoginUser(user);
+        await this.setLoginUser(user);
+        console.log(2)
+        let token = sessionStorage.getItem("access-token");
+        if (this.isLogin) {
+          console.log(3)
+          await this.getUser(token);
+          this.$router.push({ name: "home" });
+        }
       }
     },
     goToRegist() {
       this.$router.push({ name: "register" });
     }
+  },
+  computed: {
+    ...mapState(UserStore, ["isLogin", "isLoginError", "user"]),
   },
 };
 </script>

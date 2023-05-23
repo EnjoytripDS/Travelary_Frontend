@@ -146,7 +146,7 @@ export default {
 .user-reg-note-row {
   font-size: 13px;
   margin-left: 35px;
-  color: red;
+  color: blue;
 }
 
 .reg-dup-check {
