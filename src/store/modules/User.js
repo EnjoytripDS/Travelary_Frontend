@@ -71,7 +71,6 @@ const UserStore = {
         },
         async setLoginUser({ commit }, user) {
             const API_URI = `${REST_API}/user/login`;
-            console.log(1)
             await axios({
                 url: API_URI,
                 method: "post",
@@ -136,7 +135,6 @@ const UserStore = {
         },
         async getUser({ commit, dispatch }, token) {
             let decodeToken = jwtDecode(token);
-            console.log(4);
             axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
             const API_URI = `${REST_API}/user/${decodeToken.userid}`;
             await axios({

@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import axios from "axios";
 import router from "@/router";
 
+import UserStore from "@/store/modules/User";
+
 Vue.use(Vuex);
 
 const REST_API = "http://localhost:9999/api/v1";
@@ -45,13 +47,22 @@ const QnaBoardStore = {
         alert("모든 항목을 작성해주세요");
       });
     },
-    getQnaBoards({ commit }) {
+    async getQnaBoards({ commit }) {
       const API_URI = `${REST_API}/qna-board`;
-      axios({
+      await axios({
         url: API_URI,
         method: "get",
+        headers: {
+          "access-token": sessionStorage.getItem("access-token")
+        }
       }).then((res) => {
-        commit("GET_QNA_BOARDS", res.data);
+        if (res.data.success == true)
+          commit("GET_QNA_BOARDS", res.data.data);
+        else
+          alert("리스트를 불러올 수 없습니다");
+      }).catch(() => {
+        UserStore.commit("SET_IS_VALID_TOKEN", false);
+        UserStore.dispatch("UserStore/tokenRegeneration");
       });
     },
     searchQnaBoards({ commit }, payload) {
