@@ -45,24 +45,23 @@
         <v-stepper-content step="3">
           <trip-title-banner></trip-title-banner>
           <v-row class="content-padding">
-            <v-col cols="3"> <attraction-list></attraction-list></v-col>
-            <v-col cols="9">
+            <v-col cols="4"> <attraction-list></attraction-list></v-col>
+            <v-col cols="8">
               <v-card>
                 <v-tabs v-model="tab" background-color="deep-purple accent-4" centered dark icons-and-text>
                   <v-tabs-slider></v-tabs-slider>
-
                   <v-tab href="#tab-1">
-                    Recents
+                    1일차
                     <v-icon>mdi-phone</v-icon>
                   </v-tab>
 
                   <v-tab href="#tab-2">
-                    Favorites
+                    2일차
                     <v-icon>mdi-heart</v-icon>
                   </v-tab>
 
                   <v-tab href="#tab-3">
-                    Nearby
+                    3일차
                     <v-icon>mdi-account-box</v-icon>
                   </v-tab>
                 </v-tabs>
