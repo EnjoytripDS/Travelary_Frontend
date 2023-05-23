@@ -11,33 +11,40 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <trip-title-banner></trip-title-banner>
+          <v-row>
+            <trip-title-banner></trip-title-banner>
+          </v-row>
           <v-row>
             <v-col>
-              <v-text-field v-model="trip.tripName" filled label="Name"></v-text-field>
+              <v-text-field v-model="trip.tripName" filled label="여행 제목"></v-text-field>
             </v-col>
           </v-row>
-          <trip-info-form></trip-info-form>
+          <v-row>
+            <trip-info-form></trip-info-form>
+          </v-row>
           <v-btn color="primary" @click="e1 = 2"> 다음 단계 </v-btn>
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <trip-title-banner></trip-title-banner>
-          <v-col cols="4">
-            <search-attraction margin="0"></search-attraction>
-          </v-col>
-          <v-col cols="8">
-            <the-kakao-map :attractions="attractions"></the-kakao-map>
-          </v-col>
-
+          <v-row>
+            <trip-title-banner></trip-title-banner>
+          </v-row>
+          <v-row class="content-padding">
+            <v-col cols="4">
+              <search-attraction margin="0"></search-attraction>
+            </v-col>
+            <v-col cols="8">
+              <the-kakao-map :attractions="attractions"></the-kakao-map>
+            </v-col>
+          </v-row>
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <trip-title-banner></trip-title-banner>
-          <v-row>
+          <v-row class="content-padding">
             <v-col cols="3"> <attraction-list></attraction-list></v-col>
             <v-col cols="9">
               <v-card>
@@ -121,4 +128,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.content-padding {
+  padding-top: 40px;
+}
+</style>
