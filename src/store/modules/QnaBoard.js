@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import router from "@/router";
 
-import UserStore from "@/store/modules/User";
+import Store from "@/store";
 
 Vue.use(Vuex);
 
@@ -49,11 +49,12 @@ const QnaBoardStore = {
     },
     async getQnaBoards({ commit }) {
       const API_URI = `${REST_API}/qna-board`;
+      const accessToken = sessionStorage.getItem("access-token");
       await axios({
         url: API_URI,
         method: "get",
         headers: {
-          "access-token": sessionStorage.getItem("access-token")
+          "Authorization": `Bearer ${accessToken}`
         }
       }).then((res) => {
         if (res.data.success == true)
@@ -61,8 +62,9 @@ const QnaBoardStore = {
         else
           alert("리스트를 불러올 수 없습니다");
       }).catch(() => {
-        UserStore.commit("SET_IS_VALID_TOKEN", false);
-        UserStore.dispatch("UserStore/tokenRegeneration");
+        console.log(3);
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
       });
     },
     searchQnaBoards({ commit }, payload) {
