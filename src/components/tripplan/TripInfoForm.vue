@@ -1,57 +1,17 @@
 <template>
   <v-container>
     <v-row>
-      <v-img height="200" src="@/assets/image/tripimage.jpg">
-        <v-col class="text-right" cols="12">
-          <v-menu bottom left transition="slide-y-transition"> </v-menu>
-        </v-col>
-        <v-row class="pa-4" justify="center">
-          <v-col class="text-center">
-            <h1 class="text-h3">
-              {{ name }}
-            </h1>
-          </v-col>
-        </v-row>
-      </v-img>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-text-field v-model="name" filled label="Name"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="6">
         <v-date-picker v-model="dates" range full-width></v-date-picker>
       </v-col>
       <v-col cols="6">
-        <v-text-field
-          v-model="dateRangeText"
-          label="여행 기간"
-          prepend-icon="mdi-calendar"
-          readonly
-        ></v-text-field>
+        <v-text-field v-model="dateRangeText" label="여행 기간" prepend-icon="mdi-calendar" readonly></v-text-field>
       </v-col>
     </v-row>
     <v-col>
-      <v-autocomplete
-        v-model="friends"
-        :items="people"
-        filled
-        chips
-        color="blue-grey lighten-2"
-        label="Select"
-        item-text="name"
-        item-value="name"
-        multiple
-      >
+      <v-autocomplete v-model="friends" :items="people" filled chips color="blue-grey lighten-2" label="Select" item-text="name" item-value="name" multiple>
         <template v-slot:selection="data">
-          <v-chip
-            v-bind="data.attrs"
-            :input-value="data.selected"
-            close
-            @click="data.select"
-            @click:close="remove(data.item)"
-          >
+          <v-chip v-bind="data.attrs" :input-value="data.selected" close @click="data.select" @click:close="remove(data.item)">
             <v-avatar left>
               <v-img :src="data.item.avatar"></v-img>
             </v-avatar>
@@ -68,9 +28,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-html="data.item.name"></v-list-item-title>
-              <v-list-item-subtitle
-                v-html="data.item.group"
-              ></v-list-item-subtitle>
+              <v-list-item-subtitle v-html="data.item.group"></v-list-item-subtitle>
             </v-list-item-content>
           </template>
         </template>
