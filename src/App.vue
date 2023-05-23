@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="travelary">
     <the-header />
     <v-main>
       <router-view />
@@ -21,5 +21,9 @@ export default {
 @font-face {
   font-family: "line-seed";
   src: url("@/assets/fonts/LINESeedKR-Rg.ttf");
+}
+
+#travelary {
+  font-family: "line-seed";
 }
 </style>
