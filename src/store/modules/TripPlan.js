@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import qs from "qs";
 
 Vue.use(Vuex);
 const REST_API = "http://localhost:9999/api/v1";
@@ -19,9 +20,6 @@ const TripPlanStore = {
       state.guguns = [];
       state.guguns.push({ value: 0, text: "전체 구/군" });
       guguns.forEach((gugun) => {
-        // console.log(gugun);
-        // console.log(gugun.gugunCode);
-        // console.log(gugun.gugunName);
         state.guguns.push({
           value: gugun.gugunCode,
           text: gugun.gugunName,
@@ -36,9 +34,36 @@ const TripPlanStore = {
       axios({
         url: API_URI,
         method: "get",
-      }).then((res) => {
-        commit("SET_GUGUN_LIST", res.data.data);
-      });
+      })
+        .then((res) => {
+          commit("SET_GUGUN_LIST", res.data.data);
+        })
+        .catch((err) => {
+          console.log("ERROR!!: " + err);
+        });
+    },
+    searchAttractions({ commit }, searchConditions) {
+      const API_URI = `${REST_API}/search`;
+      axios({
+        url: API_URI,
+        method: "get",
+        params: {
+          contentTypeId: searchConditions.contentTypeId,
+          sidoCode: searchConditions.sidoCode,
+          gugunCode: searchConditions.gugunCode,
+          keyword: searchConditions.keyword,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params);
+        },
+      })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("ERROR!!: " + err);
+        });
+      commit("SEARCH_ATTRACTIONS", searchConditions);
     },
   },
   modules: {},

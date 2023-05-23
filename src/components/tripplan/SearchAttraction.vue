@@ -10,7 +10,6 @@
             label="시/도"
             prepend-icon="mdi-map"
             solo
-            @change="changeSido"
           ></v-select>
         </v-col>
         <v-col cols="6">
@@ -25,8 +24,8 @@
       <v-row>
         <v-col>
           <v-select
-            v-model="value"
-            :items="items"
+            v-model="contentTypeList"
+            :items="contentItems"
             chips
             label="관광지 유형"
             multiple
@@ -44,7 +43,7 @@
           ></v-text-field>
         </v-col>
         <v-col cols="2">
-          <v-btn icon @click="$refs.search.focus()" style="color: darkblue">
+          <v-btn icon @click="search" style="color: darkblue">
             <v-icon large>mdi-magnify</v-icon>
           </v-btn>
         </v-col>
@@ -85,18 +84,18 @@
 
 <script>
 import TripPlanStore from "@/store/modules/TripPlan";
-// import SelectSido from "./item/SelectSido.vue";
 import { mapActions } from "vuex";
 export default {
-  components: {
-    // SelectSido,
-  },
+  components: {},
   data: () => ({
     drawer: true,
     mini: true,
     active: true,
     sidoCode: "",
     gugunCode: "",
+    contentTypeList: [],
+    keyword: "",
+
     sidoItems: [
       { text: "전체 ", value: "0" },
       { text: "서울", value: "1" },
@@ -117,34 +116,42 @@ export default {
       { text: "전라남도", value: "38" },
       { text: "제주도", value: "39" },
     ],
-    items: [
+    contentItems: [
       {
         text: "관광지",
+        value: "12",
       },
       {
         text: "문화시설",
+        value: "14",
       },
       {
         text: "축제공연행사",
+        value: "15",
       },
       {
         text: "여행코스",
+        value: "25",
       },
       {
         text: "레포츠",
+        value: "28",
       },
       {
         text: "숙박",
+        value: "32",
       },
       {
         text: "쇼핑",
+        value: "38",
       },
       {
         text: "음식점",
+        value: "39",
       },
     ],
     loading: false,
-    search: "",
+    // search: "",
     selected: [],
   }),
 
@@ -152,6 +159,8 @@ export default {
     gugunItems() {
       return this.$store.state.TripPlanStore.guguns;
     },
+
+    //
     allSelected() {
       return this.selected.length === this.items.length;
     },
@@ -191,15 +200,15 @@ export default {
   },
 
   methods: {
-    //
-    next() {
-      this.loading = true;
+    search() {
+      let searchConditions = {
+        sidoCode: this.sidoCode,
+        gugunCode: this.gugunCode,
+        contentTypeId: this.contentTypeList,
+        keyword: this.keyword,
+      };
 
-      setTimeout(() => {
-        this.search = "";
-        this.selected = [];
-        this.loading = false;
-      }, 2000);
+      this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
     },
   },
 };
