@@ -21,7 +21,7 @@
               <v-col cols="3"/>
               <v-col cols="1">작성자 </v-col>
               <v-col cols="3">
-                <v-text-field :counter="50" label="작성자" name="nickname" required v-model="nickname" maxlength="20"></v-text-field> <!-- readonly 해야 함 -->
+                <v-text-field :counter="20" label="작성자" name="nickname" readonly required v-model="user.nickname" maxlength="20"></v-text-field>
               </v-col>
             </v-row>
             <v-row class="qna-board-create-infor-row">
@@ -54,16 +54,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 const QnaBoardStore = "QnaBoardStore";
+const UserStore = "UserStore";
 
 export default {
   name: "QnaBoardCreate",
   data() {
     return {
       title: "",
-      nickname: "",
       content: "",
     };
   },
@@ -74,9 +74,14 @@ export default {
     // qna 게시글 등록
     ...mapActions(QnaBoardStore, ["createQnaBoard"]),
     createQna() {
+      if(this.title == "" || this.content == "")
+      {
+        alert("빈 칸 없이 작성해 주세요");
+        return;
+      }
       let qnaBoard = {
         title: this.title,
-        nickname: this.nickname,
+        nickname: this.user.nickname,
         content: this.content,
       };
       this.createQnaBoard(qnaBoard);
@@ -85,6 +90,9 @@ export default {
     cancel() {
       this.$router.push({ name: "qnaboard-list" });
     },
+  },
+  computed: {
+    ...mapState(UserStore, ["user"]),
   },
 };
 </script>

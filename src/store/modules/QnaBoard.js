@@ -34,8 +34,9 @@ const QnaBoardStore = {
     },
   },
   actions: {
-    async createQnaBoard({commit}, qnaBoard) {
+    async createQnaBoard({ commit }, qnaBoard) {
       const API_URI = `${REST_API}/qna-board`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       await axios({
         url: API_URI,
         method: "post",
@@ -49,20 +50,16 @@ const QnaBoardStore = {
     },
     async getQnaBoards({ commit }) {
       const API_URI = `${REST_API}/qna-board`;
-      const accessToken = sessionStorage.getItem("access-token");
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       await axios({
         url: API_URI,
         method: "get",
-        headers: {
-          "Authorization": `Bearer ${accessToken}`
-        }
       }).then((res) => {
         if (res.data.success == true)
           commit("GET_QNA_BOARDS", res.data.data);
         else
           alert("리스트를 불러올 수 없습니다");
       }).catch(() => {
-        console.log(3);
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");
       });

@@ -109,8 +109,8 @@ const UserStore = {
                     sessionStorage.setItem("access-token", accessToken);
                     commit("SET_IS_VALID_TOKEN", true);
                 }
-            }).catch((error) => {
-                if (error.response.data.status === 401) {
+            }).catch(() => {
+                // if (error.data.error === "UN_AUTHENTICATED") {
                     const API_URI_E = `${REST_API}/user/logout/${state.user.id}`;
                     axios({
                         url: API_URI_E,
@@ -130,7 +130,7 @@ const UserStore = {
                         commit("SET_IS_LOGIN", false);
                         commit("SET_USER", null);
                     });
-                }
+                // }
             });
         },
         async getUser({ commit, dispatch }, token) {
