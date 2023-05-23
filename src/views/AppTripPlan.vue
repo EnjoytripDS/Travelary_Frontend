@@ -54,7 +54,7 @@
           <trip-title-banner></trip-title-banner>
           <v-row class="content-padding">
             <v-col cols="4"> <attraction-list></attraction-list></v-col>
-            <v-col cols="8">
+            <!-- <v-col cols="8">
               <v-card>
                 <v-tabs
                   v-model="tab"
@@ -88,7 +88,7 @@
                   </v-tab-item>
                 </v-tabs-items>
               </v-card>
-            </v-col>
+            </v-col> -->
           </v-row>
 
           <v-btn color="primary" @click="e1 = 1"> 여행 만들기! </v-btn>
@@ -103,7 +103,7 @@
 <script>
 import TheKakaoMap from "@/components/TheKakaoMap.vue";
 import SearchAttraction from "@/components/tripplan/SearchAttraction.vue";
-import TripTimeline from "@/components/tripplan/TripTimeline.vue";
+// import TripTimeline from "@/components/tripplan/TripTimeline.vue";
 import AttractionList from "@/components/tripplan/AttractionList.vue";
 import TripInfoForm from "@/components/tripplan/TripInfoForm.vue";
 import TripTitleBanner from "@/components/tripplan/TripTitleBanner.vue";
@@ -117,7 +117,7 @@ export default {
   components: {
     TheKakaoMap,
     SearchAttraction,
-    TripTimeline,
+    // TripTimeline,
     AttractionList,
     TripInfoForm,
     TripTitleBanner,
