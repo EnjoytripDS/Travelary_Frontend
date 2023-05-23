@@ -4,6 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 
 import QnaBoardStore from "@/store/modules/QnaBoard";
 import UserStore from "@/store/modules/User";
+import TripPlanStore from "@/store/modules/TripPlan";
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
   modules: {
     QnaBoardStore,
     UserStore,
+    TripPlanStore,
   },
   plugins: [
     createPersistedState({
@@ -19,16 +21,8 @@ export default new Vuex.Store({
       paths: ["UserStore"],
     }),
   ],
-  state: {
-
-  },
-  mutations: {
-
-  },
-  actions: {
-
-  },
-  getters: {
-
-  },
+  state: {},
+  mutations: {},
+  actions: {},
+  getters: {},
 });

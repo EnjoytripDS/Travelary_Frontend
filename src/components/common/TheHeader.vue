@@ -2,16 +2,40 @@
   <v-container>
     <v-card dense white>
       <ul class="menu">
-        <li class="logo"> 
+        <li class="logo">
           <router-link :to="{ name: 'home' }">
-            <v-img src="@/assets/logo.png" max-height="100" max-width="100"/>
+            <v-img src="@/assets/logo.png" max-height="100" max-width="100" />
           </router-link>
         </li>
         <li class="menu-nav">
-          <router-link :to="{ name: 'home' }" class="link" :class="{ active: isActiveRoute('home') }"> 홈 </router-link>
-          <router-link :to="{ name: 'trip-plan' }" class="link" :class="{ active: isActiveRoute('trip-plan') }"> 여행 생성 </router-link>
-          <router-link :to="{ name: 'trips' }" class="link" :class="{ active: isActiveRoute('trips') }"> 내 여행 </router-link>
-          <router-link :to="{ name: 'qnaboard' }" class="link" :class="{ active: isActiveRoute('qnaboard') }"> Q&A </router-link>
+          <router-link
+            :to="{ name: 'home' }"
+            class="link"
+            :class="{ active: isActiveRoute('home') }"
+          >
+            홈
+          </router-link>
+          <router-link
+            :to="{ name: 'trip-plan' }"
+            class="link"
+            :class="{ active: isActiveRoute('trip-plan') }"
+          >
+            여행 생성
+          </router-link>
+          <router-link
+            :to="{ name: 'trips' }"
+            class="link"
+            :class="{ active: isActiveRoute('trips') }"
+          >
+            내 여행
+          </router-link>
+          <router-link
+            :to="{ name: 'qnaboard' }"
+            class="link"
+            :class="{ active: isActiveRoute('qnaboard') }"
+          >
+            Q&A
+          </router-link>
         </li>
         <li class="menu-buttons">
           <template v-if="user">
@@ -21,24 +45,26 @@
                   <v-icon>mdi-account-box</v-icon>
                 </v-btn>
               </template>
-                <v-list>
-                  <v-list-item @click="toMyPage">
-                    <v-list-item-icon>
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>마이 페이지</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item @click="toLogout">
-                    <v-list-item-icon>
-                      <v-icon>mdi-logout</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>로그아웃</v-list-item-title>
-                  </v-list-item>
-                </v-list>
+              <v-list>
+                <v-list-item @click="toMyPage">
+                  <v-list-item-icon>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>마이 페이지</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="toLogout">
+                  <v-list-item-icon>
+                    <v-icon>mdi-logout</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>로그아웃</v-list-item-title>
+                </v-list-item>
+              </v-list>
             </v-menu>
           </template>
           <template v-else>
-            <v-btn @click="toLogin" class="loginbutton" color="blue"> Log In </v-btn>
+            <v-btn @click="toLogin" class="loginbutton" color="blue">
+              Log In
+            </v-btn>
             <v-btn @click="toRegist" class="registbutton"> 회원 가입 </v-btn>
           </template>
         </li>
@@ -55,19 +81,22 @@ const UserStore = "UserStore";
 export default {
   name: "TheHeader",
   data() {
-    return {
-
-    };
+    return {};
   },
-  props: [
-    'active'
-  ],
+  props: ["active"],
   methods: {
     ...mapActions(UserStore, ["logout"]),
     isActiveRoute(routeName) {
-      if(routeName === "home" && (this.$route.name === "users" || this.$route.matched.some((route) => route.name === "users")))
+      if (
+        routeName === "home" &&
+        (this.$route.name === "users" ||
+          this.$route.matched.some((route) => route.name === "users"))
+      )
         return true;
-      return this.$route.name === routeName || this.$route.matched.some((route) => route.name === routeName);
+      return (
+        this.$route.name === routeName ||
+        this.$route.matched.some((route) => route.name === routeName)
+      );
     },
     toLogin() {
       this.$router.push({ name: "login" }).catch(() => {}); // 로그인 경로로 이동
@@ -114,9 +143,9 @@ ul.menu li {
 
 .menu-nav {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   align-items: flex-end;
-  font-family: 'line-seed';
+  font-family: "line-seed";
 }
 
 .loginbutton {
