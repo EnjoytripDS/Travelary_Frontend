@@ -13,6 +13,7 @@ const TripPlanStore = {
     trip: {
       tripName: "",
     },
+    searchResult: [],
   },
   getters: {},
   mutations: {
@@ -25,6 +26,10 @@ const TripPlanStore = {
           text: gugun.gugunName,
         });
       });
+    },
+    SEARCH_ATTRACTIONS(state, result) {
+      console.log(result);
+      state.searchResult = result;
     },
   },
   actions: {
@@ -58,12 +63,11 @@ const TripPlanStore = {
         },
       })
         .then((res) => {
-          console.log(res.data);
+          commit("SEARCH_ATTRACTIONS", res.data);
         })
         .catch((err) => {
           console.log("ERROR!!: " + err);
         });
-      commit("SEARCH_ATTRACTIONS", searchConditions);
     },
   },
   modules: {},
