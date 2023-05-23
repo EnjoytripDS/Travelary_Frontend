@@ -72,19 +72,16 @@ export default {
         }
     },
     computed: {
-        ...mapState(UserStore, ["userId", "user"]),
-    },
-    created() {
-        this.getUser(this.userId);
+        ...mapState(UserStore, ["user"]),
     },
     methods: {
-        ...mapActions(UserStore, ["getUser", "updateUser", "dupNicknameCheck"]),
+        ...mapActions(UserStore, ["updateUser", "dupNicknameCheck"]),
         userModify() {
             if(this.user.nickname == "")
                 alert("빈 칸이 있습니다!");
             else {
                 let modUser = {
-                    id: this.userId, 
+                    id: this.user.id, 
                     email: this.user.email,
                     nickname: this.user.nickname,
                 };

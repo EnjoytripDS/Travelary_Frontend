@@ -3,7 +3,26 @@ import VueRouter from "vue-router";
 import AppHome from "@/views/AppHome";
 import AppTripList from "@/views/AppTripList";
 
+import store from "@/store";
+
 Vue.use(VueRouter);
+
+
+const onlyAuthUser = async (to, from, next) => {
+  const checkUserInfo = store.getters["UserStore/checkUserInfo"];
+  const checkToken = store.getters["UserStore/checkToken"];
+  let token = sessionStorage.getItem("access-token");
+
+  if (checkUserInfo != null && token) {
+    await store.dispatch("UserStore/getUser", token);
+  }
+  if (!checkToken || checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다");
+    router.push({ name: "login" });
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -35,11 +54,13 @@ const routes = [
       {
         path: "create",
         name: "qnaboard-create",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "qnaboard" */ "@/components/qnaboard/QnaBoardCreate"),
       },
       {
         path: "update",
         name: "qnaboard-update",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "qnaboard" */ "@/components/qnaboard/QnaBoardUpdate"),
       },
       {
@@ -79,16 +100,19 @@ const routes = [
           {
             path: "info",
             name: "mypage-info",
+            beforeEnter: onlyAuthUser,
             component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageInfo")
           },
           {
             path: "change-pwd",
             name: "mypage-change-pwd",
+            beforeEnter: onlyAuthUser,
             component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageChangePwd")
           },
           {
             path: "dropout",
             name: "mypage-dropout",
+            beforeEnter: onlyAuthUser,
             component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/mypage/MyPageDropOut")
           },
         ],
