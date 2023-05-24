@@ -53,10 +53,10 @@
             <v-col cols="8">
               <v-card>
                 <v-tabs color="deep-purple accent-4" right>
-                  <v-tab>Landscape</v-tab>
-                  <v-tab>City</v-tab>
-                  <v-tab>Abstract</v-tab>
-
+                  <!--v-row로 일자 index // 일주일 넘어가면... 몰루..(예외처리 안함)-->
+                  <v-row v-for="(n, index) in calNumberOfDays" :key="index">
+                    <v-tab>{{ index + 1 }}일차</v-tab>
+                  </v-row>
                   <v-tab-item v-for="n in 3" :key="n">
                     <v-container fluid>
                       <v-row>
@@ -91,9 +91,8 @@ import TripInfoForm from "@/components/tripplan/TripInfoForm.vue";
 import TripTitleBanner from "@/components/tripplan/TripTitleBanner.vue";
 import AttractionCardList from "@/components/tripplan/item/AttractionCardList.vue";
 
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
-const TripPlanStore = "TripPlanStore";
 export default {
   name: "AppTripPlan",
   components: {
@@ -116,7 +115,10 @@ export default {
     },
   },
   computed: {
-    ...mapState(TripPlanStore, ["trip"]),
+    ...mapState("TripPlanStore", ["trip"]),
+    ...mapGetters({
+      calNumberOfDays: "TripPlanStore/calNumberOfDays",
+    }),
   },
 };
 </script>
