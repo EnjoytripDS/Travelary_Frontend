@@ -11,6 +11,7 @@ const TripPlanStore = {
     guguns: [],
     sidoCode: "",
     tripDates: [],
+    selectedAttractions: [],
     trip: {
       tripName: "",
       tripFirstDate: "",
@@ -38,6 +39,13 @@ const TripPlanStore = {
     },
   },
   mutations: {
+    // ADD_DAY_ORDER_BY_ATTRACTION(state, attractionItem) {
+    //   let tripOrder = {
+
+    //   };
+
+    // },
+
     UPDATE_DATES(state, newDates) {
       if (newDates[0] > newDates[1]) {
         state.trip.tripFirstDate = newDates[1];
@@ -49,7 +57,7 @@ const TripPlanStore = {
       state.tripDates.splice(0, 1, newDates);
     },
     ADD_TRIP_ATTRACTION(state, attractionItem) {
-      state.trip.tripAttractions.push(attractionItem);
+      state.selectedAttractions.push(attractionItem);
     },
     SET_GUGUN_LIST(state, guguns) {
       state.guguns = [];
@@ -67,6 +75,11 @@ const TripPlanStore = {
     },
   },
   actions: {
+    addTimeLines({ commit }, attractionItem) {
+      commit;
+      // commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+      console.log(attractionItem);
+    },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);
     },

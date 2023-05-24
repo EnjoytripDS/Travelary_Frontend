@@ -56,11 +56,11 @@
           <v-row class="content-padding">
             <v-col cols="4">
               <h3>{{ step3ListTitle }}</h3>
-              <attraction-card-list
-                v-for="(tripAttr, index) in trip.tripAttractions"
+              <selected-attraction-card-list
+                v-for="(tripAttr, index) in selectedAttractions"
                 :key="index"
                 :attractionItem="tripAttr"
-              ></attraction-card-list
+              ></selected-attraction-card-list
             ></v-col>
             <v-col cols="8">
               <v-card>
@@ -95,8 +95,8 @@ import TheKakaoMap from "@/components/TheKakaoMap.vue";
 import SearchAttraction from "@/components/tripplan/SearchAttraction.vue";
 import TripInfoForm from "@/components/tripplan/TripInfoForm.vue";
 import TripTitleBanner from "@/components/tripplan/TripTitleBanner.vue";
-import AttractionCardList from "@/components/tripplan/item/AttractionCardList.vue";
 import TripTimeline from "@/components/tripplan/TripTimeline.vue";
+import SelectedAttractionCardList from "@/components/tripplan/item/SelectedAttractionCardList.vue";
 
 import { mapGetters, mapState } from "vuex";
 
@@ -107,8 +107,8 @@ export default {
     SearchAttraction,
     TripInfoForm,
     TripTitleBanner,
-    AttractionCardList,
     TripTimeline,
+    SelectedAttractionCardList,
   },
   data() {
     return {
@@ -123,7 +123,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("TripPlanStore", ["trip"]),
+    ...mapState("TripPlanStore", ["trip", "selectedAttractions"]),
     ...mapGetters({
       calNumberOfDays: "TripPlanStore/calNumberOfDays",
     }),
