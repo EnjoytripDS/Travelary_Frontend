@@ -20,9 +20,6 @@ const QnaBoardStore = {
   },
   getters: {},
   mutations: {
-    CREATE_QNA_BOARD(state, qnaBoard) {
-      state.qnaBoards.push(qnaBoard);
-    },
     SET_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
@@ -39,22 +36,35 @@ const QnaBoardStore = {
       state.qnaBoards = qnaBoards;
     },
     SET_BOARD_COMMENTS(state, boardComments) {
+      state.boardComments.length = 0;
       boardComments.forEach((item) => {
         state.boardComments.push({ boardComment: item, inUpdate: 0 });
       });
     },
   },
   actions: {
-    async createQnaBoard({ commit }, qnaBoard) {
+    async createQnaBoard({ dispatch }, qnaBoard) {
       const API_URI = `${REST_API}/qna-board`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      let req = {
+        title: qnaBoard.title,
+        nickname: qnaBoard.nickname,
+        content: qnaBoard.content,
+      }
       await axios({
         url: API_URI,
         method: "post",
-        data: qnaBoard,
+        data: req,
       }).then((res) => {
-        if (res.data.success == true)
-          commit("CREATE_QNA_BOARD", qnaBoard);
+        if (res.data.success == true) {
+          if(qnaBoard.uploadFile != null) {
+              let uploadReq = {
+                uploadFile: qnaBoard.uploadFile,
+                id: res.data.data,
+              };
+              dispatch("uploadBoardImage", uploadReq);
+          }
+        }
         else
           alert("작성 실패");
         router.push("/qna-board");
@@ -229,6 +239,27 @@ const QnaBoardStore = {
         Store.dispatch("UserStore/tokenRegeneration");
       });
     },
+    uploadBoardImage({ commit }, uploadReq) {
+      const API_URI = `${REST_API}/qna-board/${uploadReq.id}/image`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      var formData = new FormData();
+      for(let i = 0; i < uploadReq.uploadFile.length; i++) {
+        formData.append("uploadFile", uploadReq.uploadFile[i]);
+      }
+      axios({
+        url: API_URI,
+        method: "post",
+        data: formData,
+      }).then((res) => {
+        if (res.data.success == true)
+          commit;
+        else
+          alert("파일을 업로드 할 수 없습니다!");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    }
   },
   modules: {},
 };

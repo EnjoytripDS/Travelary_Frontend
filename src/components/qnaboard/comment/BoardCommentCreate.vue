@@ -50,7 +50,6 @@ export default {
                 nickname: this.user.nickname,
                 content: this.content,
             }
-            this.boardComments.length = 0;
             this.createBoardComment(boardComment);
             this.content = "";
         },

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="qnalist">
-      <v-card-title> Q&A 게시판 </v-card-title>
+      <v-card-title> 여행 후기 게시판 </v-card-title>
       <v-data-table :headers="headers" :items="qnaBoards" :items-per-page="10" :search="search">
         <template #item="{ item }">
           <tr>
