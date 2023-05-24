@@ -27,14 +27,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
   props: {
     attractionItem: Object,
   },
 
   methods: {
-    ...mapActions("TripPlanStore", ["addTimeLines"]),
+    addTimeLines(attractionItem) {
+      this.$store.dispatch("TripPlanStore/addTimeLines", attractionItem);
+      this.attraction = attractionItem; //////////////////////////////////////
+    },
   },
 };
 </script>

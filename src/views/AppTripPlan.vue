@@ -76,7 +76,10 @@
                     v-for="(n, index) in calNumberOfDays"
                     :key="index"
                   >
-                    <trip-timeline :day="index + 1"></trip-timeline>
+                    <trip-timeline
+                      :day="index + 1"
+                      @pushAttrByDay="pushAttrByDay"
+                    ></trip-timeline>
                   </v-tab-item>
                 </v-tabs>
               </v-card>
@@ -126,9 +129,13 @@ export default {
     focusDay(day) {
       this.$store.dispatch("TripPlanStore/focusDay", day);
     },
+    pushAttrByDay(attractionItem) {
+      console.log("pushAttraction");
+      console.log(attractionItem);
+    },
   },
   computed: {
-    ...mapState("TripPlanStore", ["trip", "selectedAttractions"]),
+    ...mapState("TripPlanStore", ["trip", "selectedAttractions", "focusDay"]),
     ...mapGetters({
       calNumberOfDays: "TripPlanStore/calNumberOfDays",
     }),
