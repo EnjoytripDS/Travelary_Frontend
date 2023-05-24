@@ -53,7 +53,7 @@ const TripPlanStore = {
         url: API_URI,
         method: "get",
         params: {
-          contentTypeId: searchConditions.contentTypeId,
+          contentTypeId: searchConditions.contentTypeId.join(","),
           sidoCode: searchConditions.sidoCode,
           gugunCode: searchConditions.gugunCode,
           keyword: searchConditions.keyword,
