@@ -4,43 +4,20 @@
     <v-col>
       <v-row>
         <v-col cols="6">
-          <v-select
-            :items="sidoItems"
-            v-model="sidoCode"
-            label="시/도"
-            prepend-icon="mdi-map"
-            solo
-          ></v-select>
+          <v-select :items="sidoItems" v-model="sidoCode" label="시/도" prepend-icon="mdi-map" solo></v-select>
         </v-col>
         <v-col cols="6">
-          <v-select
-            :items="gugunItems"
-            v-model="gugunCode"
-            label="구/군"
-            solo
-          ></v-select>
+          <v-select :items="gugunItems" v-model="gugunCode" label="구/군" solo></v-select>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-select
-            v-model="contentTypeList"
-            :items="contentItems"
-            chips
-            label="관광지 유형"
-            multiple
-            solo
-          ></v-select>
+          <v-select v-model="contentTypeList" :items="contentItems" chips label="관광지 유형" multiple solo></v-select>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="10">
-          <v-text-field
-            label="검색어를 입력해주세요"
-            placeholder="검색어"
-            solo
-            v-model="keyword"
-          ></v-text-field>
+          <v-text-field label="검색어를 입력해주세요" placeholder="검색어" solo v-model.trim="keyword"></v-text-field>
         </v-col>
         <v-col cols="2">
           <v-btn icon @click="search" style="color: darkblue">
@@ -50,38 +27,9 @@
       </v-row>
 
       <!-- 관광지 검색 결과 리스트-->
-      <!-- <v-row>
-        <tr v-for="result in searchResults" :key="result.title">
-          <td>{{ result.title }}</td>
-        </tr>
-      </v-row> -->
-      <v-row>
+      <v-row class="scroll-container">
         <v-col padding="0">
-          <v-virtual-scroll :items="items" :item-height="380" height="800">
-            <v-card
-              v-for="(result, index) in items"
-              :key="index"
-              class="mx-auto"
-              max-height="350"
-              max-width="500"
-            >
-              <v-img :src="result.firstImage" height="160px" cover></v-img>
-
-              <v-card-title> {{ result.title }}</v-card-title>
-
-              <v-card-subtitle>{{ result.addr1 }}</v-card-subtitle>
-
-              <v-card-actions>
-                <v-btn color="orange-lighten-2" variant="text"> DETAILS </v-btn>
-
-                <v-spacer></v-spacer>
-
-                <v-btn class="sx-2" fab dark color="indigo">
-                  <v-icon dark> mdi-plus </v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-virtual-scroll>
+          <attraction-card-list v-for="(item, index) in items" :key="index" :attractionItem="item"></attraction-card-list>
         </v-col>
       </v-row>
     </v-col>
@@ -91,9 +39,12 @@
 
 <script>
 import TripPlanStore from "@/store/modules/TripPlan";
+import AttractionCardList from "./item/AttractionCardList.vue";
 import { mapActions, mapState } from "vuex";
 export default {
-  components: {},
+  components: {
+    AttractionCardList,
+  },
   data: () => ({
     // drawer: true,
     // mini: true,
@@ -102,7 +53,6 @@ export default {
     gugunCode: "",
     contentTypeList: [],
     keyword: "",
-    searchTest: [],
 
     sidoItems: [
       { text: "전체 ", value: "0" },
@@ -175,7 +125,7 @@ export default {
       return this.searchResults;
     },
     length() {
-      return this.searchResults.length; // 50개 보여주기..
+      return this.searchResults.length; // 검색한 관광지 수만큼 보여주기
     },
 
     //
@@ -225,6 +175,11 @@ export default {
         contentTypeId: this.contentTypeList,
         keyword: this.keyword,
       };
+      if (!this.keyword) {
+        if (confirm("검색어 없이 검색하시겠습니까?")) {
+          this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
+        }
+      }
 
       this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
     },
@@ -232,4 +187,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.scroll-container {
+  max-height: 800px; /* 원하는 높이로 설정 */
+  overflow-y: auto; /* 수직 스크롤 활성화 */
+}
+</style>

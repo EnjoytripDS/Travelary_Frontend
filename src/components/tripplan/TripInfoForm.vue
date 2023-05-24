@@ -14,11 +14,16 @@
 export default {
   data() {
     return {
-      dates: ["2023-05-26"],
+      dates: [],
     };
   },
 
-  watch: {},
+  watch: {
+    dates(newDates) {
+      // console.log(newDates);
+      this.$store.commit("TripPlanStore/UPDATE_DATES", newDates);
+    },
+  },
 
   methods: {},
   computed: {
