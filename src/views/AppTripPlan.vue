@@ -40,10 +40,16 @@
           </v-row>
           <v-row class="content-padding">
             <v-col cols="4">
-              <search-attraction margin="0"></search-attraction>
+              <search-attraction
+                margin="0"
+                @showOnMap="showOnMap"
+              ></search-attraction>
             </v-col>
             <v-col cols="8">
-              <the-kakao-map :attractions="attractions"></the-kakao-map>
+              <the-kakao-map
+                :attractions="attractions"
+                :options="mapOption"
+              ></the-kakao-map>
             </v-col>
           </v-row>
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
@@ -117,12 +123,26 @@ export default {
   },
   data() {
     return {
+      mapOption: {
+        center: {
+          lat: 33.450701,
+          lng: 126.570667,
+        },
+        level: 7,
+      },
       attractions: [],
       e1: 1,
       step3ListTitle: "선택한 관광지",
     };
   },
   methods: {
+    showOnMap(attractionItem) {
+      console.log("찍었을 때 이제 AppTripPlan.vue까지 옴");
+      console.log(attractionItem.latitude);
+      console.log(attractionItem.longitude);
+      this.mapOption.center.lat = attractionItem.latitude;
+      this.mapOption.center.lat = attractionItem.longitude;
+    },
     clickFirstBtn() {
       this.e1 = 2;
     },

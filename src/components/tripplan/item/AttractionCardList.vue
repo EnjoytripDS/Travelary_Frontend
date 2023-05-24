@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <v-card class="mx-auto" max-height="350" max-width="500">
+    <v-card
+      class="mx-auto"
+      max-height="350"
+      max-width="500"
+      @click="showOnMap(attractionItem)"
+    >
       <v-img :src="attractionItem.firstImage" height="160px" cover></v-img>
 
       <v-card-title> {{ attractionItem.title }}</v-card-title>
@@ -34,6 +39,9 @@ export default {
   },
   methods: {
     ...mapActions("TripPlanStore", ["addPlan"]),
+    showOnMap(attractionItem) {
+      this.$emit("showOnMap", attractionItem);
+    },
   },
 };
 </script>

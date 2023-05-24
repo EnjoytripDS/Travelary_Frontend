@@ -8,6 +8,7 @@
 export default {
   name: "KakaoMap",
   components: {},
+
   data() {
     return {
       map: null,
@@ -17,6 +18,7 @@ export default {
   },
   props: {
     attractions: [],
+    options: Object,
   },
   watch: {},
   created() {},
@@ -41,10 +43,7 @@ export default {
     // 맵 출력하기
     loadMap() {
       const container = document.getElementById("map");
-      const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
+      const options = this.options;
 
       this.map = new window.kakao.maps.Map(container, options);
       //   this.loadMaker();
@@ -76,7 +75,10 @@ export default {
 
       // 4. 지도를 이동시켜주기
       // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
-      const bounds = this.positions.reduce((bounds, position) => bounds.extend(position.latlng), new kakao.maps.LatLngBounds());
+      const bounds = this.positions.reduce(
+        (bounds, position) => bounds.extend(position.latlng),
+        new kakao.maps.LatLngBounds()
+      );
 
       this.map.setBounds(bounds);
     },
