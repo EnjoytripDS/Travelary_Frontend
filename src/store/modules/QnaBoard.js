@@ -26,6 +26,7 @@ const QnaBoardStore = {
       state.qnaBoards = qnaBoards;
     },
     SET_QNA_BOARD_DETAIL(state, qnaBoard) {
+      state.imgUrls.length = 0;
       state.qnaBoard = qnaBoard;
     },
     UPDATE_QNA_BOARD(state, qnaBoard) {

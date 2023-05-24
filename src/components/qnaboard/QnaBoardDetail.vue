@@ -6,7 +6,7 @@
             <div
             :class="[`text-h3`, active && `mb-0`]"
             >
-            여행 후기 보기
+            {{ qnaBoard.title }}
             </div>
         </v-col>
         </v-row>
@@ -26,16 +26,9 @@
                     </v-row>
                     <v-row class="qna-board-detail-infor-row">
                         <v-col cols="3"/>
-                        <v-col cols="1" class="board-item"> 제목 </v-col>
-                        <v-col cols="3" class="board-text">
-                            {{ qnaBoard.title }}
-                        </v-col>
-                    </v-row>
-                    <v-row class="qna-board-detail-infor-row">
-                        <v-col cols="3"/>
                         <v-col cols="1" class="board-item"> 내용 </v-col>
                     </v-row>
-                    <v-row class="qna-board-detail-btn-row">
+                    <v-row class="qna-board-detail-infor-row">
                         <v-col cols="3"/>
                         <v-col cols="5" class="board-text">
                             <v-textarea
@@ -51,8 +44,21 @@
                             </v-textarea>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-img :src=imgUrls[0] max-height="400px" max-width="500px" />
+                    <v-row class="qna-board-detail-btn-row">
+                        <v-col cols="3"/>
+                        <v-col cols="5">
+                            <template v-if="imgUrls.length != 0" >
+                                <v-carousel>
+                                    <v-carousel-item
+                                    v-for="(item, i) in imgUrls"
+                                    :key="i"
+                                    :src="item"
+                                    reverse-transition="fade-transition"
+                                    transition="fade-transition"
+                                    ></v-carousel-item>
+                                </v-carousel>
+                            </template>
+                        </v-col>
                     </v-row>
                     <v-row>
                         <template v-if="checkWriter">
@@ -103,7 +109,7 @@ export default {
         ...mapState(UserStore, ["user"]),
         checkWriter() {
             return this.user.nickname == this.qnaBoard.nickname;
-        }
+        },
     },
     created() {
         const pathname = new URL(document.location).pathname.split("/");
