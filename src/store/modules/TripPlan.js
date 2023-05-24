@@ -12,11 +12,15 @@ const TripPlanStore = {
     sidoCode: "",
     trip: {
       tripName: "",
+      tripAttractions: [],
     },
     searchResults: [],
   },
   getters: {},
   mutations: {
+    ADD_TRIP_ATTRACTION(state, attractionItem) {
+      state.trip.tripAttractions.push(attractionItem);
+    },
     SET_GUGUN_LIST(state, guguns) {
       state.guguns = [];
       state.guguns.push({ value: 0, text: "전체 구/군" });
@@ -33,6 +37,9 @@ const TripPlanStore = {
     },
   },
   actions: {
+    addPlan({ commit }, attractionItem) {
+      commit("ADD_TRIP_ATTRACTION", attractionItem);
+    },
     getGugun({ commit }, sidoCode) {
       // console.log("액션 들어옴" + sidoCode);
       const API_URI = `${REST_API}/search/${sidoCode}/gugun`;

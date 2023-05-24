@@ -12,7 +12,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn class="sx-2" fab dark color="indigo">
+        <v-btn class="sx-2 click-cursor" fab dark color="indigo" @click="addPlan(attractionItem)">
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </v-card-actions>
@@ -21,11 +21,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: {
     attractionItem: Object,
   },
+  methods: {
+    ...mapActions("TripPlanStore", ["addPlan"]),
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.click-cursor {
+  cursor: pointer;
+}
+</style>
