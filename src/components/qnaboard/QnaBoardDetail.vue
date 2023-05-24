@@ -52,6 +52,9 @@
                         </v-col>
                     </v-row>
                     <v-row>
+                        <v-img :src=imgUrls[0] max-height="400px" max-width="500px" />
+                    </v-row>
+                    <v-row>
                         <template v-if="checkWriter">
                             <v-col cols="6"/>
                             <v-btn color="red" @click="qnaRemove" class="removebutton"> 삭제 </v-btn>
@@ -89,14 +92,14 @@ export default {
     name: "QnaBoardDetail",
     data() {
         return {
-            
+
         }
     },
     props: [
         'active'
     ],
     computed: {
-        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments"]),
+        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments", "boardImages", "imgUrls"]),
         ...mapState(UserStore, ["user"]),
         checkWriter() {
             return this.user.nickname == this.qnaBoard.nickname;
@@ -106,9 +109,10 @@ export default {
         const pathname = new URL(document.location).pathname.split("/");
         const id = pathname[pathname.length - 1];
         this.getQnaBoardDetail(id);
+        this.getBoardImage(id);
     },
     methods: {
-        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard"]),
+        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard", "getBoardImage"]),
         qnaRemove() {
             if(confirm(`정말 삭제하실 건가요?`) == true)
                 this.deleteQnaBoard(this.qnaBoard.id);
