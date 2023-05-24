@@ -13,6 +13,7 @@ const QnaBoardStore = {
   state: {
     qnaBoards: [],
     qnaBoard: {},
+    boardComments: [],
   },
   getters: {},
   mutations: {
@@ -34,6 +35,9 @@ const QnaBoardStore = {
     SET_SEARCHED_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
+    SET_BOARD_COMMENTS(state, boardComments) {
+      state.boardComments = boardComments
+    }
   },
   actions: {
     async createQnaBoard({ commit }, qnaBoard) {
@@ -139,6 +143,45 @@ const QnaBoardStore = {
         else
           alert("게시글을 삭제할 수 없습니다");
         router.push({ name: "qnaboard-list" });
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    async createBoardComment({ commit }, boardComment) {
+      const API_URI = `${REST_API}/qna-board/${boardComment.id}/comment`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      let requestComment = {
+        nickname: boardComment.nickname,
+        content: boardComment.content,
+      }
+      await axios({
+        url: API_URI,
+        method: "post",
+        data: requestComment,
+      }).then((res) => {
+        if (res.data.success == true)
+          commit;
+        else
+          alert("작성 실패");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    getBoardComments({ commit }, boardId) {
+      const API_URI = `${REST_API}/qna-board/${boardId}/comment`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      axios({
+        url: API_URI,
+        method: "get",
+      }).then((res) => {
+        if (res.data.success == true)
+        {
+          commit("SET_BOARD_COMMENTS", res.data.data);
+        }
+        else
+          alert("댓글을 불러올 수 없습니다 ㅠㅠ");
       }).catch(() => {
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");

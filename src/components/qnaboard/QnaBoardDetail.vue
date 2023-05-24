@@ -60,23 +60,32 @@
                         </template>
                         <template v-else>
                             <v-col cols="7"/>
-                            <v-btn color="gray" @click="goToQnaList" class="backbutton"> 돌아가기 </v-btn>
+                            <v-btn color="gray" @click="goToQnaList" class="backbutton2"> 돌아가기 </v-btn>
                         </template>
                     </v-row>
                 </v-container>
             </v-form>
         </v-col>
         </v-row>
+        <v-row>
+            <board-comment-create/>
+        </v-row>
+        <v-row>
+            <board-comment-list/>
+        </v-row>
     </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import BoardCommentCreate from "@/components/qnaboard/comment/BoardCommentCreate.vue";
+import BoardCommentList from "./comment/BoardCommentList.vue";
 
 const QnaBoardStore = "QnaBoardStore";
 const UserStore = "UserStore";
 
 export default {
+    components: { BoardCommentCreate, BoardCommentList },
     name: "QnaBoardDetail",
     data() {
         return {
@@ -172,5 +181,9 @@ color: white !important;
 
 .backbutton {
 margin-inline: 5px;
+}
+
+.backbutton2 {
+margin-left: 65px;
 }
 </style>
