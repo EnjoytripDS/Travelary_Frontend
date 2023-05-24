@@ -67,7 +67,9 @@
                 <v-tabs color="deep-purple accent-4" right>
                   <!--v-row로 일자 index // 일주일 넘어가면... 몰루..(예외처리 안함)-->
                   <v-row v-for="(n, index) in calNumberOfDays" :key="index">
-                    <v-tab>{{ index + 1 }}일차</v-tab>
+                    <v-tab @click="focusDay(index + 1)"
+                      >{{ index + 1 }}일차</v-tab
+                    >
                   </v-row>
 
                   <v-tab-item
@@ -120,6 +122,9 @@ export default {
   methods: {
     clickFirstBtn() {
       this.e1 = 2;
+    },
+    focusDay(day) {
+      this.$store.dispatch("TripPlanStore/focusDay", day);
     },
   },
   computed: {

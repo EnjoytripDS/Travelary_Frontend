@@ -16,7 +16,7 @@
           class="sx-2 click-cursor"
           fab
           dark
-          color="indigo"
+          color="green"
           @click="addTimeLines(attractionItem)"
         >
           <v-icon dark> mdi-plus </v-icon>
@@ -32,6 +32,7 @@ export default {
   props: {
     attractionItem: Object,
   },
+
   methods: {
     ...mapActions("TripPlanStore", ["addTimeLines"]),
   },

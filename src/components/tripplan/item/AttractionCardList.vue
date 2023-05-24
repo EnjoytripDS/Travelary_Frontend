@@ -12,8 +12,14 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn class="sx-2 click-cursor" fab dark color="indigo" @click="addPlan(attractionItem)">
-          <v-icon dark> mdi-plus </v-icon>
+        <v-btn
+          class="sx-2 click-cursor"
+          fab
+          dark
+          color="indigo"
+          @click="addPlan(attractionItem)"
+        >
+          <v-icon dark> mdi-heart </v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -28,7 +34,6 @@ export default {
   },
   methods: {
     ...mapActions("TripPlanStore", ["addPlan"]),
-    addTimeLines() {},
   },
 };
 </script>
