@@ -22,7 +22,7 @@
           <v-row>
             <trip-info-form></trip-info-form>
           </v-row>
-          <v-btn color="primary" @click="e1 = 2"> 다음 단계 </v-btn>
+          <v-btn color="primary" @click="clickFirstBtn"> 다음 단계 </v-btn>
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
@@ -109,6 +109,11 @@ export default {
       e1: 1,
       step3ListTitle: "선택한 관광지",
     };
+  },
+  methods: {
+    clickFirstBtn() {
+      this.e1 = 2;
+    },
   },
   computed: {
     ...mapState(TripPlanStore, ["trip"]),

@@ -12,12 +12,41 @@ const TripPlanStore = {
     sidoCode: "",
     trip: {
       tripName: "",
+      tripDates: [],
+      tripFirstDate: "",
+      tripLastDate: "",
+      numberOfDays: 1,
       tripAttractions: [],
     },
     searchResults: [],
   },
-  getters: {},
+  getters: {
+    calNumberOfDays(state) {
+      const date1 = new Date(state.trip.tripFirstDate);
+      const date2 = new Date(state.trip.tripLastDate);
+      const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+      // 일 수로 변환
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if (!daysDiff) {
+        state.trip.numberOfDays = 1;
+        return 1;
+      } else {
+        state.trip.numberOfDays = daysDiff + 1;
+        return daysDiff + 1;
+      }
+    },
+  },
   mutations: {
+    UPDATE_DATES(state, newDates) {
+      if (newDates[0] > newDates[1]) {
+        state.trip.tripFirstDate = newDates[1];
+        state.trip.tripLastDate = newDates[0];
+      } else {
+        state.trip.tripFirstDate = newDates[0];
+        state.trip.tripLastDate = newDates[1];
+      }
+      state.trip.tripDates.splice(0, 1, newDates);
+    },
     ADD_TRIP_ATTRACTION(state, attractionItem) {
       state.trip.tripAttractions.push(attractionItem);
     },
