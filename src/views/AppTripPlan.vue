@@ -2,13 +2,9 @@
   <v-container>
     <v-stepper v-model="e1">
       <v-stepper-header>
-        <v-stepper-step :complete="e1 > 1" step="1" editable>
-          여행 정보 입력
-        </v-stepper-step>
+        <v-stepper-step :complete="e1 > 1" step="1" editable> 여행 정보 입력 </v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step :complete="e1 > 2" step="2" editable>
-          관광지 검색
-        </v-stepper-step>
+        <v-stepper-step :complete="e1 > 2" step="2" editable> 관광지 검색 </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step step="3" editable> 일자별 세부 계획 </v-stepper-step>
       </v-stepper-header>
@@ -20,11 +16,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field
-                v-model="trip.tripName"
-                filled
-                label="여행 제목"
-              ></v-text-field>
+              <v-text-field v-model="trip.tripName" filled label="여행 제목"></v-text-field>
             </v-col>
           </v-row>
           <v-row>
@@ -53,7 +45,9 @@
         <v-stepper-content step="3">
           <trip-title-banner></trip-title-banner>
           <v-row class="content-padding">
-            <v-col cols="4"> <attraction-list></attraction-list></v-col>
+            <v-col cols="4">
+              <attraction-card-list v-for="(tripAttr, index) in trip.tripAttractions" :key="index" :attractionItem="tripAttr"></attraction-card-list
+            ></v-col>
             <!-- <v-col cols="8">
               <v-card>
                 <v-tabs
@@ -103,24 +97,21 @@
 <script>
 import TheKakaoMap from "@/components/TheKakaoMap.vue";
 import SearchAttraction from "@/components/tripplan/SearchAttraction.vue";
-// import TripTimeline from "@/components/tripplan/TripTimeline.vue";
-import AttractionList from "@/components/tripplan/AttractionList.vue";
 import TripInfoForm from "@/components/tripplan/TripInfoForm.vue";
 import TripTitleBanner from "@/components/tripplan/TripTitleBanner.vue";
+import AttractionCardList from "@/components/tripplan/item/AttractionCardList.vue";
 
 import { mapState } from "vuex";
 
 const TripPlanStore = "TripPlanStore";
-
 export default {
   name: "AppTripPlan",
   components: {
     TheKakaoMap,
     SearchAttraction,
-    // TripTimeline,
-    AttractionList,
     TripInfoForm,
     TripTitleBanner,
+    AttractionCardList,
   },
   data() {
     return {

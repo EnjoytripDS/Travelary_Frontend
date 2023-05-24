@@ -27,11 +27,6 @@
       </v-row>
 
       <!-- 관광지 검색 결과 리스트-->
-      <!-- <v-row>
-        <tr v-for="result in searchResults" :key="result.title">
-          <td>{{ result.title }}</td>
-        </tr>
-      </v-row> -->
       <v-row class="scroll-container">
         <v-col padding="0">
           <attraction-card-list v-for="(item, index) in items" :key="index" :attractionItem="item"></attraction-card-list>
