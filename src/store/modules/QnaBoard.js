@@ -35,6 +35,9 @@ const QnaBoardStore = {
     SET_SEARCHED_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
+    CREATE_BOARD_COMMENTS(state, boardComment) {
+      state.boardComments.push(boardComment);
+    },
     SET_BOARD_COMMENTS(state, boardComments) {
       state.boardComments = boardComments
     }
@@ -161,7 +164,10 @@ const QnaBoardStore = {
         data: requestComment,
       }).then((res) => {
         if (res.data.success == true)
-          commit;
+        {
+          commit("CREATE_BOARD_COMMENTS", requestComment);
+          router.go(0);
+        }
         else
           alert("작성 실패");
       }).catch(() => {
@@ -177,9 +183,7 @@ const QnaBoardStore = {
         method: "get",
       }).then((res) => {
         if (res.data.success == true)
-        {
           commit("SET_BOARD_COMMENTS", res.data.data);
-        }
         else
           alert("댓글을 불러올 수 없습니다 ㅠㅠ");
       }).catch(() => {
