@@ -1,23 +1,34 @@
 <template>
     <v-container>
         <v-list>
-            <v-list-item v-for="item in boardComments" :key="item.id" class="comment-list">
+            <v-list-item v-for="(item, index) in boardComments" :key="item.id" class="comment-list">
                 <v-list-item-content>
-                    <v-list-item-title class="comment-name-row">{{item.nickname}}</v-list-item-title>
-                    <v-list-item-content class="comment-content-row">{{item.content}}</v-list-item-content>
-                    <v-row>
-                        <v-col cols="2" class="comment-date-row">
-                            {{item.createtime}}
+                    <v-list-item-title class="comment-name-row">{{item.boardComment.nickname}}</v-list-item-title>
+                    <template v-if="item.inUpdate == 0">
+                        <v-list-item-content class="comment-content-row">{{item.boardComment.content}}</v-list-item-content>
+                        <v-row>
+                            <v-col cols="2" class="comment-date-row">
+                                {{item.boardComment.createtime}}
+                            </v-col>
+                            <template v-if="item.boardComment.nickname == user.nickname">
+                                <v-col cols="1">
+                                    <v-btn color="blue" @click="upToggle(index)" class="uptogglebtn" height="20px"> 수정 </v-btn>
+                                </v-col>
+                                <v-col cols="1">
+                                    <v-btn color="red" @click="rmcmt(index)" class="rmcommentbtn" height="20px"> 삭제 </v-btn>
+                                </v-col>
+                            </template>
+                        </v-row>
+                    </template>
+                    <template v-else>
+                        <v-col cols="5">
+                            <v-textarea filled name="content" hint="댓글을 작성해주세요." v-model="item.boardComment.content" :counter="255" maxlength="255" height="90px" />
                         </v-col>
-                        <template v-if="item.nickname == user.nickname">
-                            <v-col cols="1">
-                                <v-btn color="blue" @click="upcmt" class="upcommentbtn" height="20px"> 수정 </v-btn>
-                            </v-col>
-                            <v-col cols="1">
-                                <v-btn color="red" @click="rmcmt" class="rmcommentbtn" height="20px"> 삭제 </v-btn>
-                            </v-col>
-                        </template>
-                    </v-row>
+                        <v-col>
+                            <v-btn color="blue" @click="upcmt(index)" class="uptbtn" height="20px"> 수정 </v-btn>
+                            <v-btn color="red" @click="cancel(index)" class="cancelcmtbtn" height="20px"> 취소 </v-btn>
+                        </v-col>
+                    </template>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -48,10 +59,35 @@ export default {
         }
     },
     methods: {
-        ...mapActions(QnaBoardStore, ["getBoardComments"]),
-        upcmt() {
-
+        ...mapActions(QnaBoardStore, ["getBoardComments", "updateBoardComment", "deleteBoardComment"]),
+        upToggle(index) {
+            this.boardComments[index].inUpdate = 1;
         },
+        cancel(index) {
+            this.boardComments[index].inUpdate = 0;
+        },
+        upcmt(index) {
+            if(this.boardComments[index].boardComment.content == "") {
+                alert("빈 칸을 채워주세요");
+                return;
+            }
+            let boardComment = {
+                id: this.boardComments[index].boardComment.id,
+                content: this.boardComments[index].boardComment.content,
+                nickname: this.boardComments[index].boardComment.nickname,
+                boardId: this.qnaBoard.id
+            };
+            this.updateBoardComment(boardComment);
+            this.boardComments[index].inUpdate = 0;
+        },
+        rmcmt(index) {
+            let ids = {
+                boardId : this.qnaBoard.id,
+                commentId: this.boardComments[index].boardComment.id,
+            };
+            this.deleteBoardComment(ids);
+            this.boardComments.splice(index, 1);
+        }
     }
 }
 </script>
@@ -79,13 +115,23 @@ export default {
     margin-bottom: 75px;
 }
 
-.upcommentbtn {
+.uptogglebtn {
     margin-left: 120px;
     color: white !important;
 }
 
 .rmcommentbtn {
     margin-left: 95px;
+    color: white !important;
+}
+
+.uptbtn {
+    margin-left: 350px;
+    color: white !important;
+}
+
+.cancelcmtbtn {
+    margin-left: 20px;
     color: white !important;
 }
 </style>

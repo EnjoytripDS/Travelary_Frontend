@@ -13,7 +13,10 @@ const QnaBoardStore = {
   state: {
     qnaBoards: [],
     qnaBoard: {},
-    boardComments: [],
+    boardComments: [{
+      boardComment: {},
+      inUpdate: 0,
+    }],
   },
   getters: {},
   mutations: {
@@ -35,12 +38,11 @@ const QnaBoardStore = {
     SET_SEARCHED_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
-    CREATE_BOARD_COMMENTS(state, boardComment) {
-      state.boardComments.push(boardComment);
-    },
     SET_BOARD_COMMENTS(state, boardComments) {
-      state.boardComments = boardComments
-    }
+      boardComments.forEach((item) => {
+        state.boardComments.push({ boardComment: item, inUpdate: 0 });
+      });
+    },
   },
   actions: {
     async createQnaBoard({ commit }, qnaBoard) {
@@ -151,7 +153,7 @@ const QnaBoardStore = {
         Store.dispatch("UserStore/tokenRegeneration");
       });
     },
-    async createBoardComment({ commit }, boardComment) {
+    async createBoardComment({ dispatch }, boardComment) {
       const API_URI = `${REST_API}/qna-board/${boardComment.id}/comment`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
       let requestComment = {
@@ -164,10 +166,7 @@ const QnaBoardStore = {
         data: requestComment,
       }).then((res) => {
         if (res.data.success == true)
-        {
-          commit("CREATE_BOARD_COMMENTS", requestComment);
-          router.go(0);
-        }
+          dispatch("getBoardComments", boardComment.id);
         else
           alert("작성 실패");
       }).catch(() => {
@@ -186,6 +185,45 @@ const QnaBoardStore = {
           commit("SET_BOARD_COMMENTS", res.data.data);
         else
           alert("댓글을 불러올 수 없습니다 ㅠㅠ");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    updateBoardComment({ dispatch }, boardComment) {
+      const API_URI = `${REST_API}/qna-board/${boardComment.boardId}/comment/${boardComment.id}`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      let req = {
+        content: boardComment.content,
+        nickname: boardComment.nickname,
+      }
+      axios({
+        url: API_URI,
+        method: "put",
+        data: req,
+      }).then((res) => {
+        if (res.data.success == true)
+          dispatch("getBoardComments", boardComment.boardId);
+        else
+          alert("댓글을 수정할 수 없습니다");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration")
+      });
+    },
+    deleteBoardComment({ dispatch }, ids) {
+      const API_URI = `${REST_API}/qna-board/${ids.boardId}/comment/${ids.commentId}`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      axios({
+        url: API_URI,
+        method: "delete",
+      }).then((res) => {
+        if (res.data.success == true) {
+          dispatch("getBoardComments", ids.boardId);
+          alert("댓글이 삭제되었습니다");
+        }
+        else
+          alert("댓글을 삭제할 수 없습니다");
       }).catch(() => {
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");
