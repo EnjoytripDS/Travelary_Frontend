@@ -31,7 +31,7 @@ export default {
     name: "BoardCommentCreate",
     computed: {
         ...mapState(UserStore, ["user"]),
-        ...mapState(QnaBoardStore, ["qnaBoard"])
+        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments"])
     },
     data() {
         return {
@@ -50,6 +50,7 @@ export default {
                 nickname: this.user.nickname,
                 content: this.content,
             }
+            this.boardComments.length = 0;
             this.createBoardComment(boardComment);
             this.content = "";
         },

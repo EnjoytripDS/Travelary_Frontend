@@ -96,7 +96,7 @@ export default {
         'active'
     ],
     computed: {
-        ...mapState(QnaBoardStore, ["qnaBoard"]),
+        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments"]),
         ...mapState(UserStore, ["user"]),
         checkWriter() {
             return this.user.nickname == this.qnaBoard.nickname;
@@ -117,6 +117,7 @@ export default {
             this.$router.push({ name: "qnaboard-update" });
         },
         goToQnaList() {
+            this.boardComments.length = 0;
             this.$router.push({ name: "qnaboard-list" });
         },
     },

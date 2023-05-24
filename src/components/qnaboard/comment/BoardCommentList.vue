@@ -46,16 +46,16 @@ export default {
     name: "BoardCommentList",
     created() {
         const pathname = new URL(document.location).pathname.split("/");
-        const id = pathname[pathname.length - 1];
-        this.getBoardComments(id);
+        this.id = pathname[pathname.length - 1];
+        this.getBoardComments(this.id);
     },
     computed: {
-        ...mapState(QnaBoardStore, ["boardComments", "qnaBoard"]),
+        ...mapState(QnaBoardStore, ["boardComments"]),
         ...mapState(UserStore, ["user"]),
     },
     data() {
         return {
-
+            id: ""
         }
     },
     methods: {
@@ -75,16 +75,18 @@ export default {
                 id: this.boardComments[index].boardComment.id,
                 content: this.boardComments[index].boardComment.content,
                 nickname: this.boardComments[index].boardComment.nickname,
-                boardId: this.qnaBoard.id
+                boardId: this.id
             };
+            this.boardComments.length = 0;
             this.updateBoardComment(boardComment);
             this.boardComments[index].inUpdate = 0;
         },
         rmcmt(index) {
             let ids = {
-                boardId : this.qnaBoard.id,
+                boardId : this.id,
                 commentId: this.boardComments[index].boardComment.id,
             };
+            this.boardComments.length = 0;
             this.deleteBoardComment(ids);
             this.boardComments.splice(index, 1);
         }
