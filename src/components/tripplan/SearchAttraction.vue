@@ -17,7 +17,7 @@
       </v-row>
       <v-row>
         <v-col cols="10">
-          <v-text-field label="검색어를 입력해주세요" placeholder="검색어" solo v-model="keyword"></v-text-field>
+          <v-text-field label="검색어를 입력해주세요" placeholder="검색어" solo v-model.trim="keyword"></v-text-field>
         </v-col>
         <v-col cols="2">
           <v-btn icon @click="search" style="color: darkblue">
@@ -180,6 +180,11 @@ export default {
         contentTypeId: this.contentTypeList,
         keyword: this.keyword,
       };
+      if (!this.keyword) {
+        if (confirm("검색어 없이 검색하시겠습니까?")) {
+          this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
+        }
+      }
 
       this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
     },
