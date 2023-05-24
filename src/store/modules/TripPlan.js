@@ -10,13 +10,14 @@ const TripPlanStore = {
   state: {
     guguns: [],
     sidoCode: "",
+    tripDates: [],
     trip: {
       tripName: "",
-      tripDates: [],
       tripFirstDate: "",
       tripLastDate: "",
       numberOfDays: 1,
       tripAttractions: [],
+      tripOrderByAttr: [{ contentId: 0, dayByAttraction: 0, orderByDay: 0 }],
     },
     searchResults: [],
   },
@@ -45,7 +46,7 @@ const TripPlanStore = {
         state.trip.tripFirstDate = newDates[0];
         state.trip.tripLastDate = newDates[1];
       }
-      state.trip.tripDates.splice(0, 1, newDates);
+      state.tripDates.splice(0, 1, newDates);
     },
     ADD_TRIP_ATTRACTION(state, attractionItem) {
       state.trip.tripAttractions.push(attractionItem);
