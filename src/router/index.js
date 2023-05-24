@@ -45,7 +45,6 @@ const routes = [
   {
     path: "/qna-board",
     name: "qnaboard",
-    beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "qnaboard" */ "@/views/AppQnaBoard"),
     redirect: "/qna-board/list",
     children: [
@@ -99,7 +98,6 @@ const routes = [
       {
         path: "mypage/:id",
         name: "user-mypage",
-        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/UserMyPage"),
         redirect: "/users/mypage/:id/info",
         children: [

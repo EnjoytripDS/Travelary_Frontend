@@ -34,7 +34,7 @@
             class="link"
             :class="{ active: isActiveRoute('qnaboard') }"
           >
-            Q&A
+            여행 후기
           </router-link>
         </li>
         <li class="menu-buttons">
