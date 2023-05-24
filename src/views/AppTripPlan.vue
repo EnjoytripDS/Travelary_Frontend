@@ -44,45 +44,35 @@
 
         <v-stepper-content step="3">
           <trip-title-banner></trip-title-banner>
+
           <v-row class="content-padding">
             <v-col cols="4">
+              <h3>{{ step3ListTitle }}</h3>
               <attraction-card-list v-for="(tripAttr, index) in trip.tripAttractions" :key="index" :attractionItem="tripAttr"></attraction-card-list
             ></v-col>
-            <!-- <v-col cols="8">
+            <v-col cols="8">
               <v-card>
-                <v-tabs
-                  v-model="tab"
-                  background-color="deep-purple accent-4"
-                  centered
-                  dark
-                  icons-and-text
-                >
-                  <v-tabs-slider></v-tabs-slider>
-                  <v-tab href="#tab-1">
-                    1일차
-                    <v-icon>mdi-phone</v-icon>
-                  </v-tab>
+                <v-tabs color="deep-purple accent-4" right>
+                  <v-tab>Landscape</v-tab>
+                  <v-tab>City</v-tab>
+                  <v-tab>Abstract</v-tab>
 
-                  <v-tab href="#tab-2">
-                    2일차
-                    <v-icon>mdi-heart</v-icon>
-                  </v-tab>
-
-                  <v-tab href="#tab-3">
-                    3일차
-                    <v-icon>mdi-account-box</v-icon>
-                  </v-tab>
-                </v-tabs>
-
-                <v-tabs-items v-model="tab">
-                  <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
-                    <v-card>
-                      <v-card><TripTimeline /></v-card>
-                    </v-card>
+                  <v-tab-item v-for="n in 3" :key="n">
+                    <v-container fluid>
+                      <v-row>
+                        <v-col v-for="i in 6" :key="i" cols="12" md="4">
+                          <v-img
+                            :src="`https://picsum.photos/500/300?image=${i * n * 5 + 10}`"
+                            :lazy-src="`https://picsum.photos/10/6?image=${i * n * 5 + 10}`"
+                            aspect-ratio="1"
+                          ></v-img>
+                        </v-col>
+                      </v-row>
+                    </v-container>
                   </v-tab-item>
-                </v-tabs-items>
+                </v-tabs>
               </v-card>
-            </v-col> -->
+            </v-col>
           </v-row>
 
           <v-btn color="primary" @click="e1 = 1"> 여행 만들기! </v-btn>
@@ -117,6 +107,7 @@ export default {
     return {
       attractions: [],
       e1: 1,
+      step3ListTitle: "선택한 관광지",
     };
   },
   computed: {
