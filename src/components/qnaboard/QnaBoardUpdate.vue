@@ -41,6 +41,30 @@
                 <v-textarea filled name="content" hint="내용을 입력해주세요." v-model="qnaBoard.content" :counter="1000" maxlength="1000"></v-textarea>
               </v-col>
             </v-row>
+            <template v-if="imgUrls.length != 0" >
+              <v-row class="qna-board-update-infor-row">
+                <v-col cols="3"/>
+                <v-col cols="2"> 현재 사진 </v-col>
+                <v-col cols="5">
+                  <v-carousel>
+                    <v-carousel-item
+                    v-for="(item, i) in imgUrls"
+                    :key="i"
+                    :src="item"
+                    reverse-transition="fade-transition"
+                    transition="fade-transition"
+                    ></v-carousel-item>
+                  </v-carousel>
+                </v-col>
+              </v-row>
+            </template>
+            <v-row class="qna-board-update-infor-row">
+              <v-col cols="3"/>
+              <v-col cols="2"> 이미지 추가 </v-col>
+              <v-col cols="4">
+                <input type="file" name="uploadFile" accept="image/*" label="이미지 업로드" @change="handleFileUpload" multiple>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col cols="7"/>
               <v-btn color="blue" @click="updateQna" class="updatebutton"> 수정 </v-btn>
@@ -62,17 +86,17 @@ export default {
   name: "QnaBoardUpdate",
   data() {
     return {
-
+      uploadFile: null,
     };
   },
   props: [
     'active',
   ],
   computed: {
-    ...mapState(QnaBoardStore, ["qnaBoard"]),
+    ...mapState(QnaBoardStore, ["qnaBoard", "boardImages", "imgUrls"]),
   },
   methods: {
-    ...mapActions(QnaBoardStore, ["updateQnaBoard"]),
+    ...mapActions(QnaBoardStore, ["updateQnaBoard", "uploadBoardImage"]),
     updateQna() {
       if(this.qnaBoard.title == "" || this.qnaBoard.content == "") {
         alert("모든 항목을 채워야 합니다.");
@@ -84,10 +108,18 @@ export default {
         content: this.qnaBoard.content,
         nickname: this.qnaBoard.nickname,
       };
+      let upImgReq = {
+        id: this.qnaBoard.id,
+        uploadFile: this.uploadFile,
+      }
+      this.uploadBoardImage(upImgReq)
       this.updateQnaBoard(updateQna);
     },
     cancel() {
       this.$router.push({ name: "qnaboard-list" })
+    },
+    handleFileUpload(e) {
+      this.uploadFile = e.target.files;
     },
   },
 };
