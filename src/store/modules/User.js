@@ -152,8 +152,13 @@ const UserStore = {
             }).then((res) => {
                 if (res.data.success == true)
                     commit("SET_USER", res.data.data.userInfo);
-                else
-                    alert("마이페이지를 불러오는데 실패했습니다");
+                else {
+                    commit("SET_IS_LOGIN", false);
+                    commit("SET_USER", null);
+                    commit("SET_IS_VALID_TOKEN", false);
+                    dispatch("logout", decodeToken.userid);
+                    alert("로그아웃 되었습니다. 다시 로그인 해 주세요");
+                }
             }).catch(() => {
                 commit("SET_IS_VALID_TOKEN", false);
                 dispatch("tokenRegeneration");

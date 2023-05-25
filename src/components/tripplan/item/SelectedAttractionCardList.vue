@@ -12,15 +12,28 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn
-          class="sx-2 click-cursor"
-          fab
-          dark
-          color="green"
-          @click="addTimeLines(attractionItem)"
-        >
-          <v-icon dark> mdi-plus </v-icon>
-        </v-btn>
+        <template v-if="selectState == 0">
+          <v-btn
+            class="sx-2 click-cursor"
+            fab
+            dark
+            color="green"
+            @click="addTimeLines(attractionItem)"
+          >
+            <v-icon dark> mdi-plus </v-icon>
+          </v-btn>
+        </template>
+        <template v-else>
+          <v-btn
+            class="sx-2 click-cursor"
+            fab
+            dark
+            color="indigo"
+            @click="addTimeLines(attractionItem)"
+          >
+            <v-icon dark> mdi-minus </v-icon>
+          </v-btn>
+        </template>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -31,9 +44,14 @@ export default {
   props: {
     attractionItem: Object,
   },
-
+  data() {
+    return {
+      selectState: 0,
+    }
+  },
   methods: {
     addTimeLines(attractionItem) {
+      this.selectState = 1 - this.selectState;
       this.$store.dispatch("TripPlanStore/addTimeLines", attractionItem);
       this.attraction = attractionItem; //////////////////////////////////////
     },
