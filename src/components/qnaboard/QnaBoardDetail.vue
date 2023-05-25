@@ -30,8 +30,7 @@
               <v-col cols="3" />
               <v-col cols="5" class="board-text">
                 <v-textarea
-                  background-color="amber lighten-4"
-                  color="orange orange-darken-4"
+                  background-color="white"
                   v-model="qnaBoard.content"
                   readonly
                   auto-grow
