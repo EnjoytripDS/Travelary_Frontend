@@ -1,17 +1,19 @@
 <template>
   <v-app id="travelary">
-    <the-header />
+    <TheHeader />
     <v-main>
       <router-view />
     </v-main>
+    <TheFooter />
   </v-app>
 </template>
 
 <script>
 import TheHeader from "@/components/common/TheHeader.vue";
+import TheFooter from "./components/common/TheFooter.vue";
 
 export default {
-  components: { TheHeader },
+  components: { TheHeader, TheFooter },
   name: "App",
   data: () => ({}),
 };
