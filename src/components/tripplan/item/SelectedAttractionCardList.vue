@@ -7,12 +7,10 @@
 
       <v-card-subtitle>{{ attractionItem.addr1 }}</v-card-subtitle>
       <v-card-actions>
-        <!-- <v-btn color="orange-lighten-2" variant="text" @click="showDetails(attractionItem.id)"> DETAILS </v-btn> -->
         <div class="text-center">
           <v-dialog v-model="dialog" width="1000">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="orange-lighten-2" variant="text" @click="showDetails(attractionItem.id)" v-bind="attrs" v-on="on"> DETAILS </v-btn>
-              <!-- <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on"> Click Me </v-btn> -->
             </template>
 
             <v-card>
@@ -41,12 +39,6 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </v-card-actions>
-      <!-- <v-card-actions>
-        <v-btn color="orange-lighten-2" variant="text" @click="showDetails(attractionItem.id)"> DETAILS </v-btn>
-        <v-btn class="sx-2 click-cursor" fab dark color="green" @click="addTimeLines(attractionItem)">
-          <v-icon dark> mdi-plus </v-icon>
-        </v-btn>
-      </v-card-actions> -->
     </v-card>
   </v-container>
 </template>
