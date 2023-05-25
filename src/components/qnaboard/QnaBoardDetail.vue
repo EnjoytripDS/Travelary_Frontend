@@ -3,13 +3,10 @@
     <v-row class="qna-board-detail-top-row">
       <v-col cols="3" />
       <v-col class="qna-board-detail-title-text">
-        <div :class="[`text-h3`, active && `mb-0`]">
+        <div :class="[`text-h4`, active && `mb-0`]">
           {{ qnaBoard.title }}
         </div>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-divider class="custom-divider"></v-divider>
     </v-row>
     <v-row>
       <v-col>
@@ -160,13 +157,6 @@ export default {
 
 .qna-board-detail-title-text {
   margin-left: 40px;
-}
-
-.custom-divider {
-  margin-left: 480px;
-  margin-right: 575px;
-  margin-bottom: 20px;
-  border-top: 2px solid #333;
 }
 
 .qna-board-detail-first-row {
