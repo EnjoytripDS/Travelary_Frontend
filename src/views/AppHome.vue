@@ -8,14 +8,13 @@
       </v-col>
     </v-row>
     <div style="height: 200px"></div>
-    <router-link :to="{ name: 'qnaboard' }" class="link"> 여행 후기 </router-link>
+    <router-link :to="{ name: 'trip-plan' }" class="link"> 더 많은 관광지 보러 가기 </router-link>
     <div style="height: 10px"></div>
     <template>
       <v-row>
-        <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
+        <v-col v-for="(attrItem, index) in attrItems" :key="index" class="d-flex child-flex" cols="4">
           <v-img
-            :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+            :src="attrItem.src"
             aspect-ratio="1"
             class="grey lighten-2"
           >
@@ -59,6 +58,35 @@ export default {
           src: require("@/assets/image/home/home4.jpg"),
         },
       ],
+      attrItems: [
+        {
+          src: require("@/assets/image/home/homeBottom1.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom2.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom3.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom4.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom5.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom6.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom7.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom8.jpg"),
+        },
+        {
+          src: require("@/assets/image/home/homeBottom9.jpg"),
+        }
+      ],
     };
   },
   methods: {
@@ -75,6 +103,6 @@ export default {
   color: black !important; /* Set font color to black */
   font-weight: bold; /* Set font weight to bold */
   font-size: 26px; /* Increase font size */
-  margin-inline: 35px;
+  margin-inline: 15px;
 }
 </style>
