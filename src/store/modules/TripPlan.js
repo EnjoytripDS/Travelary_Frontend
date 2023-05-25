@@ -13,14 +13,16 @@ const TripPlanStore = {
     sidoCode: "",
     tripDates: [],
     selectedAttractions: [],
+    timelineAttractions:[],
     trip: {
+      id:0,
       tripName: "",
       tripFirstDate: "",
       tripLastDate: "",
       numberOfDays: 1,
       tripAttractions: [],
       addedOrder: 0,
-      tripOrderByAttr: [{ contentId: 0, dayByAttraction: 0, orderByDay: 0 }],
+      tripOrderByAttr: [],
     },
     searchResults: [],
   },
@@ -41,19 +43,34 @@ const TripPlanStore = {
     },
   },
   mutations: {
+    MAKE_TRIP(state, tripId){
+      state.trip.id = tripId;
+    },
     FOCUS_DAY(state, day) {
       state.focusDay = day;
     },
     async ADD_DAY_ORDER_BY_ATTRACTION(state, attractionItem) {
-      await state.trip.tripOrderByAttr.push({
+      state.trip.tripOrderByAttr.push({
+        tripId:state.trip.id,
         contentId: attractionItem.id,
         dayByAttraction: state.focusDay,
         orderByDay: ++state.trip.addedOrder,
       });
-      await state.trip.tripAttractions.push(attractionItem);
-      console.log(state.focusDay);
-      console.log(state.trip.addedOrder);
-      console.log(attractionItem.id);
+      console.log("state.trip.tripOrderByAttr", state.trip.tripOrderByAttr);
+      let toDeleteIdx = state.selectedAttractions.indexOf(attractionItem);
+      state.selectedAttractions.splice(toDeleteIdx, 1);
+      state.timelineAttractions.push({
+
+        day:state.focusDay,
+        order:state.trip.addedOrder,
+        id:attractionItem.id,
+        contentTypeId:attractionItem.contentTypeId,
+        title:attractionItem.title,
+        address:attractionItem.addr1,
+        address2:attractionItem.addr2,
+        image:attractionItem.firstImage,
+
+      });
     },
 
     UPDATE_DATES(state, newDates) {
@@ -85,13 +102,50 @@ const TripPlanStore = {
     },
   },
   actions: {
+    completeTrip({commit}, trip) {
+      commit;
+      const API_URI = `${REST_API}/my-trip/${trip.id}/tripAttraction`;
+      axios({
+        url:API_URI,
+        method:"post",
+        data:trip.tripOrderByAttr
+      }).then((res)=> {
+        console.log(res.data);
+      })
+    },
+    async makeTrip({ commit }, trip) {
+      const API_URI = `${REST_API}/my-trip`;
+      let req = {
+        name: trip.tripName,
+        firstdate: trip.tripFirstDate,
+        lastdate: trip.tripLastDate,
+      }
+      await axios({
+        url: API_URI,
+        method: "post",
+        data: req
+      }).then((res) => {
+        commit("MAKE_TRIP", res.data.data);
+      });
+    },
+
     focusDay({ commit }, day) {
-      // console.log(day);
+      console.log(day);
       commit("FOCUS_DAY", day);
     },
-    async addTimeLines({ commit }, attractionItem) {
-      await commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
-      console.log(attractionItem);
+    addTimeLines({ commit }, attractionItem) {
+      commit;
+
+      // const API_URI = `${REST_API}/my-trip`;
+      // await axios({
+      //   url: API_URI,
+      //   method: "post",
+      //   data: state.trip.tripOrderByAttr
+      // }).then((res) => {
+      //   console.log(res.data);
+        commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+
+      // });
     },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);

@@ -4,43 +4,20 @@
     <v-col>
       <v-row>
         <v-col cols="6">
-          <v-select
-            :items="sidoItems"
-            v-model="sidoCode"
-            label="시/도"
-            prepend-icon="mdi-map"
-            solo
-          ></v-select>
+          <v-select :items="sidoItems" v-model="sidoCode" label="시/도" prepend-icon="mdi-map" solo></v-select>
         </v-col>
         <v-col cols="6">
-          <v-select
-            :items="gugunItems"
-            v-model="gugunCode"
-            label="구/군"
-            solo
-          ></v-select>
+          <v-select :items="gugunItems" v-model="gugunCode" label="구/군" solo></v-select>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-select
-            v-model="contentTypeList"
-            :items="contentItems"
-            chips
-            label="관광지 유형"
-            multiple
-            solo
-          ></v-select>
+          <v-select v-model="contentTypeList" :items="contentItems" chips label="관광지 유형" multiple solo></v-select>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="10">
-          <v-text-field
-            label="검색어를 입력해주세요"
-            placeholder="검색어"
-            solo
-            v-model.trim="keyword"
-          ></v-text-field>
+          <v-text-field label="검색어를 입력해주세요" placeholder="검색어" solo v-model.trim="keyword"></v-text-field>
         </v-col>
         <v-col cols="2">
           <v-btn icon @click="search" style="color: darkblue">
@@ -52,12 +29,7 @@
       <!-- 관광지 검색 결과 리스트-->
       <v-row class="scroll-container">
         <v-col padding="0">
-          <attraction-card-list
-            v-for="(item, index) in items"
-            :key="index"
-            :attractionItem="item"
-            @showOnMap="showOnMap(item)"
-          ></attraction-card-list>
+          <attraction-card-list v-for="(item, index) in items" :key="index" :attractionItem="item" @showOnMap="showOnMap(item)"></attraction-card-list>
         </v-col>
       </v-row>
     </v-col>
@@ -77,6 +49,7 @@ export default {
     // drawer: true,
     // mini: true,
     // active: true,
+    isHover: false,
     sidoCode: "",
     gugunCode: "",
     contentTypeList: [],
@@ -193,6 +166,9 @@ export default {
     selected() {
       this.search = "";
     },
+    "Options.center"(cur) {
+      console.log("[cur center] " + cur.lat, cur.lng);
+    },
   },
 
   methods: {
@@ -210,10 +186,7 @@ export default {
       };
       if (!this.keyword) {
         if (confirm("검색어 없이 검색하시겠습니까?")) {
-          this.$store.dispatch(
-            "TripPlanStore/searchAttractions",
-            searchConditions
-          );
+          this.$store.dispatch("TripPlanStore/searchAttractions", searchConditions);
         }
       }
 
