@@ -15,9 +15,9 @@
           <v-row class="mypageinfo-content-row">
             <v-img src="@/assets/image/tripimage.jpg" class="profile-img" />
           </v-row>
-          <v-row class="mypageinfo-content-row">
+          <!-- <v-row class="mypageinfo-content-row">
             <v-file-input class="profile-input" v-model="file" accept="image/*" label="프로필 사진 업로드" @change="handleFileUpload"></v-file-input>
-          </v-row>
+          </v-row> -->
         </v-container>
       </v-col>
       <v-col>

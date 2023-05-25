@@ -22,12 +22,12 @@
                                 <router-link :to="{ name: 'mypage-change-pwd' }" class="mypage-link" :class="{ active: isActiveRoute('mypage-change-pwd')}"> 비밀번호 변경 </router-link>
                             </v-list-item-content>
                         </v-list-item>
-                        <v-list-item>
+                        <!-- <v-list-item>
                             <v-list-item-content>
-                                친구 목록
-                                <!-- <router-link :to="{ name: 'mypage-change-pwd' }" class="mypage-link" :class="{ active: isActiveRoute('mypage-change-pwd')}"> 비밀번호 변경 </router-link> -->
-                            </v-list-item-content>
-                        </v-list-item>
+                                친구 목록 -->
+                                <!-- <router-link :to="{ name: '' }" class="mypage-link" :class="{ active: isActiveRoute('')}"> 친구 목록 </router-link> -->
+                            <!-- </v-list-item-content>
+                        </v-list-item> -->
                         <v-list-item>
                             <v-list-item-content>
                                 <router-link :to="{ name: 'mypage-dropout' }" class="mypage-link" :class="{ active: isActiveRoute('mypage-dropout')}"> 회원 탈퇴 </router-link>
