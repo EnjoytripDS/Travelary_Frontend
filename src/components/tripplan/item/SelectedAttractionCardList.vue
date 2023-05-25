@@ -12,7 +12,13 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn class="sx-2 click-cursor" fab dark color="indigo" @click="addPlan(attractionItem)">
+        <v-btn
+          class="sx-2 click-cursor"
+          fab
+          dark
+          color="green"
+          @click="addTimeLines(attractionItem)"
+        >
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </v-card-actions>
@@ -21,14 +27,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
   props: {
     attractionItem: Object,
   },
+
   methods: {
-    ...mapActions("TripPlanStore", ["addPlan"]),
-    addTimeLines() {},
+    addTimeLines(attractionItem) {
+      this.$store.dispatch("TripPlanStore/addTimeLines", attractionItem);
+      this.attraction = attractionItem; //////////////////////////////////////
+    },
   },
 };
 </script>

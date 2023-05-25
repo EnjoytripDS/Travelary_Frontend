@@ -8,15 +8,18 @@ const REST_API = "http://localhost:9999/api/v1";
 const TripPlanStore = {
   namespaced: true,
   state: {
+    focusDay: 1,
     guguns: [],
     sidoCode: "",
     tripDates: [],
+    selectedAttractions: [],
     trip: {
       tripName: "",
       tripFirstDate: "",
       tripLastDate: "",
       numberOfDays: 1,
       tripAttractions: [],
+      addedOrder: 0,
       tripOrderByAttr: [{ contentId: 0, dayByAttraction: 0, orderByDay: 0 }],
     },
     searchResults: [],
@@ -38,6 +41,21 @@ const TripPlanStore = {
     },
   },
   mutations: {
+    FOCUS_DAY(state, day) {
+      state.focusDay = day;
+    },
+    async ADD_DAY_ORDER_BY_ATTRACTION(state, attractionItem) {
+      await state.trip.tripOrderByAttr.push({
+        contentId: attractionItem.id,
+        dayByAttraction: state.focusDay,
+        orderByDay: ++state.trip.addedOrder,
+      });
+      await state.trip.tripAttractions.push(attractionItem);
+      console.log(state.focusDay);
+      console.log(state.trip.addedOrder);
+      console.log(attractionItem.id);
+    },
+
     UPDATE_DATES(state, newDates) {
       if (newDates[0] > newDates[1]) {
         state.trip.tripFirstDate = newDates[1];
@@ -49,7 +67,7 @@ const TripPlanStore = {
       state.tripDates.splice(0, 1, newDates);
     },
     ADD_TRIP_ATTRACTION(state, attractionItem) {
-      state.trip.tripAttractions.push(attractionItem);
+      state.selectedAttractions.push(attractionItem);
     },
     SET_GUGUN_LIST(state, guguns) {
       state.guguns = [];
@@ -67,6 +85,14 @@ const TripPlanStore = {
     },
   },
   actions: {
+    focusDay({ commit }, day) {
+      // console.log(day);
+      commit("FOCUS_DAY", day);
+    },
+    async addTimeLines({ commit }, attractionItem) {
+      await commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+      console.log(attractionItem);
+    },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);
     },

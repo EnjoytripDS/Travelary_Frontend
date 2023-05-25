@@ -1,34 +1,35 @@
 <template>
-  <v-timeline>
-    <v-timeline-item v-for="n in 4" :key="n" large>
-      <template v-slot:icon>
-        <v-avatar>
-          <img src="https://i.pravatar.cc/64" />
-        </v-avatar>
-      </template>
-      <template v-slot:opposite>
-        <span>Tus eu perfecto</span>
-      </template>
-
-      <v-card class="mx-auto" max-height="350" max-width="500">
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          height="160px"
-          cover
-        ></v-img>
-
-        <v-card-title> Top western road trips </v-card-title>
-
-        <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-      </v-card>
-    </v-timeline-item>
-  </v-timeline>
+  <v-container fluid>
+    <v-card-text class="py-0">
+      <v-timeline align-top dense>
+        <v-timeline-item color="teal lighten-3" small>
+          <v-row class="pt-1">
+            <v-col cols="3">
+              <strong>3-4pm</strong>
+            </v-col>
+            <v-col>
+              <strong>Design Stand Up</strong>
+              <div class="text-caption mb-2">Hangouts</div>
+              <v-avatar>
+                <v-img
+                  src="https://avataaars.io/?avatarStyle=Circle&topType=LongHairFrida&accessoriesType=Kurt&hairColor=Red&facialHairType=BeardLight&facialHairColor=BrownDark&clotheType=GraphicShirt&clotheColor=Gray01&graphicType=Skull&eyeType=Wink&eyebrowType=RaisedExcitedNatural&mouthType=Disbelief&skinColor=Brown"
+                ></v-img>
+              </v-avatar>
+            </v-col>
+          </v-row>
+        </v-timeline-item>
+      </v-timeline>
+    </v-card-text>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {};
+  },
+  props: {
+    day: Number,
   },
 };
 </script>
