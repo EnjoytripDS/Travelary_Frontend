@@ -13,6 +13,7 @@ const TripPlanStore = {
     sidoCode: "",
     tripDates: [],
     selectedAttractions: [],
+    timelineAttractions:[],
     trip: {
       id:0,
       tripName: "",
@@ -58,7 +59,18 @@ const TripPlanStore = {
       console.log("state.trip.tripOrderByAttr", state.trip.tripOrderByAttr);
       let toDeleteIdx = state.selectedAttractions.indexOf(attractionItem);
       state.selectedAttractions.splice(toDeleteIdx, 1);
+      state.timelineAttractions.push({
 
+        day:state.focusDay,
+        order:state.trip.addedOrder,
+        id:attractionItem.id,
+        contentTypeId:attractionItem.contentTypeId,
+        title:attractionItem.title,
+        address:attractionItem.addr1,
+        address2:attractionItem.addr2,
+        image:attractionItem.firstImage,
+
+      });
     },
 
     UPDATE_DATES(state, newDates) {

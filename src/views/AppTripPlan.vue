@@ -73,24 +73,27 @@
               <v-btn color="primary" @click="makeTrip"> 여행 만들기! </v-btn>
               <v-card>
                 <v-tabs color="deep-purple accent-4" right>
-                  <!--v-row로 일자 index // 일주일 넘어가면... 몰루..(예외처리 안함)-->
                   <v-row v-for="(n, index) in calNumberOfDays" :key="index">
                     <v-tab @click="changeDay(index + 1)"
                       >{{ index + 1 }}일차</v-tab
                     >
                   </v-row>
 
-                  <v-tab-item
-                    v-for="(n, index) in calNumberOfDays"
-                    :key="index"
-                  >
+
+                  <v-tab-item :key="index + 1" v-for="(n, index) in calNumberOfDays">
+                  <template v-for="(timeAttr, timeAttrIndex) in timelineAttractions">
                     <trip-timeline
+                      v-if="timeAttr.day === index + 1"
+                      :key="timeAttrIndex"
                       :day="index + 1"
-                      @pushAttrByDay="pushAttrByDay"
+                      :timeAttr="timeAttr"
                     ></trip-timeline>
-                  </v-tab-item>
+                  </template>
+                </v-tab-item>
                 </v-tabs>
               </v-card>
+`````
+
             </v-col>
           </v-row>
         </v-stepper-content>
@@ -163,10 +166,7 @@ export default {
       this.$store.dispatch("TripPlanStore/makeTrip", this.trip);
     },
 
-    pushAttrByDay(attractionItem) {
-      console.log("pushAttraction");
-      console.log(attractionItem);
-    },
+
   },
 
   computed: {
@@ -174,6 +174,7 @@ export default {
       "trip",
       "selectedAttractions",
       "searchResults",
+      "timelineAttractions"
     ]),
     ...mapGetters({
       calNumberOfDays: "TripPlanStore/calNumberOfDays",

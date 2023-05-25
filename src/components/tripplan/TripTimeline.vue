@@ -5,14 +5,16 @@
         <v-timeline-item color="teal lighten-3" small>
           <v-row class="pt-1">
             <v-col cols="3">
-              <strong>3-4pm</strong>
+              <v-img
+                  :src="timeAttr && timeAttr.image"
+                ></v-img>
             </v-col>
             <v-col>
-              <strong>Design Stand Up</strong>
-              <div class="text-caption mb-2">Hangouts</div>
+              <strong>{{timeAttr.title}}</strong>
+              <div class="text-caption mb-2">{{timeAttr.address}}</div>
               <v-avatar>
                 <v-img
-                  src="https://avataaars.io/?avatarStyle=Circle&topType=LongHairFrida&accessoriesType=Kurt&hairColor=Red&facialHairType=BeardLight&facialHairColor=BrownDark&clotheType=GraphicShirt&clotheColor=Gray01&graphicType=Skull&eyeType=Wink&eyebrowType=RaisedExcitedNatural&mouthType=Disbelief&skinColor=Brown"
+                  :src="timeAttr && timeAttr.firstImage"
                 ></v-img>
               </v-avatar>
             </v-col>
@@ -26,11 +28,14 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   props: {
     day: Number,
+    timeAttr: Object,
   },
+
 };
 </script>
 

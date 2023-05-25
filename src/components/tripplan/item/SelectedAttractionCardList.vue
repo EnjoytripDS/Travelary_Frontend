@@ -60,7 +60,9 @@ export default {
     addTimeLines(attractionItem) {
       console.log("addTImeLines");
       this.$store.dispatch("TripPlanStore/addTimeLines", attractionItem);
-      this.attraction = attractionItem;
+      this.attraction = attractionItem; // 추가 누른 관광지
+      
+
     },
     showDetails(contentId) {
       // console.log(contentId);
