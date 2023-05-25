@@ -82,13 +82,18 @@ const TripPlanStore = {
     },
   },
   actions: {
+    makeTrip({ commit }, trip) {
+      const API_URI = `${REST_API}/my-trip`;
+      axios({}).then((res) => {});
+    },
+
     focusDay({ commit }, day) {
       console.log(day);
       commit("FOCUS_DAY", day);
     },
-    async addTimeLines({ commit }, attractionItem) {
-      await commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+    addTimeLines({ commit }, attractionItem) {
       console.log("ADD_DAY_ORDER_BY_ATTRACTION mutation 호출", attractionItem);
+      commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
     },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);
