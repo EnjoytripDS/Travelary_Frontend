@@ -6,7 +6,7 @@
         <div
           :class="[`text-h3`, active && `mb-0`]"
         >
-          Q&A 작성
+          여행 후기 작성
         </div>
       </v-col>
     </v-row>
@@ -41,6 +41,13 @@
                 <v-textarea filled name="content" hint="내용을 입력해주세요." v-model="content" :counter="1000" maxlength="1000"></v-textarea>
               </v-col>
             </v-row>
+            <v-row class="qna-board-create-infor-row">
+              <v-col cols="3"/>
+              <v-col cols="2"> 이미지 추가 </v-col>
+              <v-col cols="4">
+                <input type="file" name="uploadFile" accept="image/*" label="이미지 업로드" @change="handleFileUpload" multiple>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col cols="7"/>
               <v-btn color="blue" @click="createQna" class="regbutton"> 등록 </v-btn>
@@ -65,6 +72,7 @@ export default {
     return {
       title: "",
       content: "",
+      uploadFile: null,
     };
   },
   props: [
@@ -83,12 +91,16 @@ export default {
         title: this.title,
         nickname: this.user.nickname,
         content: this.content,
+        uploadFile: this.uploadFile,
       };
       this.createQnaBoard(qnaBoard);
     },
     // 게시글 등록 취소 -> 목록 페이지 이동
     cancel() {
       this.$router.push({ name: "qnaboard-list" });
+    },
+    handleFileUpload(e) {
+      this.uploadFile = e.target.files;
     },
   },
   computed: {

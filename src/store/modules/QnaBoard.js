@@ -17,16 +17,16 @@ const QnaBoardStore = {
       boardComment: {},
       inUpdate: 0,
     }],
+    boardImages: [],
+    imgUrls: [],
   },
   getters: {},
   mutations: {
-    CREATE_QNA_BOARD(state, qnaBoard) {
-      state.qnaBoards.push(qnaBoard);
-    },
     SET_QNA_BOARDS(state, qnaBoards) {
       state.qnaBoards = qnaBoards;
     },
     SET_QNA_BOARD_DETAIL(state, qnaBoard) {
+      state.imgUrls.length = 0;
       state.qnaBoard = qnaBoard;
     },
     UPDATE_QNA_BOARD(state, qnaBoard) {
@@ -39,22 +39,42 @@ const QnaBoardStore = {
       state.qnaBoards = qnaBoards;
     },
     SET_BOARD_COMMENTS(state, boardComments) {
+      state.boardComments.length = 0;
       boardComments.forEach((item) => {
         state.boardComments.push({ boardComment: item, inUpdate: 0 });
       });
     },
+    SET_BOARD_IMAGES(state, boardImages) {
+      state.imgUrls.length = 0;
+      state.boardImages = boardImages;
+      boardImages.forEach((item) => {
+        state.imgUrls.push("http://localhost:9999" + item.imageUrl);
+      });
+    },
   },
   actions: {
-    async createQnaBoard({ commit }, qnaBoard) {
+    async createQnaBoard({ dispatch }, qnaBoard) {
       const API_URI = `${REST_API}/qna-board`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      let req = {
+        title: qnaBoard.title,
+        nickname: qnaBoard.nickname,
+        content: qnaBoard.content,
+      }
       await axios({
         url: API_URI,
         method: "post",
-        data: qnaBoard,
+        data: req,
       }).then((res) => {
-        if (res.data.success == true)
-          commit("CREATE_QNA_BOARD", qnaBoard);
+        if (res.data.success == true) {
+          if(qnaBoard.uploadFile != null) {
+              let uploadReq = {
+                uploadFile: qnaBoard.uploadFile,
+                id: res.data.data,
+              };
+              dispatch("uploadBoardImage", uploadReq);
+          }
+        }
         else
           alert("작성 실패");
         router.push("/qna-board");
@@ -224,6 +244,45 @@ const QnaBoardStore = {
         }
         else
           alert("댓글을 삭제할 수 없습니다");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    uploadBoardImage({ commit }, uploadReq) {
+      const API_URI = `${REST_API}/qna-board/${uploadReq.id}/image`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      var formData = new FormData();
+      for(let i = 0; i < uploadReq.uploadFile.length; i++) {
+        formData.append("uploadFile", uploadReq.uploadFile[i]);
+      }
+      axios({
+        url: API_URI,
+        method: "post",
+        data: formData,
+      }).then((res) => {
+        if (res.data.success == true)
+          commit;
+        else
+          alert("파일을 업로드 할 수 없습니다!");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    getBoardImage({ commit }, id) {
+      const API_URI = `${REST_API}/qna-board/${id}/image`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      axios({
+        url: API_URI,
+        method: "get",
+      }).then((res) => {
+        if (res.data.success == true) {
+          commit("SET_BOARD_IMAGES", res.data.data);
+        }
+        else {
+          alert("파일을 불러 올 수 없습니다!");
+        }
       }).catch(() => {
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");

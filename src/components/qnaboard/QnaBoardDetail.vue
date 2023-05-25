@@ -6,7 +6,7 @@
             <div
             :class="[`text-h3`, active && `mb-0`]"
             >
-            작성 글 보기
+            {{ qnaBoard.title }}
             </div>
         </v-col>
         </v-row>
@@ -26,16 +26,9 @@
                     </v-row>
                     <v-row class="qna-board-detail-infor-row">
                         <v-col cols="3"/>
-                        <v-col cols="1" class="board-item"> 제목 </v-col>
-                        <v-col cols="3" class="board-text">
-                            {{ qnaBoard.title }}
-                        </v-col>
-                    </v-row>
-                    <v-row class="qna-board-detail-infor-row">
-                        <v-col cols="3"/>
                         <v-col cols="1" class="board-item"> 내용 </v-col>
                     </v-row>
-                    <v-row class="qna-board-detail-btn-row">
+                    <v-row class="qna-board-detail-infor-row">
                         <v-col cols="3"/>
                         <v-col cols="5" class="board-text">
                             <v-textarea
@@ -49,6 +42,22 @@
                             class="board-text"
                             >
                             </v-textarea>
+                        </v-col>
+                    </v-row>
+                    <v-row class="qna-board-detail-btn-row">
+                        <v-col cols="3"/>
+                        <v-col cols="5">
+                            <template v-if="imgUrls.length != 0" >
+                                <v-carousel>
+                                    <v-carousel-item
+                                    v-for="(item, i) in imgUrls"
+                                    :key="i"
+                                    :src="item"
+                                    reverse-transition="fade-transition"
+                                    transition="fade-transition"
+                                    ></v-carousel-item>
+                                </v-carousel>
+                            </template>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -89,26 +98,27 @@ export default {
     name: "QnaBoardDetail",
     data() {
         return {
-            
+
         }
     },
     props: [
         'active'
     ],
     computed: {
-        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments"]),
+        ...mapState(QnaBoardStore, ["qnaBoard", "boardComments", "boardImages", "imgUrls"]),
         ...mapState(UserStore, ["user"]),
         checkWriter() {
             return this.user.nickname == this.qnaBoard.nickname;
-        }
+        },
     },
     created() {
         const pathname = new URL(document.location).pathname.split("/");
         const id = pathname[pathname.length - 1];
         this.getQnaBoardDetail(id);
+        this.getBoardImage(id);
     },
     methods: {
-        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard"]),
+        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard", "getBoardImage"]),
         qnaRemove() {
             if(confirm(`정말 삭제하실 건가요?`) == true)
                 this.deleteQnaBoard(this.qnaBoard.id);

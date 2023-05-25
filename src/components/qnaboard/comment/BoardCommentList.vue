@@ -55,15 +55,18 @@ export default {
     },
     data() {
         return {
-            id: ""
+            id: "",
+            originalContent: "",
         }
     },
     methods: {
         ...mapActions(QnaBoardStore, ["getBoardComments", "updateBoardComment", "deleteBoardComment"]),
         upToggle(index) {
+            this.originalContent = this.boardComments[index].boardComment.content;
             this.boardComments[index].inUpdate = 1;
         },
         cancel(index) {
+            this.boardComments[index].boardComment.content = this.originalContent;
             this.boardComments[index].inUpdate = 0;
         },
         upcmt(index) {
@@ -77,7 +80,6 @@ export default {
                 nickname: this.boardComments[index].boardComment.nickname,
                 boardId: this.id
             };
-            this.boardComments.length = 0;
             this.updateBoardComment(boardComment);
             this.boardComments[index].inUpdate = 0;
         },
@@ -86,7 +88,6 @@ export default {
                 boardId : this.id,
                 commentId: this.boardComments[index].boardComment.id,
             };
-            this.boardComments.length = 0;
             this.deleteBoardComment(ids);
             this.boardComments.splice(index, 1);
         }

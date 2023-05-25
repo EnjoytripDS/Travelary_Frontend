@@ -6,7 +6,7 @@
         <div
           :class="[`text-h3`, active && `mb-0`]"
         >
-          작성글 수정
+          여행 후기 수정
         </div>
       </v-col>
     </v-row>
