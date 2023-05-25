@@ -170,8 +170,7 @@ const UserStore = {
                 method: "put",
                 data: upUser,
             }).then((response) => {
-                if (response.data.success == true)
-                {
+                if (response.data.success == true) {
                     commit("UPDATE_USER", upUser);
                     alert("수정 완료되었습니다!");
                 }
