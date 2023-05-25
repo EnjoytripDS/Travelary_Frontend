@@ -64,18 +64,21 @@ export default {
 .userinfo {
     margin-top: 30px;
 }
+
 .title-my-page{
     margin-top: 10px;
     color: powderblue;
     font-size: 30px;
 }
+
 .mypage-link {
-  text-decoration: none;
-  color: black !important; /* Set font color to black */
-  font-weight: bold; /* Set font weight to bold */
-  font-size: 20px; /* Increase font size */
+    text-decoration: none;
+    color: black !important; /* Set font color to black */
+    font-weight: bold; /* Set font weight to bold */
+    font-size: 20px; /* Increase font size */
 }
+
 .mypage-link.active {
-  color: powderblue !important; /* Set font color to blue for active route */
+    color: powderblue !important; /* Set font color to blue for active route */
 }
 </style>

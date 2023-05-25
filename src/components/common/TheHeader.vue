@@ -172,6 +172,6 @@ ul.menu li {
 }
 
 .link.active {
-  color: powderblue; /* Set font color to blue for active route */
+  color: powderblue !important; /* Set font color to blue for active route */
 }
 </style>

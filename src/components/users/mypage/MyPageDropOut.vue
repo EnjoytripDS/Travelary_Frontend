@@ -42,16 +42,16 @@ export default {
         }
     },
     computed: {
-        ...mapState(UserStore, ["userId"]),
+        ...mapState(UserStore, ["user"]),
     },
     methods: {
         ...mapActions(UserStore, ["deleteUser"]),
         dropOutUser() {
             if(confirm(`지금까지 함께한 추억...
-정말로 탈퇴하실 건가요?`) == true)
+                        정말로 탈퇴하실 건가요?`) == true)
             {
                 let dropUserInfo = {
-                    id: this.userId,
+                    id: this.user.id,
                     password: this.password,
                 };
                 this.deleteUser(dropUserInfo);
@@ -94,7 +94,7 @@ font-size: 24px; /* Increase font size */
 }
 
 .mypagedrop-input-col {
-    margin-top: 20px;
+margin-top: 20px;
 }
 
 .mypagedrop-btn-row {

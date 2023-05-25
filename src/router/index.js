@@ -7,7 +7,6 @@ import store from "@/store";
 
 Vue.use(VueRouter);
 
-
 const onlyAuthUser = async (to, from, next) => {
   const checkUserInfo = store.getters["UserStore/checkUserInfo"];
   const checkToken = store.getters["UserStore/checkToken"];
