@@ -106,7 +106,7 @@ export default {
           lat: 37.5241355,
           lng: 127.0522655,
         },
-        level: 7,
+        level: 6,
       },
       positions: [],
       e1: 1,
