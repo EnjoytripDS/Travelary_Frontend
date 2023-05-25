@@ -4,7 +4,7 @@
       <ul class="menu">
         <li class="logo">
           <router-link :to="{ name: 'home' }">
-            <v-img src="@/assets/logo.png" max-height="100" max-width="100" />
+            <v-img src="@/assets/TravelaryLogo.png" max-height="200" max-width="200"/>
           </router-link>
         </li>
         <li class="menu-nav">
