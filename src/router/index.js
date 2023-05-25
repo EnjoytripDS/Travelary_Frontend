@@ -90,12 +90,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserLogin"),
       },
       {
-        path: "register-check",
-        name: "register-check",
-        component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserRegisterCheck"),
-      },
-
-      {
         path: "mypage/:id",
         name: "user-mypage",
         component: () => import(/* webpackChunkName: "mypage" */ "@/components/users/UserMyPage"),

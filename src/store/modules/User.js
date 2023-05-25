@@ -57,7 +57,8 @@ const UserStore = {
             }).then((response) => {
                 if (response.data.success == true) {
                     commit;
-                    router.push({name : "register-check"});
+                    alert("회원 가입이 완료되었습니다!! 환영합니다!!");
+                    router.push({name : "login"});
                 }
                 else {
                     if (response.data.error.code == "DUPLICATED_EMAIL")
