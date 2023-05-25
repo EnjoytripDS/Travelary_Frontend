@@ -35,7 +35,7 @@
               <search-attraction margin="0" @showOnMap="showOnMap"></search-attraction>
             </v-col>
             <v-col cols="8">
-              <the-kakao-map :options="mapOption"></the-kakao-map>
+              <the-kakao-map :options="mapOption" :attractions="searchResults"></the-kakao-map>
             </v-col>
           </v-row>
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
@@ -108,7 +108,7 @@ export default {
         },
         level: 7,
       },
-      attractions: [],
+      positions: [],
       e1: 1,
       step3ListTitle: "선택한 관광지",
     };
@@ -136,7 +136,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("TripPlanStore", ["trip", "selectedAttractions", "focusDay"]),
+    ...mapState("TripPlanStore", ["trip", "selectedAttractions", "focusDay", "searchResults"]),
     ...mapGetters({
       calNumberOfDays: "TripPlanStore/calNumberOfDays",
     }),
