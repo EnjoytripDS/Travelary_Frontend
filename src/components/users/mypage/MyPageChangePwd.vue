@@ -67,15 +67,18 @@ export default {
             if(this.curpwd == "" || this.newpwd == "")
                 alert("모든 항목을 입력해주세요");
             else if(this.newpwd != this.newpwdchk)
-                alert("비밀번호를 다시 재입력해주세요")
+                alert("비밀번호를 다시 확인해주세요")
             else {
                 let userPwd = {
                     curPwd: this.curpwd,
                     newPwd: this.newpwd,
                 };
                 this.updatePwd(userPwd);
+                this.curpwd = "";
+                this.newpwd = "";
+                this.newpwdchk = "";
             }
-        }
+        },
     }
 }
 </script>

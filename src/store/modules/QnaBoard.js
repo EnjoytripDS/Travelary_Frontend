@@ -51,6 +51,10 @@ const QnaBoardStore = {
         state.imgUrls.push("http://localhost:9999" + item.imageUrl);
       });
     },
+    SET_IMAGE_NULLS(state) {
+      state.imgUrls.length = 0;
+      state.boardImages.length = 0;
+    },
   },
   actions: {
     async createQnaBoard({ dispatch }, qnaBoard) {
@@ -154,10 +158,10 @@ const QnaBoardStore = {
         Store.dispatch("UserStore/tokenRegeneration")
       });
     },
-    deleteQnaBoard({ commit }, id) {
+    async deleteQnaBoard({ commit }, id) {
       const API_URI = `${REST_API}/qna-board/${id}`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
-      axios({
+      await axios({
         url: API_URI,
         method: "delete",
       }).then((res) => {
@@ -283,6 +287,23 @@ const QnaBoardStore = {
         else {
           alert("파일을 불러 올 수 없습니다!");
         }
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    deleteBoardAllImage({ commit }, id) {
+      const API_URI = `${REST_API}/qna-board/${id}/image`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      axios({
+        url: API_URI,
+        method: "delete",
+      }).then((res) => {
+        if (res.data.success == true) {
+          commit("SET_IMAGE_NULLS");
+        }
+        else
+          alert("이미지들을 삭제할 수 없습니다");
       }).catch(() => {
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");
