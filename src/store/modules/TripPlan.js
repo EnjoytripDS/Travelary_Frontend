@@ -20,7 +20,7 @@ const TripPlanStore = {
       numberOfDays: 1,
       tripAttractions: [],
       addedOrder: 0,
-      tripOrderByAttr: [{ contentId: 0, dayByAttraction: 0, orderByDay: 0 }],
+      tripOrderByAttr: [],
     },
     searchResults: [],
   },
@@ -45,15 +45,12 @@ const TripPlanStore = {
       state.focusDay = day;
     },
     async ADD_DAY_ORDER_BY_ATTRACTION(state, attractionItem) {
-      await state.trip.tripOrderByAttr.push({
+      state.trip.tripOrderByAttr.push({
         contentId: attractionItem.id,
         dayByAttraction: state.focusDay,
         orderByDay: ++state.trip.addedOrder,
       });
-      await state.trip.tripAttractions.push(attractionItem);
-      console.log(state.focusDay);
-      console.log(state.trip.addedOrder);
-      console.log(attractionItem.id);
+      console.log("state.trip.tripOrderByAttr", state.trip.tripOrderByAttr);
     },
 
     UPDATE_DATES(state, newDates) {
@@ -91,7 +88,7 @@ const TripPlanStore = {
     },
     async addTimeLines({ commit }, attractionItem) {
       await commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
-      console.log(attractionItem);
+      console.log("ADD_DAY_ORDER_BY_ATTRACTION mutation 호출", attractionItem);
     },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);
