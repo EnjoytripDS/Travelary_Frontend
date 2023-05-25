@@ -161,6 +161,7 @@ const UserStore = {
         },
         updateUser({ commit }, modUser) {
             const API_URI = `${REST_API}/user/${modUser.id}`;
+            axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
             let upUser = {
                 email: modUser.email,
                 nickname: modUser.nickname,
@@ -181,9 +182,9 @@ const UserStore = {
             });
         },
         updatePwd({ state }, userPwd) {
-            const API_URI = `${REST_API}/user/password}`;
+            const API_URI = `${REST_API}/user/password/${state.user.id}`;
+            axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
             let upPwd = {
-                userId: state.userId,
                 curPwd: userPwd.curPwd,
                 newPwd: userPwd.newPwd,
             };
@@ -202,6 +203,7 @@ const UserStore = {
         },
         deleteUser({ commit }, dropUserInfo) {
             const API_URI = `${REST_API}/user/${dropUserInfo.id}`;
+            axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
             axios({
                 url: API_URI,
                 method: "delete",
