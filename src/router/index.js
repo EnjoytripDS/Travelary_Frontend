@@ -7,7 +7,6 @@ import store from "@/store";
 
 Vue.use(VueRouter);
 
-
 const onlyAuthUser = async (to, from, next) => {
   const checkUserInfo = store.getters["UserStore/checkUserInfo"];
   const checkToken = store.getters["UserStore/checkToken"];
@@ -89,12 +88,6 @@ const routes = [
         name: "login",
         component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserLogin"),
       },
-      {
-        path: "register-check",
-        name: "register-check",
-        component: () => import(/* webpackChunkName: "users" */ "@/components/users/UserRegisterCheck"),
-      },
-
       {
         path: "mypage/:id",
         name: "user-mypage",

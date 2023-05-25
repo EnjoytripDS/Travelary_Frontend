@@ -118,10 +118,12 @@ export default {
         this.getBoardImage(id);
     },
     methods: {
-        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard", "getBoardImage"]),
+        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard", "getBoardImage", "deleteBoardAllImage"]),
         qnaRemove() {
-            if(confirm(`정말 삭제하실 건가요?`) == true)
+            if(confirm(`정말 삭제하실 건가요?`) == true) {
+                this.deleteBoardAllImage(this.qnaBoard.id);
                 this.deleteQnaBoard(this.qnaBoard.id);
+            }
         },
         goToUpdate() {
             this.$router.push({ name: "qnaboard-update" });

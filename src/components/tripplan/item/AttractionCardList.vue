@@ -35,10 +35,27 @@
           </v-dialog>
         </div>
         <v-spacer></v-spacer>
-
-        <v-btn class="sx-2 click-cursor" fab dark color="indigo" @click="addPlan(attractionItem)">
-          <v-icon dark> mdi-heart </v-icon>
-        </v-btn>
+        <template v-if="addState == 0">
+          <v-btn
+            class="sx-2 click-cursor"
+            fab
+            dark
+            color="indigo"
+            @click="addCard(attractionItem)"
+          >
+            <v-icon dark> mdi-heart </v-icon>
+          </v-btn>
+        </template>
+        <template v-else>
+          <v-btn
+            class="sx-2 click-cursor"
+            fab
+            color="red"
+            @click="addCard(attractionItem)"
+          >
+            <v-icon color="white"> mdi-heart </v-icon>
+          </v-btn>
+        </template>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -55,7 +72,8 @@ export default {
     return {
       dialog: false,
       detailsData: null,
-    };
+      addState: 0,
+    }
   },
   methods: {
     ...mapActions("TripPlanStore", ["addPlan"]),
@@ -79,6 +97,10 @@ export default {
           console.error(error);
         });
     },
+    addCard(attractionItem) {
+      this.addState = 1 - this.addState;
+      this.addPlan(attractionItem);
+    }
   },
 };
 </script>
