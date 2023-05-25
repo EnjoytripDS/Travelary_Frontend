@@ -118,10 +118,15 @@ export default {
         this.getBoardImage(id);
     },
     methods: {
-        ...mapActions(QnaBoardStore, ["getQnaBoardDetail", "deleteQnaBoard", "getBoardImage", "deleteBoardAllImage"]),
+        ...mapActions(QnaBoardStore, ["deleteBoardAllComment", "getQnaBoardDetail", "deleteQnaBoard", "getBoardImage", "deleteBoardAllImage"]),
         qnaRemove() {
             if(confirm(`정말 삭제하실 건가요?`) == true) {
-                this.deleteBoardAllImage(this.qnaBoard.id);
+                if(this.imgUrls.length != 0) {
+                    this.deleteBoardAllImage(this.qnaBoard.id);
+                }
+                if(this.boardComments.length != 0) {
+                    this.deleteBoardAllComment(this.qnaBoard.id);
+                }
                 this.deleteQnaBoard(this.qnaBoard.id);
             }
         },

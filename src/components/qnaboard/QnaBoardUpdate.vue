@@ -108,11 +108,13 @@ export default {
         content: this.qnaBoard.content,
         nickname: this.qnaBoard.nickname,
       };
-      let upImgReq = {
-        id: this.qnaBoard.id,
-        uploadFile: this.uploadFile,
+      if(this.uploadFile != null) {
+        let upImgReq = {
+          id: this.qnaBoard.id,
+          uploadFile: this.uploadFile,
+        }
+        this.uploadBoardImage(upImgReq)
       }
-      this.uploadBoardImage(upImgReq)
       this.updateQnaBoard(updateQna);
     },
     cancel() {
