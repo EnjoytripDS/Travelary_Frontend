@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-stepper v-model="e1">
-      <v-stepper-header>
+      <v-stepper-header color="indigo">
         <v-stepper-step :complete="e1 > 1" step="1" editable>
           여행 정보 입력
         </v-stepper-step>
@@ -30,7 +30,9 @@
           <v-row>
             <trip-info-form></trip-info-form>
           </v-row>
-          <v-btn color="primary" @click="clickFirstBtn"> 다음 단계 </v-btn>
+          <v-btn color="indigo white--text" @click="clickFirstBtn">
+            다음 단계
+          </v-btn>
           <!-- <v-btn text> Cancel </v-btn> -->
         </v-stepper-content>
 
@@ -70,29 +72,42 @@
               ></selected-attraction-card-list
             ></v-col>
             <v-col cols="8">
-              <v-btn color="primary" @click="completeTrip"> 여행 만들기! </v-btn>
-              <v-card>
-                <v-tabs color="deep-purple accent-4" right>
-                  <v-row v-for="(n, index) in calNumberOfDays" :key="index">
-                    <v-tab @click="changeDay(index + 1)"
-                      >{{ index + 1 }}일차</v-tab
+              <v-row>
+                <v-btn
+                  color="indigo white--text"
+                  @click="completeTrip"
+                  style="margin-bottom: 20px"
+                >
+                  여행 만들기!
+                </v-btn>
+              </v-row>
+              <v-row>
+                <v-card>
+                  <v-tabs color="deep-purple accent-4" right>
+                    <v-row v-for="(n, index) in calNumberOfDays" :key="index">
+                      <v-tab @click="changeDay(index + 1)"
+                        >{{ index + 1 }}일차</v-tab
+                      >
+                    </v-row>
+
+                    <v-tab-item
+                      :key="index + 1"
+                      v-for="(n, index) in calNumberOfDays"
                     >
-                  </v-row>
-
-
-                  <v-tab-item :key="index + 1" v-for="(n, index) in calNumberOfDays">
-                  <template v-for="(timeAttr, timeAttrIndex) in timelineAttractions">
-                    <trip-timeline
-                      v-if="timeAttr.day === index + 1"
-                      :key="timeAttrIndex"
-                      :day="index + 1"
-                      :timeAttr="timeAttr"
-                    ></trip-timeline>
-                  </template>
-                </v-tab-item>
-                </v-tabs>
-              </v-card>
-
+                      <template
+                        v-for="(timeAttr, timeAttrIndex) in timelineAttractions"
+                      >
+                        <trip-timeline
+                          v-if="timeAttr.day === index + 1"
+                          :key="timeAttrIndex"
+                          :day="index + 1"
+                          :timeAttr="timeAttr"
+                        ></trip-timeline>
+                      </template>
+                    </v-tab-item>
+                  </v-tabs>
+                </v-card>
+              </v-row>
             </v-col>
           </v-row>
         </v-stepper-content>
@@ -139,7 +154,6 @@ export default {
     };
   },
   methods: {
-  
     completeTrip() {
       // console.log("여행 생성", this.trip);
       this.$store.dispatch("TripPlanStore/completeTrip", this.trip);
@@ -164,8 +178,6 @@ export default {
       console.log("여행 생성", this.trip);
       this.$store.dispatch("TripPlanStore/makeTrip", this.trip);
     },
-
-
   },
 
   computed: {
@@ -173,7 +185,7 @@ export default {
       "trip",
       "selectedAttractions",
       "searchResults",
-      "timelineAttractions"
+      "timelineAttractions",
     ]),
     ...mapGetters({
       calNumberOfDays: "TripPlanStore/calNumberOfDays",
