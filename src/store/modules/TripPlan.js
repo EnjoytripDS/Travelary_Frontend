@@ -14,6 +14,7 @@ const TripPlanStore = {
     tripDates: [],
     selectedAttractions: [],
     trip: {
+      id:0,
       tripName: "",
       tripFirstDate: "",
       tripLastDate: "",
@@ -41,6 +42,9 @@ const TripPlanStore = {
     },
   },
   mutations: {
+    MAKE_TRIP(state, tripId){
+      state.trip.id = tripId;
+    },
     FOCUS_DAY(state, day) {
       state.focusDay = day;
     },
@@ -82,9 +86,22 @@ const TripPlanStore = {
     },
   },
   actions: {
-    makeTrip({ commit }, trip) {
+    async makeTrip({ commit }, trip) {
       const API_URI = `${REST_API}/my-trip`;
-      axios({}).then((res) => {});
+      let req = {
+        name: trip.tripName,
+        firstdate: trip.tripFirstDate,
+        lastdate: trip.tripLastDate,
+      }
+      await axios({
+        url: API_URI,
+        method: "post",
+        data: req
+      }).then((res) => {
+        commit("MAKE_TRIP", res.data.data);
+
+
+      });
     },
 
     focusDay({ commit }, day) {
