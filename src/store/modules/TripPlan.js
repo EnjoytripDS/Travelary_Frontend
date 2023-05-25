@@ -83,7 +83,7 @@ const TripPlanStore = {
   },
   actions: {
     focusDay({ commit }, day) {
-      // console.log(day);
+      console.log(day);
       commit("FOCUS_DAY", day);
     },
     async addTimeLines({ commit }, attractionItem) {
