@@ -92,7 +92,6 @@
                 </v-tab-item>
                 </v-tabs>
               </v-card>
-`````
 
             </v-col>
           </v-row>
