@@ -2,10 +2,11 @@
   <v-footer
     flat
     tile
+    color="{ r: 89.4, g: 67.8, b: 65.9}"
     class="indigo lighten-1 white--text text-center"
-    style="margin-top: 400px;"
+    style="margin-top: 400px"
   >
-    <v-card-text class="white--text pt-0" style="margin-top: 25px;">
+    <v-card-text class="white--text pt-0" style="margin-top: 25px">
       노성호 윤다정
     </v-card-text>
     <v-card-text class="white--text">
@@ -20,5 +21,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

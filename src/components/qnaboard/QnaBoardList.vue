@@ -2,12 +2,19 @@
   <v-container>
     <v-card class="qnalist">
       <v-card-title> 여행 후기 게시판 </v-card-title>
-      <v-data-table :headers="headers" :items="qnaBoards" :items-per-page="10" :search="search">
+      <v-data-table
+        :headers="headers"
+        :items="qnaBoards"
+        :items-per-page="10"
+        :search="search"
+      >
         <template #item="{ item }">
           <tr>
             <td>{{ item.id }}</td>
             <td>
-              <router-link :to="`detail/${item.id}`" class="qna-detail-link">{{ item.title }}</router-link>
+              <router-link :to="`detail/${item.id}`" class="qna-detail-link">{{
+                item.title
+              }}</router-link>
             </td>
             <td>{{ item.nickname }}</td>
             <td>{{ item.createtime }}</td>
@@ -16,8 +23,8 @@
         </template>
       </v-data-table>
       <v-row>
-        <v-col cols="7"/>
-        <v-col cols="1">
+        <v-col />
+        <v-col>
           <v-select
             :items="searchOption"
             item-text="name"
@@ -28,14 +35,27 @@
             class="qna-board-list-input"
           ></v-select>
         </v-col>
-        <v-col cols="2">
-          <v-text-field label="검색어" v-model="searchKeyword" placeholder="검색어를 입력해주세요" dense class="qna-board-list-input"></v-text-field>
+        <v-col>
+          <v-text-field
+            label="검색어"
+            v-model="searchKeyword"
+            placeholder="검색어를 입력해주세요"
+            dense
+            class="qna-board-list-input"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="1">
-          <v-btn @click="searchstart" :style="{ marginTop: '10px' }">검색</v-btn>
+          <v-btn @click="searchstart" :style="{ marginTop: '10px' }"
+            >검색</v-btn
+          >
         </v-col>
         <v-col>
-          <v-btn color="success" class="writebutton" @click="goToWrite">
+          <v-btn
+            color="indigo
+            white--text"
+            class="writebutton"
+            @click="goToWrite"
+          >
             <v-icon left>mdi-pencil</v-icon>
             글쓰기
           </v-btn>
@@ -46,7 +66,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const QnaBoardStore = "QnaBoardStore";
 
@@ -76,9 +96,7 @@ export default {
       searchKeyword: "", // 검색 키워드
     };
   },
-  props: [
-    'search', 'items', 'active'
-  ],
+  props: ["search", "items", "active"],
   methods: {
     ...mapActions(QnaBoardStore, ["getQnaBoards", "searchQnaBoards"]),
     goToWrite() {
@@ -86,7 +104,10 @@ export default {
     },
     searchstart() {
       if (!this.searchKeyword) alert("검색어를 입력해주세요");
-      this.searchQnaBoards({ mode: this.searchoptionselected, keyword: this.searchKeyword });
+      this.searchQnaBoards({
+        mode: this.searchoptionselected,
+        keyword: this.searchKeyword,
+      });
     },
   },
   computed: {

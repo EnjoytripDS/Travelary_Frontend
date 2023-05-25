@@ -1,13 +1,9 @@
 <template>
   <v-container>
     <v-row class="qna-board-create-top-row">
-      <v-col cols="3"/>
+      <v-col cols="3" />
       <v-col class="qna-board-create-title-text">
-        <div
-          :class="[`text-h3`, active && `mb-0`]"
-        >
-          여행 후기 작성
-        </div>
+        <div :class="[`text-h3`, active && `mb-0`]">여행 후기 작성</div>
       </v-col>
     </v-row>
     <v-row>
@@ -17,41 +13,74 @@
       <v-col>
         <v-form>
           <v-container>
-            <v-row class="qna-board-create-first-row"> 
-              <v-col cols="3"/>
+            <v-row class="qna-board-create-first-row">
+              <v-col cols="3" />
               <v-col cols="1">작성자 </v-col>
               <v-col cols="3">
-                <v-text-field :counter="20" label="작성자" name="nickname" readonly required v-model="user.nickname" maxlength="20"></v-text-field>
+                <v-text-field
+                  :counter="20"
+                  label="작성자"
+                  name="nickname"
+                  readonly
+                  required
+                  v-model="user.nickname"
+                  maxlength="20"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row class="qna-board-create-infor-row">
-              <v-col cols="3"/>
+              <v-col cols="3" />
               <v-col cols="1"> 제목 </v-col>
               <v-col cols="3">
-                <v-text-field :counter="50" label="제목" name="title" required v-model="title" maxlength="50"></v-text-field>
+                <v-text-field
+                  :counter="50"
+                  label="제목"
+                  name="title"
+                  required
+                  v-model="title"
+                  maxlength="50"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row class="qna-board-create-infor-row">
-              <v-col cols="3"/>
+              <v-col cols="3" />
               <v-col cols="1"> 내용 </v-col>
             </v-row>
             <v-row class="qna-board-create-infor-row">
-              <v-col cols="3"/>
+              <v-col cols="3" />
               <v-col cols="5">
-                <v-textarea filled name="content" hint="내용을 입력해주세요." v-model="content" :counter="1000" maxlength="1000"></v-textarea>
+                <v-textarea
+                  filled
+                  name="content"
+                  hint="내용을 입력해주세요."
+                  v-model="content"
+                  :counter="1000"
+                  maxlength="1000"
+                ></v-textarea>
               </v-col>
             </v-row>
             <v-row class="qna-board-create-infor-row">
-              <v-col cols="3"/>
+              <v-col cols="3" />
               <v-col cols="2"> 이미지 추가 </v-col>
               <v-col cols="4">
-                <input type="file" name="uploadFile" accept="image/*" label="이미지 업로드" @change="handleFileUpload" multiple>
+                <input
+                  type="file"
+                  name="uploadFile"
+                  accept="image/*"
+                  label="이미지 업로드"
+                  @change="handleFileUpload"
+                  multiple
+                />
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="7"/>
-              <v-btn color="blue" @click="createQna" class="regbutton"> 등록 </v-btn>
-              <v-btn color="gray" @click="cancel" class="cancelbutton"> 취소 </v-btn>
+              <v-col cols="7" />
+              <v-btn color="indigo" @click="createQna" class="regbutton">
+                등록
+              </v-btn>
+              <v-btn color="gray" @click="cancel" class="cancelbutton">
+                취소
+              </v-btn>
             </v-row>
           </v-container>
         </v-form>
@@ -75,15 +104,12 @@ export default {
       uploadFile: null,
     };
   },
-  props: [
-    'active'
-  ],
+  props: ["active"],
   methods: {
     // qna 게시글 등록
     ...mapActions(QnaBoardStore, ["createQnaBoard"]),
     createQna() {
-      if(this.title == "" || this.content == "")
-      {
+      if (this.title == "" || this.content == "") {
         alert("빈 칸 없이 작성해 주세요");
         return;
       }
@@ -118,7 +144,7 @@ export default {
   margin-left: 40px;
 }
 
-.custom-divider{
+.custom-divider {
   margin-left: 480px;
   margin-right: 575px;
   margin-bottom: 20px;

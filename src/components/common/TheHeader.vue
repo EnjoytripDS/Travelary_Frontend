@@ -4,7 +4,11 @@
       <ul class="menu">
         <li class="logo">
           <router-link :to="{ name: 'home' }">
-            <v-img src="@/assets/TravelaryLogo.png" max-height="200" max-width="200"/>
+            <v-img
+              src="@/assets/TravelaryLogo.png"
+              max-height="200"
+              max-width="200"
+            />
           </router-link>
         </li>
         <li class="menu-nav">
@@ -41,9 +45,9 @@
           <template v-if="user">
             <v-menu offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on" class="profilebutton" color="blue" rounded>
-                  <v-icon>mdi-account-box</v-icon>
-                </v-btn>
+                <v-avatar v-on="on" class="profilebutton" color="indigo">
+                  <v-icon dark> mdi-account-circle</v-icon>
+                </v-avatar>
               </template>
               <v-list>
                 <v-list-item @click="toMyPage">
@@ -62,7 +66,7 @@
             </v-menu>
           </template>
           <template v-else>
-            <v-btn @click="toLogin" class="loginbutton" color="blue">
+            <v-btn @click="toLogin" class="loginbutton" color="indigo">
               Log In
             </v-btn>
             <v-btn @click="toRegist" class="registbutton"> 회원 가입 </v-btn>
@@ -105,7 +109,9 @@ export default {
       this.$router.push({ name: "register" }).catch(() => {}); // 회원 가입 경로로 이동
     },
     toMyPage() {
-      this.$router.push({name: "user-mypage", params: {id: this.user.id}}).catch(() => {});
+      this.$router
+        .push({ name: "user-mypage", params: { id: this.user.id } })
+        .catch(() => {});
     },
     toLogout() {
       this.logout(this.user.id);
@@ -172,6 +178,10 @@ ul.menu li {
 }
 
 .link.active {
-  color: powderblue !important; /* Set font color to blue for active route */
+  color: rgb(
+    13,
+    24,
+    184
+  ) !important; /* Set font color to blue for active route */
 }
 </style>
