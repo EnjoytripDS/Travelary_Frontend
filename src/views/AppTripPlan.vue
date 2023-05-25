@@ -2,13 +2,9 @@
   <v-container>
     <v-stepper v-model="e1">
       <v-stepper-header>
-        <v-stepper-step :complete="e1 > 1" step="1" editable>
-          여행 정보 입력
-        </v-stepper-step>
+        <v-stepper-step :complete="e1 > 1" step="1" editable> 여행 정보 입력 </v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step :complete="e1 > 2" step="2" editable>
-          관광지 검색
-        </v-stepper-step>
+        <v-stepper-step :complete="e1 > 2" step="2" editable> 관광지 검색 </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step step="3" editable> 일자별 세부 계획 </v-stepper-step>
       </v-stepper-header>
@@ -20,11 +16,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field
-                v-model="trip.tripName"
-                filled
-                label="여행 제목"
-              ></v-text-field>
+              <v-text-field v-model="trip.tripName" filled label="여행 제목"></v-text-field>
             </v-col>
           </v-row>
           <v-row>
@@ -40,16 +32,10 @@
           </v-row>
           <v-row class="content-padding">
             <v-col cols="4">
-              <search-attraction
-                margin="0"
-                @showOnMap="showOnMap"
-              ></search-attraction>
+              <search-attraction margin="0" @showOnMap="showOnMap"></search-attraction>
             </v-col>
             <v-col cols="8">
-              <the-kakao-map
-                :attractions="attractions"
-                :options="mapOption"
-              ></the-kakao-map>
+              <the-kakao-map :options="mapOption"></the-kakao-map>
             </v-col>
           </v-row>
           <v-btn color="primary" @click="e1 = 3"> 다음 단계 </v-btn>
@@ -73,19 +59,11 @@
                 <v-tabs color="deep-purple accent-4" right>
                   <!--v-row로 일자 index // 일주일 넘어가면... 몰루..(예외처리 안함)-->
                   <v-row v-for="(n, index) in calNumberOfDays" :key="index">
-                    <v-tab @click="focusDay(index + 1)"
-                      >{{ index + 1 }}일차</v-tab
-                    >
+                    <v-tab @click="focusDay(index + 1)">{{ index + 1 }}일차</v-tab>
                   </v-row>
 
-                  <v-tab-item
-                    v-for="(n, index) in calNumberOfDays"
-                    :key="index"
-                  >
-                    <trip-timeline
-                      :day="index + 1"
-                      @pushAttrByDay="pushAttrByDay"
-                    ></trip-timeline>
+                  <v-tab-item v-for="(n, index) in calNumberOfDays" :key="index">
+                    <trip-timeline :day="index + 1" @pushAttrByDay="pushAttrByDay"></trip-timeline>
                   </v-tab-item>
                 </v-tabs>
               </v-card>
@@ -125,8 +103,8 @@ export default {
     return {
       mapOption: {
         center: {
-          lat: 33.450701,
-          lng: 126.570667,
+          lat: 37.5241355,
+          lng: 127.0522655,
         },
         level: 7,
       },
@@ -137,11 +115,14 @@ export default {
   },
   methods: {
     showOnMap(attractionItem) {
-      console.log("찍었을 때 이제 AppTripPlan.vue까지 옴");
-      console.log(attractionItem.latitude);
-      console.log(attractionItem.longitude);
-      this.mapOption.center.lat = attractionItem.latitude;
-      this.mapOption.center.lat = attractionItem.longitude;
+      // console.log("찍었을 때 이제 AppTripPlan.vue까지 옴");
+
+      this.mapOption.center = {
+        lat: attractionItem.latitude,
+        lng: attractionItem.longitude,
+      };
+      // console.log(this.mapOption.center.lat);
+      // console.log(this.mapOption.center.lng);
     },
     clickFirstBtn() {
       this.e1 = 2;

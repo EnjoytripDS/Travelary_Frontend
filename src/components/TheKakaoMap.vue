@@ -17,10 +17,14 @@ export default {
     };
   },
   props: {
-    attractions: [],
     options: Object,
   },
-  watch: {},
+  watch: {
+    "options.center"(cur) {
+      // console.log("[cur center] " + cur.lat, cur.lng);
+      this.map.setCenter(new kakao.maps.LatLng(cur.lat, cur.lng));
+    },
+  },
   created() {},
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
@@ -43,9 +47,13 @@ export default {
     // 맵 출력하기
     loadMap() {
       const container = document.getElementById("map");
-      const options = this.options;
 
-      this.map = new window.kakao.maps.Map(container, options);
+      // this.map = new window.kakao.maps.Map(container, options);
+      const { center, level } = this.options;
+      this.map = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(center.lat, center.lng),
+        level,
+      });
       //   this.loadMaker();
     },
     // 지정한 위치에 마커 불러오기
@@ -75,10 +83,7 @@ export default {
 
       // 4. 지도를 이동시켜주기
       // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
-      const bounds = this.positions.reduce(
-        (bounds, position) => bounds.extend(position.latlng),
-        new kakao.maps.LatLngBounds()
-      );
+      const bounds = this.positions.reduce((bounds, position) => bounds.extend(position.latlng), new kakao.maps.LatLngBounds());
 
       this.map.setBounds(bounds);
     },
