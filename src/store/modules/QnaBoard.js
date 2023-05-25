@@ -44,6 +44,9 @@ const QnaBoardStore = {
         state.boardComments.push({ boardComment: item, inUpdate: 0 });
       });
     },
+    SET_COMMENT_NULLS(state) {
+      state.boardComments.length = 0;
+    },
     SET_BOARD_IMAGES(state, boardImages) {
       state.imgUrls.length = 0;
       state.boardImages = boardImages;
@@ -235,10 +238,10 @@ const QnaBoardStore = {
         Store.dispatch("UserStore/tokenRegeneration")
       });
     },
-    deleteBoardComment({ dispatch }, ids) {
+    async deleteBoardComment({ dispatch }, ids) {
       const API_URI = `${REST_API}/qna-board/${ids.boardId}/comment/${ids.commentId}`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
-      axios({
+      await axios({
         url: API_URI,
         method: "delete",
       }).then((res) => {
@@ -248,6 +251,23 @@ const QnaBoardStore = {
         }
         else
           alert("댓글을 삭제할 수 없습니다");
+      }).catch(() => {
+        Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
+        Store.dispatch("UserStore/tokenRegeneration");
+      });
+    },
+    async deleteBoardAllComment({ commit }, id) {
+      const API_URI = `${REST_API}/qna-board/${id}/comment`;
+      axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+      await axios({
+        url: API_URI,
+        method: "delete",
+      }).then((res) => {
+        if (res.data.success == true) {
+          commit("SET_COMMENT_NULLS");
+        }
+        else
+          alert("댓글들을 삭제할 수 없습니다");
       }).catch(() => {
         Store.commit("UserStore/SET_IS_VALID_TOKEN", false);
         Store.dispatch("UserStore/tokenRegeneration");
@@ -292,10 +312,10 @@ const QnaBoardStore = {
         Store.dispatch("UserStore/tokenRegeneration");
       });
     },
-    deleteBoardAllImage({ commit }, id) {
+    async deleteBoardAllImage({ commit }, id) {
       const API_URI = `${REST_API}/qna-board/${id}/image`;
       axios.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
-      axios({
+      await axios({
         url: API_URI,
         method: "delete",
       }).then((res) => {
