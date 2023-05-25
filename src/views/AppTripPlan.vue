@@ -70,7 +70,7 @@
               ></selected-attraction-card-list
             ></v-col>
             <v-col cols="8">
-              <v-btn color="primary" @click="makeTrip"> 여행 만들기! </v-btn>
+              <v-btn color="primary" @click="completeTrip"> 여행 만들기! </v-btn>
               <v-card>
                 <v-tabs color="deep-purple accent-4" right>
                   <v-row v-for="(n, index) in calNumberOfDays" :key="index">
@@ -140,9 +140,9 @@ export default {
   },
   methods: {
   
-    makeTrip() {
+    completeTrip() {
       // console.log("여행 생성", this.trip);
-      this.$store.dispatch("TripPlanStore/makeTrip", this.trip);
+      this.$store.dispatch("TripPlanStore/completeTrip", this.trip);
     },
     changeDay(day) {
       this.day = day;

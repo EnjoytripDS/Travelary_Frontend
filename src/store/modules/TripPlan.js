@@ -102,6 +102,17 @@ const TripPlanStore = {
     },
   },
   actions: {
+    completeTrip({commit}, trip) {
+      commit;
+      const API_URI = `${REST_API}/my-trip/${trip.id}/tripAttraction`;
+      axios({
+        url:API_URI,
+        method:"post",
+        data:trip.tripOrderByAttr
+      }).then((res)=> {
+        console.log(res.data);
+      })
+    },
     async makeTrip({ commit }, trip) {
       const API_URI = `${REST_API}/my-trip`;
       let req = {
