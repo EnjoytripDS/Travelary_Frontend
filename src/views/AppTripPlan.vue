@@ -137,6 +137,7 @@ export default {
     };
   },
   methods: {
+  
     makeTrip() {
       // console.log("여행 생성", this.trip);
       this.$store.dispatch("TripPlanStore/makeTrip", this.trip);

@@ -50,11 +50,15 @@ const TripPlanStore = {
     },
     async ADD_DAY_ORDER_BY_ATTRACTION(state, attractionItem) {
       state.trip.tripOrderByAttr.push({
+        tripId:state.trip.id,
         contentId: attractionItem.id,
         dayByAttraction: state.focusDay,
         orderByDay: ++state.trip.addedOrder,
       });
       console.log("state.trip.tripOrderByAttr", state.trip.tripOrderByAttr);
+      let toDeleteIdx = state.selectedAttractions.indexOf(attractionItem);
+      state.selectedAttractions.splice(toDeleteIdx, 1);
+
     },
 
     UPDATE_DATES(state, newDates) {
@@ -99,8 +103,6 @@ const TripPlanStore = {
         data: req
       }).then((res) => {
         commit("MAKE_TRIP", res.data.data);
-
-
       });
     },
 
@@ -109,8 +111,18 @@ const TripPlanStore = {
       commit("FOCUS_DAY", day);
     },
     addTimeLines({ commit }, attractionItem) {
-      console.log("ADD_DAY_ORDER_BY_ATTRACTION mutation 호출", attractionItem);
-      commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+      commit;
+
+      // const API_URI = `${REST_API}/my-trip`;
+      // await axios({
+      //   url: API_URI,
+      //   method: "post",
+      //   data: state.trip.tripOrderByAttr
+      // }).then((res) => {
+      //   console.log(res.data);
+        commit("ADD_DAY_ORDER_BY_ATTRACTION", attractionItem);
+
+      // });
     },
     addPlan({ commit }, attractionItem) {
       commit("ADD_TRIP_ATTRACTION", attractionItem);
