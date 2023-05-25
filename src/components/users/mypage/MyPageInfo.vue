@@ -26,21 +26,38 @@
             <v-col cols="1" />
             <v-col cols="2" class="mypageinfo-item">이메일</v-col>
             <v-col cols="4">
-              <v-text-field :counter="30" name="email" required v-model="user.email" readonly></v-text-field>
+              <v-text-field
+                :counter="30"
+                name="email"
+                required
+                v-model="user.email"
+                readonly
+              ></v-text-field>
             </v-col>
           </v-row>
           <v-row class="mypageinfo-content-row">
             <v-col cols="1" />
             <v-col cols="2" class="mypageinfo-item">닉네임</v-col>
             <v-col cols="4" class="mypageinfo-btn-left">
-              <v-text-field :counter="20" v-model="user.nickname" hide-details="auto" required outlined dense></v-text-field>
+              <v-text-field
+                :counter="20"
+                v-model="user.nickname"
+                hide-details="auto"
+                required
+                outlined
+                dense
+              ></v-text-field>
             </v-col>
-            <v-btn color="gray" small @click="dupCheckNickname">중복 확인</v-btn>
+            <v-btn color="gray" small @click="dupCheckNickname"
+              >중복 확인</v-btn
+            >
           </v-row>
           <v-row class="mypageinfo-btn-row">
             <v-col cols="4" />
             <v-col cols="4">
-              <v-btn color="blue" @click="userModify" class="modbutton" block> 수정 </v-btn>
+              <v-btn color="blue" @click="userModify" class="modbutton" block>
+                수정
+              </v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -128,7 +145,6 @@ export default {
 .mypageinfo-item {
   color: rgb(13, 24, 184); /* Set font color to black */
   font-weight: bold; /* Set font weight to bold */
-  font-size: 24px; /* Increase font size */
 }
 
 .modbutton {

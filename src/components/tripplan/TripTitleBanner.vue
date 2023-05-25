@@ -6,8 +6,8 @@
           <v-menu bottom left transition="slide-y-transition"> </v-menu>
         </v-col>
         <v-row class="pa-4" justify="center">
-          <v-col class="text-center">
-            <h1 class="text-h3">
+          <v-col class="text-center" color="indigo">
+            <h1 class="text-h3" style="margin-top: 10px">
               {{ trip.tripName }}
             </h1>
           </v-col>
